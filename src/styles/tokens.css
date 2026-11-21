@@ -1,0 +1,316 @@
+/* ==========================================================================
+   LiberNT Design Tokens
+   层次：原子色板（palette.css）→ 语义 token（本文件）→ 组件样式
+   主题：在任意节点上写 data-theme="light|dark" 即可局部切换
+   ========================================================================== */
+@import './palette.css';
+
+/* 背景亮度（0 暗 → 1 亮），由 lib/luma.ts 采样后写到自适应材质元素上 */
+@property --bl {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.5;
+}
+
+:root {
+  /* ---------- 强调色：由色相/色度驱动，整套派生色随之变化 ---------- */
+  --accent-h: 255;
+  --accent-c: 0.19;
+  --accent-l: 0.56; /* 亮色模式下的基准明度 */
+  /* 强调色上的文字：明度/色度。亮色强调色较亮（黄、青柠等）时由脚本切换为深色字 */
+  --accent-ink-l: 1;
+  --accent-ink-c: 0;
+  /* 表面着色：色相取强调色，强度 0（关）/ 1（柔和）/ 2.5（鲜明），由脚本写入 */
+  --tint-h: 260;
+  --tint: 0;
+
+  /* ---------- 字体 ---------- */
+  --font-ui: 'Segoe UI Variable', 'Segoe UI Variable Text', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-display: 'Segoe UI Variable Display', 'Segoe UI Variable', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-mono: 'Cascadia Code', 'Cascadia Mono', Consolas, 'Microsoft YaHei UI', monospace;
+
+  /* 字阶：字重 字号/行高 */
+  --type-caption: 400 12px/16px var(--font-ui);
+  --type-body: 400 14px/20px var(--font-ui);
+  --type-body-strong: 600 14px/20px var(--font-ui);
+  --type-body-large: 400 16px/24px var(--font-ui);
+  --type-subtitle: 600 20px/28px var(--font-display);
+  --type-title: 600 28px/36px var(--font-display);
+  --type-title-large: 600 40px/52px var(--font-display);
+  --type-display: 600 68px/88px var(--font-display);
+
+  /* ---------- 间距（4px 栅格，2/6 为半步） ---------- */
+  --space-0: 0px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  /* ---------- 圆角 ---------- */
+  --radius-2: 2px;
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+  --radius-28: 28px;
+  --radius-full: 999px;
+  /* 语义圆角：按角色分两极。
+     结构性容器（窗口、面板、卡片、列表行、表单控件）用小圆角；
+     悬浮表面（浮层、小组件）用大圆角；可拨弄的小物件（搜索框、开关、标签、圆形按钮）用全圆。
+     中间档 10–14 基本不用。 */
+  --radius-control: var(--radius-4);
+  --radius-item: 5px;
+  --radius-card: var(--radius-8);
+  --radius-menu: var(--radius-8);
+  --radius-window: var(--radius-8);
+  --radius-flyout: var(--radius-20);
+  --radius-pill: var(--radius-full);
+  /* 分组列表：靠外的角大，项与项之间的角小 */
+  --radius-group: var(--radius-10);
+  --radius-group-inner: 3px;
+  --group-gap: 2px;
+
+  /* ---------- 尺寸 ---------- */
+  --control-sm: 24px;
+  --control-md: 32px;
+  --control-lg: 40px;
+  --icon-12: 12px;
+  --icon-16: 16px;
+  --icon-20: 20px;
+  --icon-24: 24px;
+  --icon-32: 32px;
+  --icon-48: 48px;
+  --hairline: 1px;
+  --taskbar-h: 76px; /* 任务栏占位高度（含上下留白） */
+  --dock-h: 60px;
+
+  /* ---------- 动效 ---------- */
+  --dur-instant: 80ms;
+  --dur-fast: 140ms;
+  --dur-normal: 220ms;
+  --dur-gentle: 320ms;
+  --dur-slow: 480ms;
+  --dur-spring: 520ms;
+  --ease-out: cubic-bezier(0.1, 0.9, 0.2, 1); /* 进入：急起缓停 */
+  --ease-in: cubic-bezier(0.7, 0, 1, 0.5); /* 退出：缓起急收 */
+  --ease-in-out: cubic-bezier(0.55, 0, 0.1, 1); /* 位移/形变 */
+  --ease-linear: linear;
+
+  /* ---------- 层级 ---------- */
+  --z-desktop: 1;
+  --z-widgets: 2;
+  --z-windows: 10;
+  --z-snap: 1500;
+  --z-taskbar: 2000;
+  --z-flyout: 2100;
+  --z-menu: 3000;
+  --z-tooltip: 4000;
+  --z-overlay: 5000;
+
+  /* ---------- 材质：模糊半径 ---------- */
+  --blur-ultrathin: 14px;
+  --blur-thin: 24px;
+  --blur-regular: 40px;
+  --blur-thick: 60px;
+  --blur-mica: 90px;
+}
+
+/* ==========================================================================
+   亮色
+   ========================================================================== */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* 强调色 */
+  --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+  --accent-hover: oklch(calc(var(--accent-l) + 0.045) var(--accent-c) var(--accent-h));
+  --accent-pressed: oklch(calc(var(--accent-l) - 0.05) var(--accent-c) var(--accent-h));
+  --accent-text: oklch(min(calc(var(--accent-l) - 0.08), 0.5) var(--accent-c) var(--accent-h));
+  --accent-subtle: oklch(var(--accent-l) var(--accent-c) var(--accent-h) / 0.12);
+  --accent-subtle-hover: oklch(var(--accent-l) var(--accent-c) var(--accent-h) / 0.18);
+  --accent-ring: oklch(var(--accent-l) var(--accent-c) var(--accent-h) / 0.5);
+  --on-accent: oklch(var(--accent-ink-l) var(--accent-ink-c) var(--accent-h));
+  --on-accent-2: oklch(var(--accent-ink-l) var(--accent-ink-c) var(--accent-h) / 0.74);
+
+  /* 标志渐变：亮色下用深蓝，暗色下用浅蓝 */
+  --logo-from: #1a8fe8;
+  --logo-to: #0a4fb4;
+
+  /* 文本 */
+  --text-1: rgb(0 0 0 / 0.9);
+  --text-2: rgb(0 0 0 / 0.62);
+  --text-3: rgb(0 0 0 / 0.46);
+  --text-disabled: rgb(0 0 0 / 0.34);
+
+  /* 控件填充 */
+  --fill-control: rgb(255 255 255 / 0.72);
+  --fill-control-hover: rgb(250 250 252 / 0.5);
+  --fill-control-pressed: rgb(250 250 252 / 0.3);
+  --fill-control-disabled: rgb(250 250 252 / 0.3);
+  --fill-control-alt: rgb(0 0 0 / 0.025);
+  --fill-control-strong: rgb(0 0 0 / 0.45);
+  --fill-subtle-hover: rgb(0 0 0 / 0.045);
+  --fill-subtle-pressed: rgb(0 0 0 / 0.028);
+  --fill-subtle-selected: rgb(0 0 0 / 0.06);
+  --fill-input: rgb(255 255 255 / 0.74);
+  --fill-input-hover: rgb(250 250 252 / 0.5);
+  --fill-input-focus: #fff;
+  --fill-track: rgb(0 0 0 / 0.14); /* 滑块/进度条轨道 */
+  --fill-tile: rgb(0 0 0 / 0.055); /* 玻璃面板内的磁贴 */
+  --fill-tile-hover: rgb(0 0 0 / 0.09);
+
+  /* 描边 */
+  --stroke-control: rgb(0 0 0 / 0.07);
+  --stroke-control-edge: rgb(0 0 0 / 0.17); /* 控件底边加深，暗示厚度 */
+  --stroke-control-top: var(--stroke-control);
+  --stroke-control-bottom: var(--stroke-control-edge);
+  --stroke-input-bottom: rgb(0 0 0 / 0.42);
+  --stroke-control-strong: rgb(0 0 0 / 0.45);
+  --stroke-divider: rgb(0 0 0 / 0.08);
+  --stroke-card: rgb(0 0 0 / 0.065);
+  --stroke-on-accent: rgb(255 255 255 / 0.1);
+  --stroke-on-accent-edge: rgb(0 0 0 / 0.3);
+
+  /* 实色表面 */
+  --surface-base: oklch(0.965 calc(0.004 + 0.008 * var(--tint)) var(--tint-h)); /* 窗口实色回退 */
+  --surface-pane: oklch(0.978 calc(0.003 + 0.006 * var(--tint)) var(--tint-h)); /* 内容面板 */
+  --surface-card: oklch(1 calc(0.003 * var(--tint)) var(--tint-h) / 0.82);
+  --surface-card-solid: oklch(0.998 calc(0.004 * var(--tint)) var(--tint-h));
+  --surface-raised: #fff; /* 滑块手柄、开关圆点等 */
+  --surface-smoke: rgb(0 0 0 / 0.3); /* 模态遮罩 */
+
+  /* 语义色 */
+  --success: oklch(0.56 0.15 150);
+  --success-bg: oklch(0.95 0.045 150);
+  --caution: oklch(0.6 0.14 70);
+  --caution-bg: oklch(0.96 0.05 90);
+  --critical: oklch(0.55 0.2 25);
+  --critical-bg: oklch(0.955 0.03 25);
+  --info: var(--text-2);
+  --info-bg: rgb(0 0 0 / 0.04);
+  --danger-fill: oklch(0.58 0.21 25);
+
+  /* 自适应玻璃：l = 着色明度，a = 着色不透明度；0 = 背景暗，1 = 背景亮 */
+  --glass-l0: 0.945;
+  --glass-l1: 0.992;
+  --glass-a0: 0.8;
+  --glass-a1: 0.5;
+  --glass-c: calc(0.006 + 0.008 * var(--tint));
+  --glass-sat: 1.7;
+  --glass-edge: rgb(255 255 255 / 0.5); /* 内沿高光 */
+  --glass-edge-top: rgb(255 255 255 / 0.85);
+  --glass-outline: rgb(0 0 0 / 0.12); /* 外沿发丝线 */
+  --mica-a0: 0.9;
+  --mica-a1: 0.74;
+
+  /* 阴影 */
+  --shadow-2: 0 1px 2px rgb(0 0 0 / 0.07), 0 0 1px rgb(0 0 0 / 0.07);
+  --shadow-4: 0 2px 5px rgb(0 0 0 / 0.08), 0 0 2px rgb(0 0 0 / 0.06);
+  --shadow-8: 0 4px 14px rgb(0 0 0 / 0.1), 0 1px 3px rgb(0 0 0 / 0.07);
+  --shadow-16: 0 8px 26px rgb(0 0 0 / 0.13), 0 2px 6px rgb(0 0 0 / 0.08);
+  --shadow-32: 0 18px 48px rgb(0 0 0 / 0.2), 0 4px 12px rgb(0 0 0 / 0.1);
+  --shadow-64: 0 36px 90px rgb(0 0 0 / 0.3), 0 10px 26px rgb(0 0 0 / 0.14);
+  --shadow-window-inactive: 0 14px 36px rgb(0 0 0 / 0.16), 0 3px 8px rgb(0 0 0 / 0.08);
+}
+
+/* ==========================================================================
+   暗色
+   ========================================================================== */
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --accent: oklch(0.78 calc(var(--accent-c) * 0.72) var(--accent-h));
+  --accent-hover: oklch(0.74 calc(var(--accent-c) * 0.72) var(--accent-h));
+  --accent-pressed: oklch(0.69 calc(var(--accent-c) * 0.7) var(--accent-h));
+  --accent-text: oklch(0.82 calc(var(--accent-c) * 0.66) var(--accent-h));
+  --accent-subtle: oklch(0.78 calc(var(--accent-c) * 0.72) var(--accent-h) / 0.16);
+  --accent-subtle-hover: oklch(0.78 calc(var(--accent-c) * 0.72) var(--accent-h) / 0.24);
+  --accent-ring: oklch(0.78 calc(var(--accent-c) * 0.72) var(--accent-h) / 0.55);
+  --on-accent: oklch(0.17 0.03 var(--accent-h));
+  --on-accent-2: oklch(0.17 0.03 var(--accent-h) / 0.7);
+
+  --logo-from: #8fe4ff;
+  --logo-to: #3fa6f5;
+
+  --text-1: rgb(255 255 255 / 0.96);
+  --text-2: rgb(255 255 255 / 0.72);
+  --text-3: rgb(255 255 255 / 0.5);
+  --text-disabled: rgb(255 255 255 / 0.34);
+
+  --fill-control: rgb(255 255 255 / 0.065);
+  --fill-control-hover: rgb(255 255 255 / 0.09);
+  --fill-control-pressed: rgb(255 255 255 / 0.035);
+  --fill-control-disabled: rgb(255 255 255 / 0.04);
+  --fill-control-alt: rgb(0 0 0 / 0.14);
+  --fill-control-strong: rgb(255 255 255 / 0.55);
+  --fill-subtle-hover: rgb(255 255 255 / 0.065);
+  --fill-subtle-pressed: rgb(255 255 255 / 0.04);
+  --fill-subtle-selected: rgb(255 255 255 / 0.09);
+  --fill-input: rgb(255 255 255 / 0.065);
+  --fill-input-hover: rgb(255 255 255 / 0.09);
+  --fill-input-focus: rgb(20 20 23 / 0.72);
+  --fill-track: rgb(255 255 255 / 0.2);
+  --fill-tile: rgb(255 255 255 / 0.08);
+  --fill-tile-hover: rgb(255 255 255 / 0.13);
+
+  --stroke-control: rgb(255 255 255 / 0.075);
+  --stroke-control-edge: rgb(255 255 255 / 0.12); /* 暗色下改为顶边提亮 */
+  --stroke-control-top: var(--stroke-control-edge);
+  --stroke-control-bottom: var(--stroke-control);
+  --stroke-input-bottom: rgb(255 255 255 / 0.5);
+  --stroke-control-strong: rgb(255 255 255 / 0.55);
+  --stroke-divider: rgb(255 255 255 / 0.085);
+  --stroke-card: rgb(255 255 255 / 0.065);
+  --stroke-on-accent: rgb(255 255 255 / 0.1);
+  --stroke-on-accent-edge: rgb(0 0 0 / 0.16);
+
+  --surface-base: oklch(0.2 calc(0.006 + 0.011 * var(--tint)) var(--tint-h));
+  --surface-pane: oklch(0.205 calc(0.006 + 0.011 * var(--tint)) var(--tint-h));
+  /* 色调高度：越高的层越亮、色调越重 */
+  --surface-card: oklch(0.86 calc(0.01 + 0.07 * var(--tint)) var(--tint-h) / 0.065);
+  --surface-card-solid: oklch(0.26 calc(0.006 + 0.02 * var(--tint)) var(--tint-h));
+  --surface-raised: oklch(0.99 0 0);
+  --surface-smoke: rgb(0 0 0 / 0.45);
+
+  --success: oklch(0.8 0.15 150);
+  --success-bg: oklch(0.34 0.06 150 / 0.6);
+  --caution: oklch(0.85 0.14 90);
+  --caution-bg: oklch(0.36 0.06 80 / 0.6);
+  --critical: oklch(0.76 0.15 25);
+  --critical-bg: oklch(0.34 0.08 25 / 0.6);
+  --info: var(--text-2);
+  --info-bg: rgb(255 255 255 / 0.05);
+  --danger-fill: oklch(0.62 0.21 25);
+
+  --glass-l0: 0.33;
+  --glass-l1: 0.165;
+  --glass-a0: 0.44;
+  --glass-a1: 0.72;
+  --glass-c: calc(0.008 + 0.011 * var(--tint));
+  --glass-sat: 1.5;
+  --glass-edge: rgb(255 255 255 / 0.1);
+  --glass-edge-top: rgb(255 255 255 / 0.2);
+  --glass-outline: rgb(0 0 0 / 0.5);
+  --mica-a0: 0.72;
+  --mica-a1: 0.86;
+
+  --shadow-2: 0 1px 2px rgb(0 0 0 / 0.22), 0 0 1px rgb(0 0 0 / 0.2);
+  --shadow-4: 0 2px 5px rgb(0 0 0 / 0.24), 0 0 2px rgb(0 0 0 / 0.2);
+  --shadow-8: 0 4px 14px rgb(0 0 0 / 0.28), 0 1px 3px rgb(0 0 0 / 0.2);
+  --shadow-16: 0 8px 26px rgb(0 0 0 / 0.34), 0 2px 6px rgb(0 0 0 / 0.22);
+  --shadow-32: 0 18px 48px rgb(0 0 0 / 0.46), 0 4px 12px rgb(0 0 0 / 0.26);
+  --shadow-64: 0 36px 90px rgb(0 0 0 / 0.6), 0 10px 26px rgb(0 0 0 / 0.32);
+  --shadow-window-inactive: 0 14px 36px rgb(0 0 0 / 0.34), 0 3px 8px rgb(0 0 0 / 0.2);
+}

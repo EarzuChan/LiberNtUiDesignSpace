@@ -1,0 +1,54 @@
+/* ==========================================================================
+   材质
+   .mat            自适应玻璃：模糊后方内容，着色明度与不透明度随 --bl（背景亮度）变化
+   .mat-*          厚度：ultrathin / thin / regular / thick / mica
+   .mat-edge       玻璃边缘：外沿发丝线 + 内沿高光（不做折射）
+   .pblur          渐进式模糊
+   ========================================================================== */
+.mat {
+  --mat-k: 1;
+  --mat-blur: var(--blur-regular);
+  --mat-a0: var(--glass-a0);
+  --mat-a1: var(--glass-a1);
+  --_l: calc(var(--glass-l0) + (var(--glass-l1) - var(--glass-l0)) * var(--bl));
+  --_a: clamp(0, calc((var(--mat-a0) + (var(--mat-a1) - var(--mat-a0)) * var(--bl)) * var(--mat-k)), 0.97);
+  background-color: oklch(var(--_l) var(--glass-c) var(--tint-h) / var(--_a));
+  backdrop-filter: blur(var(--mat-blur)) saturate(var(--glass-sat));
+  transition: --bl 420ms linear;
+}
+.mat-ultrathin { --mat-blur: var(--blur-ultrathin); --mat-k: 0.55; }
+.mat-thin { --mat-blur: var(--blur-thin); --mat-k: 0.78; }
+.mat-regular { --mat-blur: var(--blur-regular); --mat-k: 1; }
+.mat-thick { --mat-blur: var(--blur-thick); --mat-k: 1.14; }
+.mat-mica { --mat-blur: var(--blur-mica); --mat-k: 1; --mat-a0: var(--mica-a0); --mat-a1: var(--mica-a1); }
+
+/* 细腻噪点，消除大面积模糊的色带 */
+.mat-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.mat-edge {
+  --mat-shadow: 0 0 0 0 transparent;
+  box-shadow:
+    inset 0 0 0 1px var(--glass-edge),
+    inset 0 1px 0 0 var(--glass-edge-top),
+    0 0 0 1px var(--glass-outline),
+    var(--mat-shadow);
+}
+
+/* 关闭透明效果时的实色回退 */
+[data-transparency='off'] .mat {
+  backdrop-filter: none;
+  background-color: oklch(var(--_l) var(--glass-c) var(--tint-h));
+}
+
+/* 渐进式模糊：多层 backdrop-filter，每层用渐变蒙版限定作用带，模糊半径逐层倍增 */
+.pblur { position: absolute; pointer-events: none; overflow: hidden; }
+.pblur > i { position: absolute; inset: 0; }

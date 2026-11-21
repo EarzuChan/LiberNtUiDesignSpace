@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(\"/c/Program Files/imput/Helium/Application/chrome.exe\")",
+      "Exec(ls)",
+      "Exec(node)",
+      "Exec(pnpm add)",
+      "Exec(mkdir)",
+      "Exec(cat)",
+      "Exec(curl)",
+      "Exec(sed)",
+      "Exec(grep)",
+      "Exec(cp)",
+      "Exec(cygpath)",
+      "Exec(xargs)",
+      "Exec(head)",
+      "Exec(awk)",
+      "Exec(gzip)"
+    ]
+  }
+}

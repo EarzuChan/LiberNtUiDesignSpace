@@ -1,0 +1,74 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; margin: 0; }
+
+body {
+  font: var(--type-body);
+  font-optical-sizing: auto;
+  color: var(--text-1);
+  background: #000;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+}
+
+[data-theme] { color: var(--text-1); }
+
+button, input, textarea, select { font: inherit; color: inherit; margin: 0; }
+button { background: none; border: 0; padding: 0; cursor: default; }
+img { display: block; -webkit-user-drag: none; }
+h1, h2, h3, h4, p { margin: 0; }
+a { color: var(--accent-text); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+::selection { background: var(--accent-subtle-hover); }
+
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 1px; }
+
+/* 字阶 */
+.t-caption { font: var(--type-caption); }
+.t-body { font: var(--type-body); }
+.t-body-strong { font: var(--type-body-strong); }
+.t-body-large { font: var(--type-body-large); }
+.t-subtitle { font: var(--type-subtitle); }
+.t-title { font: var(--type-title); letter-spacing: -0.01em; }
+.t-title-large { font: var(--type-title-large); letter-spacing: -0.015em; }
+.t-display { font: var(--type-display); letter-spacing: -0.02em; }
+.c-2 { color: var(--text-2); }
+.c-3 { color: var(--text-3); }
+.c-accent { color: var(--accent-text); }
+.mono { font-family: var(--font-mono); }
+.tnum { font-variant-numeric: tabular-nums; }
+.ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 图标：Fluent System Icons，默认跟随文字颜色 */
+[data-fui-icon] { display: inline-block; flex: none; line-height: 0; vertical-align: middle; fill: currentColor; }
+
+/* 滚动条：静止细条，悬停变粗 */
+.scroll { overflow: auto; }
+.scroll::-webkit-scrollbar { width: 14px; height: 14px; }
+.scroll::-webkit-scrollbar-track { background: transparent; }
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--fill-control-strong);
+  background-clip: content-box;
+  border: 5.5px solid transparent;
+  border-radius: 999px;
+  min-height: 36px;
+}
+.scroll::-webkit-scrollbar-thumb:hover { border-width: 4px; }
+.scroll::-webkit-scrollbar-corner { background: transparent; }
+
+.row { display: flex; align-items: center; }
+.col { display: flex; flex-direction: column; }
+.grow { flex: 1 1 0; min-width: 0; min-height: 0; }
+.gap-4 { gap: 4px; } .gap-8 { gap: 8px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+
+/* 隐藏 Devin 浏览器预览注入的「Send element / Send console errors」工具条（不属于本项目），它会挡住右下角的托盘 */
+.toolbar-container { display: none !important; }

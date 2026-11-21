@@ -1,0 +1,80 @@
+/* 设置 */
+.set-side-head { height: 52px; flex: none; display: flex; align-items: center; gap: 10px; padding: 0 18px; font: var(--type-body-strong); }
+.set-user { display: flex; align-items: center; gap: 12px; margin: 0 8px 10px; padding: 8px 10px; border-radius: var(--radius-card); text-align: left; flex: none; }
+.set-user:hover { background: var(--fill-subtle-hover); }
+.set-search { margin: 0 8px 10px; flex: none; }
+.set-nav { flex: 1; min-height: 0; padding: 0 8px 8px; display: flex; flex-direction: column; gap: 2px; }
+.set-nav .item { min-height: 38px; flex: none; }
+
+.set-head { position: absolute; top: 0; left: 0; right: 0; height: 96px; z-index: 3; }
+.set-head-bg { position: absolute; inset: 0 0 -20px 0; pointer-events: none; background: linear-gradient(to bottom, color-mix(in oklch, var(--surface-pane) 86%, transparent) 60%, transparent); }
+.set-head-row { position: relative; height: 100%; display: flex; }
+.set-head-bar { height: 52px; margin-left: auto; display: flex; }
+.set-title { position: absolute; left: 0; right: 0; bottom: 10px; padding: 0 44px; pointer-events: none; }
+.set-title > div { max-width: 800px; margin: 0 auto; display: flex; align-items: baseline; gap: 8px; }
+.set-scroll { flex: 1; min-height: 0; padding: 112px 44px 40px; }
+.set-content { max-width: 800px; margin: 0 auto; animation: set-in var(--dur-gentle) var(--ease-out); }
+@keyframes set-in { from { opacity: 0; transform: translateY(14px); } }
+
+.set-hero { display: flex; align-items: center; gap: 20px; padding: 20px 24px; margin-bottom: 4px; }
+.set-hero-tiles { display: flex; gap: 8px; margin-left: auto; }
+.set-tile { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius-6); text-align: left; }
+.set-tile:hover { background: var(--fill-subtle-hover); }
+.set-tile > [data-fui-icon] { color: var(--accent-text); }
+
+/* 个性化：迷你桌面预览 */
+.set-perso { display: flex; gap: 24px; align-items: flex-start; margin-bottom: 4px; }
+.mini { position: relative; width: 320px; aspect-ratio: 16 / 10; flex: none; border-radius: var(--radius-8); overflow: hidden; box-shadow: var(--shadow-16), 0 0 0 1px var(--stroke-control); background-size: cover; background-position: center; transition: background-image var(--dur-slow) linear; }
+.mini-win { position: absolute; left: 14%; top: 14%; width: 56%; height: 54%; border-radius: 4px; overflow: hidden; display: flex; box-shadow: 0 8px 20px rgb(0 0 0 / 0.3), 0 0 0 0.5px rgb(0 0 0 / 0.2); }
+.mini-win > i:first-child { width: 28%; backdrop-filter: blur(12px) saturate(1.6); display: flex; flex-direction: column; gap: 3px; padding: 6px 4px; }
+.mini-win > i:first-child > b { height: 4px; border-radius: 2px; background: var(--mini-line); }
+.mini-win > i:first-child > b:nth-child(2) { background: var(--accent); width: 80%; }
+.mini-win > i:last-child { flex: 1; background: var(--mini-pane); padding: 7px; display: flex; flex-direction: column; gap: 4px; }
+.mini-win > i:last-child > b { height: 14%; border-radius: 3px; background: var(--mini-card); }
+.mini-win > i:last-child > b:first-child { height: 6px; width: 40%; background: var(--mini-line); }
+.mini-win > i:last-child > u { margin-top: auto; align-self: flex-end; width: 26%; height: 9px; border-radius: 3px; background: var(--accent); }
+.mini-dock { position: absolute; left: 50%; bottom: 5%; translate: -50% 0; height: 9%; padding: 0 6px; border-radius: 99px; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(10px) saturate(1.6); box-shadow: 0 0 0 0.5px var(--mini-line); }
+.mini-dock > b { width: 9px; height: 9px; border-radius: 2.5px; }
+.mini[data-mini='light'] { --mini-glass: rgb(245 246 250 / 0.6); --mini-pane: #f7f8fa; --mini-card: #fff; --mini-line: rgb(0 0 0 / 0.14); }
+.mini[data-mini='dark'] { --mini-glass: rgb(36 37 44 / 0.6); --mini-pane: #1c1d21; --mini-card: rgb(255 255 255 / 0.07); --mini-line: rgb(255 255 255 / 0.2); }
+.mini-win > i:first-child, .mini-dock { background: var(--mini-glass); }
+
+.theme-cards { display: flex; gap: 12px; }
+.theme-card { padding: 6px 6px 8px; border-radius: var(--radius-8); box-shadow: inset 0 0 0 1px var(--stroke-control); background: var(--fill-control); display: flex; flex-direction: column; align-items: center; gap: 8px; transition: box-shadow var(--dur-fast) linear; }
+.theme-card .mini { width: 148px; border-radius: var(--radius-4); box-shadow: 0 0 0 1px var(--stroke-control); }
+.theme-card[aria-checked='true'] { box-shadow: inset 0 0 0 2px var(--accent); }
+.theme-card:hover:not([aria-checked='true']) { background: var(--fill-control-hover); }
+
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; flex: none; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12), inset 0 1px 0 rgb(255 255 255 / 0.3); transition: transform var(--dur-spring) var(--ease-spring); }
+.swatch:hover { transform: scale(1.12); }
+.swatch[aria-checked='true'] { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.wp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); gap: 12px; padding: 4px var(--space-16) var(--space-16); }
+.wp-item { position: relative; aspect-ratio: 16 / 10; border-radius: var(--radius-6); overflow: hidden; box-shadow: 0 0 0 1px var(--stroke-control); transition: transform var(--dur-normal) var(--ease-out); }
+.wp-item img { width: 100%; height: 100%; object-fit: cover; }
+.wp-item:hover { transform: scale(1.03); }
+.wp-item[aria-checked='true'] { outline: 2.5px solid var(--accent); outline-offset: 2px; }
+.wp-item span { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 8px 5px; font: var(--type-caption); color: #fff; text-align: left; background: linear-gradient(transparent, rgb(0 0 0 / 0.5)); text-shadow: 0 1px 2px rgb(0 0 0 / 0.5); }
+.wp-item i { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: rgb(0 0 0 / 0.4); color: #fff; backdrop-filter: blur(8px); }
+
+.set-bars { display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 2px; margin: 4px 0 12px; }
+.set-bars > i { border-radius: 2px; }
+.set-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; font: var(--type-caption); color: var(--text-2); }
+.set-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+.set-specs { display: grid; grid-template-columns: 140px 1fr; gap: 10px 16px; padding: 16px 16px 18px 52px; margin: 0; }
+.set-specs dt { color: var(--text-2); }
+.set-specs dd { margin: 0; user-select: text; }
+.set-about { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 0 28px; text-align: center; }
+.set-device { display: flex; align-items: center; gap: 14px; }
+.set-device img { width: 36px; height: 36px; }
+
+/* 个性化：自定义壁纸与上传预览 */
+.wp-remove { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: rgb(0 0 0 / 0.5); color: #fff; backdrop-filter: blur(8px); opacity: 0; transition: opacity var(--dur-fast) linear; }
+.wp-item:hover .wp-remove, .wp-remove:focus-visible { opacity: 1; }
+.wp-remove:hover { background: oklch(0.6 0.22 25); }
+.wp-preview { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-6); overflow: hidden; box-shadow: 0 0 0 1px var(--stroke-control), var(--shadow-8); }
+.wp-preview .wp-layer { animation: none; }
+.wp-preview .mini-dock { --mini-glass: rgb(245 246 250 / 0.55); --mini-line: rgb(0 0 0 / 0.14); height: 7%; }
+.set-perso .theme-cards { margin-top: 2px; }
+.swatches { justify-content: flex-end; }

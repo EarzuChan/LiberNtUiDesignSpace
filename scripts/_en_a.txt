@@ -1,0 +1,606 @@
+1|Cannot compute
+2|Name
+3|Date modified
+4|Type
+5|Size
+6|Home
+7|Open
+8|Open in new window
+9|Cut
+10|Copy
+11|Rename
+12|Delete permanently
+13|Delete
+14|Properties
+15|Ascending
+16|Descending
+17|Large icons
+18|Details
+19|Details pane
+20|View
+21|Sort by
+22|New folder
+23|Paste
+24|Files
+25|Pinned
+26|Location
+27|System (C:)
+28|326 GB free
+29|Back
+30|Forward
+31|Up one level
+32|Refresh
+33|Sort
+34|Recycle Bin is empty
+35|This folder is empty
+36|Selected\s
+37|\sitems
+38|Cancel
+39|Permanently delete the\s
+40|\sselected item(s)? This can’t be undone.
+47|Quick access
+48|Recent
+49|Devices and drives
+50|\sGB free of\s
+51|Folder
+52|Total size
+53|Select an item to see its details
+54|Contains
+55|Capacity
+56|Modified
+57|This app has no content in the demo
+58|Untitled
+59|Untitled.txt
+60|New window
+61|Save
+62|Close
+63|Select all
+64|Insert time and date
+65|Clear
+66|Edit
+67|Word wrap
+68|Type here…
+69|Ln\s
+70|, Col\s
+71|\scharacters
+72|Plain text
+73|Photos
+74|Zoom out
+75|Zoom in
+76|Fit to window
+77|Rotate
+78|Set as desktop wallpaper
+79|No pictures to show
+80|Previous
+81|Next
+82|System
+83|Display, sound, notifications, power
+84|Display
+85|Brightness
+86|Sound
+87|Volume
+88|Notifications
+89|Power
+90|Battery
+91|Storage
+92|Night
+93|Bluetooth & devices
+94|Bluetooth, printers, mouse
+95|Bluetooth
+96|Devices
+97|Mouse
+98|Keyboard
+99|Printer
+100|Network & internet
+101|Wi-Fi, Ethernet, VPN
+102|Network
+103|Ethernet
+104|Airplane mode
+105|Hotspot
+106|Personalization
+107|Wallpaper, colors, themes, taskbar
+108|Wallpaper
+109|Background
+110|Color
+111|Theme
+112|Dark
+113|Dark
+114|Accent color
+115|Taskbar
+116|Transparency
+117|Apps
+118|Installed apps, default apps
+119|Uninstall
+120|Default
+121|Startup
+122|Accounts
+123|Your info, sign-in options
+124|Users
+125|Sign in
+126|Password
+127|Avatar
+128|Time & language
+129|Date, region, input
+130|Time
+131|Date
+132|Language
+133|Region
+134|Input method
+135|Accessibility
+136|Text size, contrast, animations
+137|Assistive
+138|Accessible
+139|Animation
+140|Contrast
+141|Typography
+142|Privacy & security
+143|Permissions, security center
+144|Privacy
+145|Security
+146|Permissions
+147|Camera
+148|Microphone
+149|System update
+150|Check for updates, update history
+151|Update
+152|Upgrade
+153|Version
+154|About
+155|Device specs, system info
+156|Specs
+157|System info
+158|Not connected
+159|Connected, secured · 5 GHz · 866 Mbps
+160|Airplane mode is on
+161|Wi-Fi is off
+162|Data usage, last 30 days
+163|Connect and manage known networks
+164|Connected, secured
+165|Open
+166|Turn on Wi-Fi to see available networks
+167|Add, connect and manage VPNs
+168|Mobile hotspot
+169|Share this device’s internet connection
+170|Stop all wireless communication
+171|Proxy
+172|Proxy server for Wi-Fi and Ethernet connections
+173|Audio
+174|Connected for voice and music
+175|Connected
+176|Paired
+177|Phone
+178|Off
+179|On
+180|Off
+181|Disconnect
+182|Remove device
+183|Turn on Bluetooth to see paired devices
+184|Add device
+185|Bluetooth, wireless displays or docks
+186|Input & peripherals
+187|Mouse pointer speed
+188|Repeat rate, shortcuts
+189|Printers & scanners
+190|Preferences, troubleshooting
+191|Search apps
+192|
+193|\sapps found
+194|LiberNT system component
+195|Advanced options
+196|Move
+197|Local account · Administrator
+198|Display name
+199|Sign in with an online account
+200|Sync settings, files and wallpapers across devices.
+201|Account settings
+202|Sign-in options
+203|PIN, fingerprint, password
+204|Fingerprint recognition
+205|2 fingerprints set up
+206|Manage
+207|Used to sign in and verify your identity
+208|Change
+209|Last changed 3 months ago
+210|Email & accounts
+211|Accounts used by Mail, Calendar and Contacts
+212|Family & other users
+213|Device access, work or school users
+214|Sync settings
+215|Themes, passwords and language preferences
+216|Permissions and security center
+217|(UTC+08:00) Beijing, Shanghai
+218|中文（简体）
+220|Date & time
+221|Set time automatically
+222|Sync with an internet time server
+223|Time zone
+224|(UTC+09:00) Tokyo, Seoul
+225|(UTC+00:00) London
+226|(UTC-08:00) Pacific Time
+227|Use 24-hour clock
+228|Language & region
+229|Display language
+230|Settings, Files and other system features appear in this language
+232|Microsoft Pinyin, English (United States)
+233|Chinese (Simplified) · Microsoft Pinyin
+234|Default input method
+235|Options
+236|English (United States)
+237|US keyboard
+238|None
+239|Vision
+240|Text size
+241|Preview: The quick brown fox jumps over the lazy dog Aa
+242|Animation effects
+243|When off, window and control transitions are skipped
+244|Transparency effects
+245|When off, all glass materials fall back to solid surfaces
+246|Contrast themes
+247|Higher-contrast color schemes for low-vision users
+248|Aquatic
+249|Desert
+250|Dusk
+251|Night sky
+252|Interaction
+253|Mouse pointer size
+254|Sticky keys
+255|Press one key at a time for keyboard shortcuts
+256|Your device is protected
+257|Security center is running normally. Last scan: today 09:30, no threats found.
+258|Security center
+259|Virus protection, firewall and device security
+260|Find my device
+261|Locate, lock or erase the device if it is lost
+262|App permissions
+263|In use by Weather, Maps and 1 other app
+264|Let apps access the camera
+265|Let apps access the microphone
+266|Let apps read notification content
+267|Diagnostics
+268|Send optional diagnostic data
+269|Helps improve LiberNT. No personal content is included
+270|Checking for updates…
+271|You’re up to date
+272|Last checked: just now
+273|Last checked: today 18:20
+274|Check for updates
+275|More options
+276|Update history
+277|LiberNT 26.11 (build 26200.1742) installed on November 12
+278|Delivery optimization, optional updates, active hours
+279|Insider program
+280|Try new features early and send feedback
+281|Device name
+282|CPU
+283|Liber Silicon L3 Pro · 12 cores @ 3.6 GHz
+284|Installed RAM
+285|32.0 GB (31.7 GB usable)
+286|Graphics
+287|Liber Graphics 24-core · 16 GB
+288|System type
+289|64-bit operating system, ARM64-based processor
+290|Pen and touch
+291|Pen and 10-point touch support
+292|LiberNT 26.11 Pro
+293|Build
+294|Installed on
+295|Experience
+296|Design language
+297|Liber Design · Fluent structure × adaptive glass
+298|© 2026 LiberNT design draft · For personal reference only
+299|Device specifications
+300|System specifications
+301|Design spec
+302|Colors, type, spacing, radii, materials and a control gallery
+303|Open the spec
+304|Fill
+305|Fit
+306|Stretch
+307|Center
+308|Tile
+309|Scale up proportionally to cover the screen; overflow is cropped
+310|Scale proportionally to show the whole image; empty edges are backed by a blurred copy
+311|Stretch to cover the screen; may distort
+312|Centered at original size; empty edges are backed by a blurred copy
+313|Repeated at original size from the top-left corner
+314|Theme mode
+315|Light
+316|Extracted from the current wallpaper; updates when the wallpaper or light/dark mode changes
+317|Follow wallpaper
+318|Pick a color
+319|Colors in the wallpaper
+320|Preset colors
+321|Ranked by area and vividness; pick another candidate if you like
+322|Surface tint
+323|Gives the window base, content panes and cards a hint of the accent hue
+324|Soft
+325|Vivid
+326|Dynamic
+327|Browse photos
+328|Remove
+329|Dynamic wallpaper
+330|Dim wallpaper in dark mode
+331|This wallpaper is dark enough; no dimming needed
+332|Brighter wallpapers are dimmed more; applies in dark mode
+333|Neutral
+334|Tinted
+335|Visual effects
+336|Windows and shell surfaces use translucent adaptive glass
+337|Transitions for windows, menus and controls
+338|Taskbar & desktop
+339|Taskbar style
+340|Floating dock: the dock and tray float above the desktop and merge into a bar when a window is maximized
+341|Classic taskbar: a full-width bar with Start, app icons and the tray in one row
+342|Floating dock
+343|Classic taskbar
+344|Dock shape
+345|Capsule: the dock and tray are fully rounded. Rounded rectangle: crisper corners
+346|Capsule
+347|Rounded rectangle
+348|Taskbar alignment
+349|Where Start and app icons sit along the bottom of the screen
+350|Left
+351|Desktop widgets
+352|Show date, weather and system status at the top right of the desktop
+353|Desktop icons
+354|Show files and shortcuts on the desktop
+355|Set as desktop wallpaper
+356|Choose a fit
+357|\s· Original\s
+358|Settings
+359|Find a setting
+360|No matching settings
+361|Apps & features
+362|Documents & media
+363|Other
+364|100% (Recommended)
+365|2560 × 1600 (Recommended)
+366|Up to date
+367|186 GB of 512 GB used
+368|Adjust the brightness of the built-in display
+369|Night light
+370|Use warmer colors to help block blue light
+371|Scale
+372|Change the size of text, apps and other items
+373|Display resolution
+374|Adjust the resolution to fit your connected display
+375|Output device
+376|Choose where to play sound
+377|Speakers (Built-in)
+378|Unmute
+379|Mute
+380|Notifications & focus
+381|Get notifications from apps and other senders
+382|Focus
+383|Hides notification banners and mutes alert sounds
+384|Power & battery
+385|Battery level\s
+386|Estimated time remaining: 9 h 12 min
+387|Power mode
+388|Optimize the device for battery life or performance
+389|Efficiency
+390|Balanced
+391|Performance
+392|Battery saver
+393|Limits background activity and some visual effects to extend battery life
+394|186 GB used of 512 GB
+395|LiberNT Terminal · liber-sh 1.4  Type help to list commands
+397|\s\sls            list the current directory
+398|\s\scd <dir>      change directory (.. goes up, ~ goes home)
+399|\s\scat <file>    print a text file
+400|\s\sopen <name>   open a file, folder or app
+401|\s\stheme <light|dark>  switch the theme
+402|\s\sneofetch      system information
+403|(empty)
+404|Usage: theme <light|dark>
+405|Close tab
+406|New tab
+407|Profiles
+408|Azure
+409|Indigo
+410|Violet
+411|Magenta
+412|Crimson
+413|Orange
+414|Amber
+415|Green
+416|Teal
+417|Graphite
+418|Notepad
+419|Calculator
+420|Terminal
+421|Edge
+422|Store
+423|Mail
+424|Productivity
+425|Calendar
+426|Music
+427|Media
+428|Movies & TV
+429|Camera
+430|Voice Recorder
+431|Maps
+432|Utilities
+433|Weather
+434|Paint
+435|Creativity
+436|To Do
+437|Sticky Notes
+438|Task Manager
+439|Snipping Tool
+440|Tips
+441|Developer
+442|Social
+443|WeChat
+444|NetEase Music
+445|Games
+446|This PC
+447|Data (D:)
+448|Recycle Bin
+449|Application
+450|Desktop
+451|Documents
+452|Downloads
+453|Pictures
+454|Videos
+455|Projects
+456|Design System
+457|LiberNT Design Spec.md
+458|# LiberNT Design Spec (draft)\n\n> Fluent as the skeleton, with a more restrained, more translucent material as its character.\n\n## Principles\n1. Content first: the shell steps back so the wallpaper and content lead.\n2. Grounded materials: opacity and tint adapt to backdrop luminance; foreground colors follow the system light/dark mode.\n3. Clear hierarchy: blur, shadow and hairlines express depth instead of heavy borders.\n4. Restrained motion: enter fast and settle gently, exit promptly; springs only on directly manipulated objects.\n5. Sourced color: the accent is extracted from the wallpaper and solid surfaces carry a hint of it.\n\n## Quick reference\n- Spacing: 4px grid (2 / 4 / 6 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64)\n- Radius: two extremes by role. Structural 4–8 (controls 4 · list items 5 · cards/menus/windows 8) · floating 20 · small controls fully round\n- Type ramp: 12 / 14 / 16 / 20 / 28 / 40 / 68\n- Control heights: 24 / 32 / 40\n\nSee the standalone spec page (/spec.html) for everything.\n
+459|Roadmap.xlsx
+460|Inspiration
+462|Material Notes.md
+463|# Material Notes\n\n- Thin glass: desktop widgets\n- Regular glass: dock, tray\n- Thick glass: Start menu, menus, tooltips\n- Mica: window base\n
+464|Work
+465|Reading Notes
+466|2026 Annual Review.docx
+467|Product Launch.pptx
+468|Budget Q4.xlsx
+469|Contract Scan.pdf
+470|Meeting Notes.txt
+471|Weekly sync, November 20\n\n1. Window chrome finalized: radius 8, mica base + solid content pane.\n2. The dock is a floating capsule and becomes a full-width bar when a window is maximized.\n3. Control center sliders switch to the fat-track style.\n\nTo do:\n- [ ] Add a dark-mode contrast check\n- [ ] Write up the icon size guidelines\n
+473|Weekly Report Template.docx
+474|Requirements.xlsx
+476|Designing Design.md
+477|# Designing Design\n\nLook at familiar things as if they were unfamiliar.\n
+478|Invoice-202611.pdf
+479|keynote-recording.mp4
+480|Screenshots
+483|Yosemite.webp
+484|Coastline.webp
+485|Antelope Canyon.webp
+486|Dahlia.webp
+487|Sunflower.webp
+488|Half Dome at Night.webp
+489|Poster-Final.psd
+490|Morning Walk.flac
+491|After the Rain.flac
+492|Tide.m4a
+493|Travel Vlog.mp4
+494|Product Demo.mov
+495|Time-lapse.mp4
+496|# libernt-shell\n\nThe LiberNT desktop shell.\n\n```\npnpm dev\n```\n
+497|Assets
+498|Backups
+499|Virtual Machines
+500|Photo Backup
+501|Old Draft.docx
+502|Untitled.png
+504|Text document
+505|Markdown document
+506|Image
+507|PDF document
+508|Compressed archive
+509|Word document
+510|Excel worksheet
+511|PowerPoint presentation
+512|JSON file
+513|HTML document
+514|CSS stylesheet
+515|TypeScript source file
+516|JavaScript source file
+517|Python source file
+518|Rust source file
+519|Shell script
+520|Font file
+521|SVG image
+522|Photoshop document
+523|Disc image
+524|Local disk
+525|Shortcut
+526|Just now
+527|Lightfall
+528|Sea Arch
+529|Flow
+530|Summit
+531|Cloud Steps
+532|Tide
+533|Snow Ridge
+534|Valley
+535|Starry Night
+536|Canyon
+537|Fern
+538|Clear Sky
+539|Pier
+540|Meadow
+541|Dunes
+542|Petal
+543|Dahlia
+544|My pictures
+545|Lin Che
+546|I put the redlines for the new window chrome in the shared folder. Have a look at the corner radii and shadows when you can.
+547|3 apps updated
+548|Photos, Notepad and Terminal were updated to the latest versions.
+549|Device status is good
+550|The last scan found no threats. No action needed.
+551|Clear all
+552|No new notifications
+553|Lunar 10/13
+555|Mo
+556|Tu
+557|We
+558|Th
+559|Fr
+560|Sa
+561|Su
+562|Liber Ensemble · Tide
+563|Aurora Lane · Starry Night
+564|Morning Walk
+565|Valley Band · Yosemite
+566|More Wi-Fi settings
+567|On
+568|Do not disturb is on
+569|Dark mode
+570|Display
+571|Edit quick settings
+572|All settings
+573|Medium icons
+574|Small icons
+575|Show desktop icons
+576|Show widgets
+577|Item type
+578|Next wallpaper
+579|Display settings
+580|Sunday
+581|Monday
+582|Tuesday
+583|Wednesday
+584|Thursday
+585|Friday
+586|Saturday
+587|Click or press any key to unlock
+588|Demo: just press Enter to sign in
+589|Search apps, settings and documents
+590|No results for “
+591|”
+592|System settings
+593|All apps
+594|Recommended
+595|More
+596|Back
+597|Lock
+598|Sleep
+599|Restart
+600|Shut down
+601|Close all windows
+602|Close window
+604|Start
+605|Search
+606|Show hidden icons
+607|Running in background
+608|No action needed
+609|Cloud sync
+610|Up to date
+612|Control center
+613|Show desktop
+614|Week\s
+615|\s· No events today
+616|Shanghai
+617|Clearing skies
+618|H 21° · L 14°
+619|Memory
+620|Minimize
+621|Restore down
+622|Maximize
+623|Click to copy
+624|Aa

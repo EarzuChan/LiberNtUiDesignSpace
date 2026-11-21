@@ -1,0 +1,344 @@
+625|Variants
+626|Accent
+627|Standard
+628|Subtle
+629|Danger
+630|Capsule and circle: standalone primary actions, media controls, toolbar icons
+631|Get
+632|Filter
+633|With icon / icon only / toggle button
+634|New
+635|Share
+636|Grid
+637|Sizes: 24 / 32 / 40
+638|Small
+639|Large
+640|Primary action
+641|Disabled
+642|Switches
+643|On
+644|Checkboxes
+645|Checked
+646|Indeterminate
+647|Radio buttons
+648|Text field: rest / filled / password
+649|Capsule search box / dropdown
+650|Slider: standard / fat track (control center)
+651|Segmented control
+652|List
+653|Tabs
+654|All
+655|Breadcrumb
+656|Navigation list
+657|Favorites
+658|Progress
+659|Badges and avatars
+660|New
+661|Pending
+662|Failed
+663|Info bar
+664|Update available
+665|LiberNT 26.12 preview.
+666|Storage is running low
+667|12 GB left.
+668|Can’t connect to the network
+669|Dialog
+670|Open dialog
+671|Permanently delete these 3 items? This can’t be undone.
+672|Open with
+673|Menu (thick glass, radius 8, items radius 4) and tooltip
+674|Open a real menu
+675|Hover any control with a tooltip;
+676|it appears after 450 ms
+677|Setting rows and expanders
+678|Click to expand
+679|Child item
+680|The expanded area uses a base one step deeper
+681|Clickable row
+682|Goes to the next level
+683|Controls
+684|Basic controls keep Fluent’s structure and interaction model. Controls have “thickness”: the bottom edge is darker in light mode and the top edge is lighter in dark mode. Hover and pressed states change only the fill, never the size. Everything below is live.
+685|Buttons
+686|Use one accent button per view. Subtle buttons are for toolbars and secondary actions (circular when icon-only); danger buttons appear only in confirmation dialogs. Form buttons use a small 4px radius and capsules are reserved for standalone actions. Pressing scales the button to 0.98.
+687|Selection
+688|Switches are for settings that apply immediately, checkboxes for multiple choices that are submitted, radio buttons for mutually exclusive options. The checkbox is circular: the tick is drawn from inside the circle out past its edge, using the on-accent color inside and flipping to the accent color outside, so it reads differently from a radio button’s dot at a glance. When off, the switch is an outlined track with a small dot; when on, the knob grows and slides across on a spring curve.
+689|Input
+690|A focused text field shows a 2px accent line along its bottom edge. Search boxes are always capsules and use an outer focus ring instead. The fat-track slider is a capsule too. The dot inside a slider thumb grows on hover and shrinks when pressed.
+691|Navigation
+692|The selected item is marked by a short 3×16 accent bar on the left and switches to the Filled icon. Segmented controls are capsules, and the selection block slides between options.
+693|Feedback
+694|Menus, tooltips and setting rows
+695|Content first
+696|The shell steps back. Window bases, the dock and flyouts all defer to the wallpaper and content, keeping only the hint of form they need.
+697|Grounded materials
+698|A glass surface’s tint lightness and opacity adapt to the luminance behind it. Foreground colors follow only the system light/dark mode, so legibility stays stable.
+699|Clear hierarchy
+700|Blur, soft shadows and hairlines express depth, not heavy borders. Edges get an inner highlight only, with no refraction.
+701|Restrained motion
+702|Enter fast and settle gently; exit promptly. Spring curves are used only on objects you manipulate directly, such as dock icons and switches.
+703|The visual language of LiberNT: Fluent Design’s structure and control system as the skeleton, with a more translucent, more restrained adaptive glass material. This page collects the colors, type, metrics, materials, icons and basic controls.
+704|Cyan
+705|All colors are defined in OKLCH: lightness is perceptually uniform and hue does not drift as lightness changes. The accent color is extracted from the wallpaper by default, and solid surfaces carry a hint of that hue. The idea is borrowed from Material You, but Fluent’s single-accent system is kept: there are no secondary or tertiary palettes.
+706|Wallpaper color extraction
+707|The wallpaper is downsampled and every pixel is converted to OKLCH, then bucketed by hue (15° per bucket). Each bucket scores as area share
+708|\s× mean chroma, so hues that are both large and vivid win. Up to 4 candidates are kept, at least 40° apart in hue. Pixels that are too dark, too bright or too gray are ignored. The day and night images of a dynamic wallpaper are sampled separately, and a near-monochrome wallpaper yields a low-chroma accent rather than an invented color. See\s
+709|Guardrails: chroma is clamped to 0.085–0.19. Yellow and lime hues (h≈40–150) get a higher base lightness in light mode, and text on them switches to a dark color automatically (
+710|The accent hue is also fed into neutral surfaces: the solid window fallback, content panes, cards and the tint layer of glass. There are three strengths: Off (pure neutral), Soft (default) and Vivid. In dark mode cards use tonal elevation: higher layers are lighter and more tinted, relying less on shadow. A low-chroma accent weakens the tint automatically.
+711|Cards sit one layer above the pane
+712|The accent is driven by three parameters: hue\s
+713|, chroma\s
+714|\sand the light-mode base lightness\s
+715|. Hover, pressed, text and subtle-fill colors are all derived from them. In dark mode the accent is lightened with reduced chroma, and text on it turns dark. The presets below can be picked by hand.
+716|Primitive palette
+717|Neutrals carry a very slight cool cast (h = 260). Each hue has 11 steps on the same lightness ladder, with chroma peaking at 500–600. Click a swatch to copy its variable name.
+718|Semantic colors
+719|Text and fills rely heavily on translucent black and white, so they blend naturally over glass or colored surfaces. The values below are the computed results in each theme.
+720|Text
+721|Control fills
+722|Strokes
+723|Surfaces
+724|Status
+725|Icons
+726|System icons are Fluent System Icons, used as-is. Apps, places and file types use Fluent-style color icons: free-form silhouettes, soft gradients and a slight sense of depth.
+727|System icons
+728|Monochrome, following the text color. Every size is a separately drawn optical version with its own stroke weight and detail, so never scale one size to make another. Regular (outline) is the default; Filled is used only to express a selected or active state.
+729|Unselected: Regular + secondary color
+730|Selected: Filled + accent color
+731|Favorite (off)
+732|Favorite (on)
+733|Common icons (20 Regular)
+734|Import from\s
+735|\sas\s
+736|Name + Size + Style
+737|, for example\s
+738|. To add an icon group, edit\s
+739|\sand regenerate.
+740|App icons
+741|No shared backplate; each keeps its own recognizable silhouette. Standard display sizes: dock 36, Start menu 40, desktop 52, lists 20–32.
+742|Places, devices and file types
+743|Ultra-thin
+744|Snap preview, floating buttons over images
+745|Thin
+746|Regular
+747|Dock, tray, taskbar plate
+748|Thick
+749|Start menu, control center, menus, tooltips
+750|Mica
+751|blur 90 · own opacity range
+752|Window base (shows through the sidebar and title bar)
+753|Materials
+754|Shell surfaces use adaptive glass: the content behind is blurred and its saturation raised, then a tint is laid on top. The tint is not a fixed value. It is adjusted in real time from the average luminance behind the surface, so the same piece of glass stays both translucent and legible over bright and dark backdrops.
+755|Thickness
+756|The five thicknesses share one tint formula and differ only in blur radius and the opacity factor k. Surfaces closer to the user and carrying more text are thicker.
+757|Adaptive tint
+758|\sis the average luminance behind the surface (0 dark → 1 bright). In light mode, the darker the backdrop, the more solid the white tint, to hold dark text. Dark mode is the reverse: the brighter the backdrop, the more solid the dark tint. Over a very dark backdrop the tint instead gets lighter and thinner, so the glass lifts off the background. Foreground colors always follow only the system light/dark mode.
+759|Tint formula
+760|L = l0 + (l1 − l0) × bl          /* tint lightness */\nA = (a0 + (a1 − a0) × bl) × k    /* opacity, capped at 0.97 */\n\nbackground: oklch(L c h / A);     /* h and c come from the accent (surface tint) */\nbackdrop-filter: blur(r) saturate(s);\ntransition: --bl 420ms linear;   /* registered as <number> via @property */
+761|Luminance sampling
+762|The wallpaper is downsampled to a 64×36 luminance grid, and windows take part as occluders in z-order. Each glass surface averages up to 10×10 sample points inside its own rectangle: the desktop layer sees only the wallpaper, the window layer sees the wallpaper and lower windows, and the shell layer sees everything. Sampling converts coordinates according to the wallpaper fit (fill / fit / stretch / center / tile) and accounts for the dark-mode dimming. It is recomputed when windows move or the theme or wallpaper changes, and the result is written to\s
+763|. See\s
+764|Wallpaper dimming in dark mode
+765|In dark mode an overly bright wallpaper makes the whole desktop glare and turns dark glass gray. The system dims adaptively from the wallpaper’s average luminance: nothing below 0.32, more for brighter images, capped at 50% (
+766|). The default overlay is neutral black, which leaves the photo’s hues alone. It can be switched to Tinted, which overlays a very dark shade of the accent hue for a more unified mood at the cost of a color cast. The dimming amount is shared with the luminance sampler, and the lock screen uses the same layer.
+767|Original
+768|Neutral dim 35%
+769|Tinted dim 35%
+770|Progressive blur
+771|Content goes from sharp to blurred as it slides under a header, instead of being cut off by a hard edge. It is used on in-window toolbars, the Settings page title, and below the taskbar at the bottom of the screen. It is built from 5 layers of\s
+772|, with the blur radius doubling per layer and each layer confined to a band by a gradient mask.
+773|Progressive blur (used)
+774|Uniform blur + divider (for comparison)
+775|Try scrolling
+776|Edges
+777|A glass edge has three parts: a 1px dark outer hairline separates the surface from the background, a 1px inner highlight outlines its thickness, and a brighter top highlight suggests light from above. Refraction and dispersion are not simulated. Large blurred surfaces get a very faint noise layer to remove banding.
+778|No edge
+779|.mat-edge  hairline + inner highlight
+780|+ noise + shadow 32
+781|When Transparency effects is off, every\s
+782|\sfalls back to an opaque surface of the same hue, with layout and hierarchy unchanged.
+783|Color changes on hover and press
+784|Small control states, tooltip appearing
+785|Menus, selection indicators, switches
+786|Flyouts, windows, page transitions
+787|Ambient changes such as wallpaper and brightness
+788|Enter: fast start, gentle stop
+789|Exit: gentle start, fast finish
+790|Movement and morphing
+791|Spring (soft): flyouts
+792|Spring: dock icons, swatches
+793|Spring (bouncy): emphasis feedback
+794|Motion
+795|Motion serves cause and effect: it tells you where things come from and where they go. Durations are short and curves decisive; nothing lingers.
+796|Duration
+797|Play
+798|Easing curves
+799|Bézier curves are for state transitions. Spring curves are sampled from a damped model (
+800|), expressed with CSS\s
+801|, and used with\s
+802|\s(520 ms). All are demonstrated at 700 ms below.
+803|Choreography
+804|Scenario
+805|Change
+806|Duration and curve
+807|Window open / close
+808|Scale 0.94 → 1 with fade in / scale to 0.95 with fade out
+809|Minimize / restore
+810|The whole window shrinks into its dock icon, fading over the last 60% of the travel
+811|300ms accelerate / 340ms ease-out
+812|Maximize / snap
+813|Position and size interpolate together (FLIP)
+814|System flyouts
+815|Rise 32px and fade in; exit travels 24px
+816|Menus
+817|Scale 0.94 → 1 from the trigger point
+818|Dock icons
+819|Hover lifts 2px and scales to 1.07; press scales to 0.84; bounces on launch
+820|--bl animates as a number, so the tint does not jump while a window is dragged
+821|Very large numerals such as the lock-screen clock
+822|Light and clear LiberNT
+823|Main titles on the spec and welcome pages
+824|Light and clear LiberNT 26
+825|In-app page titles
+826|Section titles, dialog titles
+827|Light and clear, content first LiberNT 26.11
+828|Lead paragraphs, emphasis
+829|Group titles, list primary text
+830|Default body and control text
+831|Supporting text, timestamps, status bars
+832|The system font stack is used: Segoe UI Variable for Latin text and numerals (optical size switches automatically with font size) and Microsoft YaHei UI for Chinese. Only two weights, 400 and 600, are used; hierarchy comes mainly from size and color.
+833|Font families
+834|UI
+835|Segoe UI Variable · Microsoft YaHei UI
+836|Titles and large numerals
+837|Monospace
+839|Type ramp
+840|Specs are written as “size / line height · weight”. Numerals are proportional by default; add\s
+841|\swhen they need to align. Large sizes tighten tracking (-1% to -2%).
+842|Sample
+843|Use
+844|Fine adjustment between stroke and fill
+845|Icon-to-text gap, compact list item gap
+846|Half step: padding inside small controls
+847|Gap between elements in a control, card grid gap
+848|Horizontal control padding, flyout padding
+849|Card padding, setting row padding
+850|Large card padding
+851|Between groups, dialog padding
+852|Page horizontal margin (narrow)
+853|Page horizontal margin (wide)
+854|Between large blocks
+855|Between sections
+856|Taskbar reserved height
+857|--taskbar-h: floating dock / classic taskbar; maximized windows leave this space
+858|Full-width bar; icon cell 40 (radius 4), icon 26; centered or left-aligned
+859|Dock height
+860|Capsule by default; icon cell 48 (circular hover fill), icon 36
+861|Tray height
+862|Capsule, aligned to the dock’s center line
+863|Window corner radius
+864|0 when maximized
+865|Title bar height
+866|Standard / merged with toolbar
+867|Window caption buttons
+868|Standard title bar / merged toolbar (same height as controls); centered on the title area’s vertical axis, radius 4
+869|Sidebar width
+870|Glass base; list items 34–38 high
+871|Flyout corner radius
+872|Start menu, control center, notifications
+873|Min width 200
+874|Radius 8; items 32 high with radius 4
+875|Setting row min height
+876|Expanded child rows 48; rows in a group have a 2px gap, outer corners 10, inner corners 3
+877|Spacing & sizes
+878|A 4px grid, with 2 and 6 as half steps inside small controls. Spacing tokens express values only; meaning is decided by the component.
+879|Spacing scale
+880|Control and icon sizes
+881|Small 24
+882|Standard 32
+883|Large 40
+884|32 by default; 24 for secondary buttons and tags in toolbars; 40 for a page’s primary action.
+885|16 for menus and toolbars, 20 for navigation and setting rows, 24 and up for empty states and tiles.
+886|Key shell metrics
+887|Value (px)
+888|Notes
+889|Structural
+890|Windows, panes, cards, list rows and form controls. They are the skeleton of the content, so the radius only softens and never draws attention.
+891|Buttons, text fields, menu items, caption buttons
+892|Navigation items, file items
+893|Large buttons, tooltips, thumbnails
+894|Cards, menus, windows, dialogs
+895|Floating
+896|Standalone surfaces above the desktop: Start menu, control center, notifications, desktop widgets. A large radius makes them read as another layer.
+897|Taskbar (rounded-rectangle shape)
+898|Flyouts, widgets
+899|Playful
+900|Full
+901|Small things you poke at: search boxes, switches, checkboxes, segmented controls, tags, circular icon buttons, standalone primary actions, the dock. Pushing the radius to the other extreme adds some liveliness to Fluent’s squareness.
+902|Capsules and circles
+903|Corner radius
+904|Radius is split into two extremes by role rather than growing with size: structural surfaces use small radii and small pokeable controls are fully round. The 10–14 middle range is mostly avoided, because an in-between radius looks the cheapest.
+905|Where capsules belong
+906|Capsules take horizontal space and can look mobile, so they are limited to standalone primary actions, media controls, circular icon buttons in toolbars, filters and segmented controls, and search boxes. Buttons in dialog footers, setting rows and forms keep the small 4px radius.
+907|OK
+908|Forms and dialogs: small radius
+909|Grouped lists: large outside, small inside
+910|For grouped rows such as setting groups and stacked notifications, each row is its own small card with a 2px gap. Outer corners use\s
+911|\s(10) and the corners between rows use\s
+912|\s(3), so the group reads as one rounded whole while each row stays distinct. Use it only for group containers, not for long lists, sidebar navigation or menus.
+913|Liked Songs
+914|Playlists
+915|Artists
+916|Songs
+917|Concentric rule
+918|Nested radii stay concentric: inner radius = outer radius − gap. A menu has an outer radius of 8 and 4 of padding, so its items use 4; inside the capsule dock, an icon’s hover fill is a full circle.
+919|Cards, segmented selection block
+920|Slider thumbs, thumbnails
+921|Desktop widgets, floating buttons
+922|Dock, tray, tooltips
+923|Flyouts, menus
+924|Active window, dialogs
+925|Window layer (increments internally in activation order)
+926|Menus, dialog scrim
+927|Tooltips
+928|Brightness / night light overlays; lock screen at 6000
+929|Elevation & layers
+930|Each shadow level stacks a wide ambient layer and a close contact shadow. Dark-mode shadows are about twice as deep, and layers rely more on hairlines.
+931|Shadow
+932|Layer
+933|Contents
+934|Drag
+935|Drag from any empty part of the title area. At least 80px of the window stays on screen, and the title bar never goes above the top of the work area.
+936|Snap
+937|Drag to the left or right edge to snap to half the screen, near the top or bottom quarter of an edge for a quarter, or to the top edge to maximize. A glass preview shows before you let go. Dragging out of a snapped state restores the original size.
+938|Double-click the title area or click the maximize button. The window radius drops to zero, and the floating dock and tray merge into a full-width plate.
+939|The window shrinks into its dock icon; click the icon again to restore. Clicking the icon of the focused app minimizes it.
+940|Invisible handles in eight directions, extending 5px outward. Each app declares a minimum size.
+941|Unfocused
+942|The shadow drops from 64 to a lighter level, and the title and caption buttons fall to tertiary text color. The material stays the same.
+943|Windows & shell
+944|A window has two layers, a mica glass base and a solid content pane: the sidebar and title area show the blurred desktop, while the content area stays a stable solid for reading. The taskbar is a floating glass capsule dock by default (or a rounded rectangle), and can be switched in Settings to a classic full-width taskbar. Both can be centered or left-aligned.
+945|Anatomy
+946|Archive
+947|Contract.pdf
+948|Review.docx
+949|Budget.xlsx
+950|Radius 8
+951|Sidebar · mica glass · width 248
+952|Title area 52 · draggable
+953|Caption buttons 40×32 · centered
+954|Content pane · --surface-pane
+955|Shadow 64 · hairline + inner highlight
+956|Height 60 · capsule
+957|Icon cell 48 · circular hover fill
+958|Running 5×3 → active 16×3
+959|Icon 36
+960|Window behavior
+961|See it on the desktop
+962|Every token and control above is used for real in the desktop demo: draggable, resizable windows, the Start menu, control center, notifications and calendar, Files, Settings and the lock screen.
+963|Open the desktop demo
+964|Foundations
+965|Overview
+966|Look & feel
+967|Components
+968|LiberNT Design Spec
+969|26.11 · Draft
