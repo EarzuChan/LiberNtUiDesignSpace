@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "shot": "node scripts/shot.mjs"
+    "shot": "node scripts/shot.mjs",
+    "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
     "@fluentui/react-icons": "2.0.346",
@@ -23,6 +24,8 @@
     "puppeteer-core": "25.17.0",
     "sharp": "0.35.5",
     "typescript": "7.0.2",
-    "vite": "8.3.8"
-  }
+    "vite": "8.3.8",
+    "wrangler": "4.162.0"
+  },
+  "packageManager": "pnpm@12.16.1"
 }
