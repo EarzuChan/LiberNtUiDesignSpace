@@ -13,6 +13,8 @@ const BEHAVIOR = [
   ['贴靠', '拖到左/右边缘贴靠半屏，靠近上下四分之一处贴靠四分之一屏，拖到顶边最大化。松手前显示玻璃预览。从贴靠状态拖出时恢复原尺寸。'],
   ['最大化', '双击标题区或点击最大化按钮。窗口圆角归零，悬浮的 Dock 与托盘收拢为通栏底板。'],
   ['最小化', '窗口缩入 Dock 上对应的图标；再次点击图标还原。点击已聚焦应用的图标则最小化。'],
+  ['任务栏预览', '悬停在运行中的应用上片刻，图标上方浮出一块单层面板，各窗口的标题与缩略图（悬停那一刻的静态快照，最小化的窗口也有）直接并排其上。缩略图之间的间隙是共用的：悬停哪个窗口，哪一列就整列提亮并占满间隙。点击切到该窗口，右上角可直接关闭；预览打开后在图标间移动即时切换。'],
+  ['多窗口', '应用有两个及以上窗口时，它在前台或被悬停时底板后面再垫一张（悬停时淡一些），不论窗口多少只叠两层。圆形底板的月牙露在圆外；方形底板的层叠收在图标格内，图标位置不动。'],
   ['调整大小', '八个方向的隐形手柄，向外溢出 5px。每个应用声明最小尺寸。'],
   ['失焦', '阴影由 64 降为较浅的一级，标题与控制按钮降为三级文字色；材质保持不变。'],
 ];
@@ -48,7 +50,7 @@ export function ShellSection() {
               </div>
             </section>
           </Glass>
-          <span className="callout" style={{ left: -34, top: -12 }}>圆角 8</span>
+          <span className="callout" style={{ left: -34, top: -12 }}>圆角 12</span>
           <span className="callout" style={{ left: -70, top: 262 }}>侧栏 · 云母玻璃 · 宽 248</span>
           <span className="callout" style={{ left: 250, top: -12 }}>标题区 52 · 可拖拽</span>
           <span className="callout" style={{ right: -58, top: 40 }}>控制按钮 40×32 · 沿中线对齐</span>
@@ -60,11 +62,11 @@ export function ShellSection() {
             <span className="dock-btn" data-open><Logo size={30} /></span>
             <span className="dock-btn dock-search"><Search24Regular /></span>
             <span className="dock-sep" />
-            {DOCK.map(([id, running, active]) => <span key={id} className="dock-btn" data-running={running} data-active={active}><img src={APPS[id].icon} alt="" /></span>)}
+            {DOCK.map(([id, running, active]) => <span key={id} className="dock-btn" data-running={running} data-active={active} data-multi={active}><img src={APPS[id].icon} alt="" /></span>)}
           </Glass>
           <span className="callout" style={{ left: -96, top: 44 }}>高 60 · 胶囊</span>
           <span className="callout" style={{ left: 20, bottom: -22 }}>图标格 48 · 悬停底为正圆</span>
-          <span className="callout" style={{ right: -150, top: 44 }}>运行 5×3 → 活动 16×3</span>
+          <span className="callout" style={{ right: -150, top: 44 }}>运行指示 · 5px 圆点</span>
           <span className="callout" style={{ right: 30, bottom: -22 }}>图标 36</span>
         </div>
       </div>

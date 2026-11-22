@@ -9,8 +9,9 @@ import {
   SpeakerMute20Regular, Wifi120Regular, WifiOff20Regular, Airplane20Regular, WindowNew16Regular, Window16Regular,
 } from '@/ui/icons';
 import { fmtDate, fmtDateLong, fmtTime, useNow } from './hooks';
+import { DockPeek, useDockPeek, type PeekApi } from './DockPeek';
 
-function DockApp({ app }: { app: AppId }) {
+function DockApp({ app, peek }: { app: AppId; peek: PeekApi }) {
   const def = APPS[app];
   const wins = useWm(s => s.wins);
   const focused = useWm(s => s.focused);
@@ -50,8 +51,12 @@ function DockApp({ app }: { app: AppId }) {
       data-dock-app={app}
       data-running={running}
       data-active={active}
+      data-multi={mine.length > 1}
       data-new={hop}
-      data-tip={def.name}
+      data-tip={running ? undefined : def.name}
+      onPointerEnter={e => e.pointerType !== 'touch' && (running ? peek.enter(app, e.currentTarget) : peek.hide())}
+      onPointerLeave={peek.leave}
+      onPointerDown={peek.hide}
       onClick={() => useWm.getState().dockClick(app)}
       onContextMenu={menu}
     >
@@ -70,12 +75,14 @@ export function Taskbar() {
   const wins = useWm(s => s.wins);
   const now = useNow(5000);
   const lang = useSys(s => s.lang);
+  const { peek, api } = useDockPeek();
 
   const running = [...new Set(wins.filter(w => !w.closing).map(w => w.app))].filter(a => !DOCK_PINNED.includes(a));
   const solid = wins.some(w => w.snap === 'max' && !w.minimized && !w.closing);
   const SpeakerIcon = muted || volume === 0 ? SpeakerMute20Regular : volume < 34 ? Speaker020Regular : volume < 67 ? Speaker120Regular : Speaker220Regular;
 
   return (
+    <>
     <div className="taskbar" data-solid={solid} data-align={align} data-shape={shape} data-style={style}>
       <Glass thickness="regular" edge={false} className="taskbar-plate" />
       <Glass thickness="regular" className="dock" noise>
@@ -86,9 +93,9 @@ export function Taskbar() {
           <Search24Regular />
         </button>
         <span className="dock-sep" />
-        {DOCK_PINNED.map(a => <DockApp key={a} app={a} />)}
+        {DOCK_PINNED.map(a => <DockApp key={a} app={a} peek={api} />)}
         {running.length > 0 && <span className="dock-sep" />}
-        {running.map(a => <DockApp key={a} app={a} />)}
+        {running.map(a => <DockApp key={a} app={a} peek={api} />)}
       </Glass>
 
       <Glass thickness="regular" className="tray" noise>
@@ -127,5 +134,7 @@ export function Taskbar() {
         <button type="button" className="tray-peek" data-tip="显示桌面" aria-label="显示桌面" onClick={() => useWm.getState().showDesktop()} />
       </Glass>
     </div>
+    <DockPeek peek={peek} api={api} />
+    </>
   );
 }

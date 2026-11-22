@@ -62,34 +62,35 @@
 .switch { display: inline-flex; align-items: center; gap: var(--space-12); }
 .switch-track {
   position: relative;
-  width: 42px;
-  height: 22px;
+  width: 44px;
+  height: 26px;
   border-radius: var(--radius-pill);
   background: var(--fill-control-alt);
   box-shadow: inset 0 0 0 1.5px var(--stroke-control-strong);
   transition: background var(--dur-fast) linear, box-shadow var(--dur-fast) linear;
   flex: none;
 }
-/* 关：描边轨道 + 小圆点；开：强调色轨道 + 放大的圆钮。圆钮位移用弹簧曲线 */
+/* 高胖的轨道（44×26）里保留 Fluent 的做法——关：描边轨道 + 小圆点；开：强调色轨道 + 撑满的圆钮。
+   圆钮用 left / right 两端定位，宽度由两端决定：切换时两端同走弹簧曲线；按下时只拉动朝向轨道中间的一端，贴边的一端不动 */
 .switch-knob {
   position: absolute;
   top: 50%;
-  left: 5px;
-  width: 12px;
-  height: 12px;
+  left: 6px;
+  right: 24px;
+  height: 14px;
   translate: 0 -50%;
   border-radius: var(--radius-pill);
   background: var(--text-2);
-  transition: left var(--dur-gentle) var(--ease-spring-soft), width var(--dur-fast) var(--ease-out), height var(--dur-fast) var(--ease-out), background var(--dur-fast) linear;
+  transition: left var(--dur-gentle) var(--ease-spring-soft), right var(--dur-gentle) var(--ease-spring-soft), height var(--dur-gentle) var(--ease-spring-soft), background var(--dur-fast) linear;
 }
 .switch:hover .switch-track { background: var(--fill-subtle-hover); }
-.switch:hover .switch-knob { left: 4px; width: 14px; height: 14px; }
-.switch:active .switch-knob { width: 18px; }
+.switch:hover .switch-knob { left: 5px; right: 23px; height: 16px; }
+.switch:active .switch-knob { right: 18px; transition-duration: var(--dur-fast); transition-timing-function: var(--ease-out); }
 .switch[aria-checked='true'] .switch-track { background: var(--accent); box-shadow: inset 0 0 0 1.5px transparent; }
 .switch[aria-checked='true']:hover .switch-track { background: var(--accent-hover); }
-.switch[aria-checked='true'] .switch-knob { left: 23px; width: 16px; height: 16px; background: var(--on-accent); box-shadow: 0 1px 3px rgb(0 0 0 / 0.28); }
-.switch[aria-checked='true']:hover .switch-knob { left: 22.5px; width: 17px; height: 17px; }
-.switch[aria-checked='true']:active .switch-knob { left: 19px; width: 20px; height: 16px; }
+.switch[aria-checked='true'] .switch-knob { left: 21px; right: 3px; height: 20px; background: var(--on-accent); box-shadow: 0 1px 3px rgb(0 0 0 / 0.28); }
+.switch[aria-checked='true']:hover .switch-knob { left: 20px; right: 2px; height: 22px; }
+.switch[aria-checked='true']:active .switch-knob { left: 14px; right: 2px; height: 22px; }
 .switch[aria-disabled='true'] { opacity: 0.4; pointer-events: none; }
 
 /* ---------- Checkbox / Radio ---------- */
@@ -116,25 +117,29 @@
 .check[aria-checked='true']:active .radio-dot::after { transform: scale(0.8); }
 
 /* ---------- Slider ---------- */
-.slider { position: relative; height: var(--control-md); flex: 1 1 auto; min-width: 80px; touch-action: none; --p: 50%; }
-.slider-track { position: absolute; left: 0; right: 0; top: 50%; height: 4px; margin-top: -2px; border-radius: var(--radius-full); background: var(--fill-track); overflow: hidden; }
-.slider-fill { position: absolute; left: 0; top: 0; bottom: 0; width: var(--p); background: var(--accent); border-radius: inherit; }
+/* 静止时只有轨道与填充；悬停、拖动或键盘聚焦时浮现一枚横向的玻璃手柄，透出下面的轨道。
+   手柄中线始终对齐填充的末端，所以在两头会探出轨道半个手柄宽 */
+.slider { position: relative; height: var(--control-md); flex: 1 1 auto; min-width: 80px; touch-action: none; user-select: none; --pn: 0.5; --thumb-w: 24px; --thumb-a: 50%; --thumb-a-drag: 32%; }
+[data-theme='dark'] .slider { --thumb-a: 24%; --thumb-a-drag: 14%; }
+.slider-track { position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; border-radius: var(--radius-full); background: var(--fill-track); overflow: hidden; }
+.slider-fill { position: absolute; left: 0; top: 0; bottom: 0; width: calc(100% * var(--pn)); background: var(--accent); border-radius: inherit; }
 .slider-thumb {
   position: absolute;
   top: 50%;
-  left: calc(10px + (100% - 20px) * var(--pn));
-  width: 20px;
-  height: 20px;
-  margin: -10px 0 0 -10px;
-  border-radius: 50%;
-  background: var(--surface-card-solid);
-  box-shadow: 0 0 0 1px var(--stroke-control), 0 1px 3px rgb(0 0 0 / 0.22);
-  display: grid;
-  place-items: center;
+  left: calc(100% * var(--pn));
+  width: var(--thumb-w);
+  height: 16px;
+  margin: -8px 0 0 calc(var(--thumb-w) / -2);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface-raised) var(--thumb-a), transparent);
+  backdrop-filter: blur(1.5px) saturate(1.5);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.45), inset 0 1px 0 0 rgb(255 255 255 / 0.9), 0 0 0 0.5px rgb(0 0 0 / 0.2), 0 1px 3px rgb(0 0 0 / 0.24), 0 3px 8px rgb(0 0 0 / 0.14);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity var(--dur-fast) linear, transform var(--dur-normal) var(--ease-out), background var(--dur-fast) linear;
 }
-.slider-thumb::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); transition: transform var(--dur-normal) var(--ease-out); }
-.slider:hover .slider-thumb::after { transform: scale(1.25); }
-.slider[data-dragging='true'] .slider-thumb::after { transform: scale(0.85); }
+.slider:hover .slider-thumb, .slider:focus-visible .slider-thumb, .slider[data-dragging='true'] .slider-thumb { opacity: 1; transform: none; }
+.slider[data-dragging='true'] .slider-thumb { transform: scale(1.06); background: color-mix(in srgb, var(--surface-raised) var(--thumb-a-drag), transparent); }
 
 /* 粗滑块：控制中心用，图标嵌在轨道内 */
 .slider-fat { height: 32px; --fat-r: var(--radius-pill); }

@@ -77,7 +77,7 @@ export function Slider({ value, onChange, min = 0, max = 100, fat, icon, classNa
   const pn = (value - min) / (max - min);
   const update = (clientX: number) => {
     const r = ref.current!.getBoundingClientRect();
-    const pad = fat ? 16 : 10;
+    const pad = fat ? 16 : 0;
     const t = Math.min(1, Math.max(0, (clientX - r.left - pad) / (r.width - pad * 2)));
     onChange?.(Math.round(min + t * (max - min)));
   };
@@ -91,7 +91,7 @@ export function Slider({ value, onChange, min = 0, max = 100, fat, icon, classNa
       tabIndex={0}
       data-dragging={dragging}
       className={cx('slider', fat && 'slider-fat', className)}
-      style={{ ...style, '--p': `${pn * 100}%`, '--pn': pn } as CSSProperties}
+      style={{ ...style, '--pn': pn } as CSSProperties}
       onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); setDragging(true); update(e.clientX); }}
       onPointerMove={e => dragging && update(e.clientX)}
       onPointerUp={() => setDragging(false)}

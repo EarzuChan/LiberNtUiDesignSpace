@@ -68,13 +68,18 @@
   /* 语义圆角：按角色分两极。
      结构性容器（窗口、面板、卡片、列表行、表单控件）用小圆角；
      悬浮表面（浮层、小组件）用大圆角；可拨弄的小物件（搜索框、开关、标签、圆形按钮）用全圆。
-     中间档 10–14 基本不用。 */
+     中间档 10–14 基本不用，除非是同心规则推导出来的结果。 */
   --radius-control: var(--radius-4);
   --radius-item: 5px;
   --radius-card: var(--radius-8);
   --radius-menu: var(--radius-8);
-  --radius-window: var(--radius-8);
-  --radius-flyout: var(--radius-20);
+  --radius-window: var(--radius-12);
+  --radius-flyout: var(--radius-28);
+  /* 浮层内的同心层级：磁贴 = 浮层 − 浮层内边距；磁贴内的可点击行 = 磁贴 − 磁贴内边距 */
+  --flyout-pad: 12px;
+  --tile-pad: 6px;
+  --radius-tile: calc(var(--radius-flyout) - var(--flyout-pad));
+  --radius-tile-item: calc(var(--radius-tile) - var(--tile-pad));
   --radius-pill: var(--radius-full);
   /* 分组列表：靠外的角大，项与项之间的角小 */
   --radius-group: var(--radius-10);
@@ -170,6 +175,9 @@
   --fill-track: rgb(0 0 0 / 0.14); /* 滑块/进度条轨道 */
   --fill-tile: rgb(0 0 0 / 0.055); /* 玻璃面板内的磁贴 */
   --fill-tile-hover: rgb(0 0 0 / 0.09);
+  /* 玻璃上的项目（任务栏）：层级靠提亮表达——悬停亮一档，选中再亮一档并带厚度 */
+  --fill-plate-hover: rgb(255 255 255 / 0.2);
+  --fill-plate: rgb(255 255 255 / 0.36);
 
   /* 描边 */
   --stroke-control: rgb(0 0 0 / 0.07);
@@ -223,6 +231,9 @@
   --shadow-32: 0 18px 48px rgb(0 0 0 / 0.2), 0 4px 12px rgb(0 0 0 / 0.1);
   --shadow-64: 0 36px 90px rgb(0 0 0 / 0.3), 0 10px 26px rgb(0 0 0 / 0.14);
   --shadow-window-inactive: 0 14px 36px rgb(0 0 0 / 0.16), 0 3px 8px rgb(0 0 0 / 0.08);
+  /* 玻璃上的选中底板的厚度：弱内沿 + 顶边高光 + 贴地投影 */
+  --plate-edge: inset 0 0 0 1px rgb(255 255 255 / 0.2), inset 0 1px 0 0 rgb(255 255 255 / 0.8);
+  --plate-bevel: var(--plate-edge), 0 1px 2px rgb(0 0 0 / 0.1), 0 0 1px rgb(0 0 0 / 0.1);
 }
 
 /* ==========================================================================
@@ -264,6 +275,8 @@
   --fill-track: rgb(255 255 255 / 0.2);
   --fill-tile: rgb(255 255 255 / 0.08);
   --fill-tile-hover: rgb(255 255 255 / 0.13);
+  --fill-plate-hover: rgb(255 255 255 / 0.06);
+  --fill-plate: rgb(255 255 255 / 0.1);
 
   --stroke-control: rgb(255 255 255 / 0.075);
   --stroke-control-edge: rgb(255 255 255 / 0.12); /* 暗色下改为顶边提亮 */
@@ -313,4 +326,6 @@
   --shadow-32: 0 18px 48px rgb(0 0 0 / 0.46), 0 4px 12px rgb(0 0 0 / 0.26);
   --shadow-64: 0 36px 90px rgb(0 0 0 / 0.6), 0 10px 26px rgb(0 0 0 / 0.32);
   --shadow-window-inactive: 0 14px 36px rgb(0 0 0 / 0.34), 0 3px 8px rgb(0 0 0 / 0.2);
+  --plate-edge: inset 0 0 0 1px rgb(255 255 255 / 0.06), inset 0 1px 0 0 rgb(255 255 255 / 0.2);
+  --plate-bevel: var(--plate-edge), 0 1px 2px rgb(0 0 0 / 0.26), 0 0 1px rgb(0 0 0 / 0.2);
 }

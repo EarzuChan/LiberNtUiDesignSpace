@@ -5,7 +5,8 @@
 /* ---------- 开始菜单 ---------- */
 .start { left: 50%; margin-left: -330px; width: 660px; height: min(724px, calc(100vh - var(--taskbar-h) - 24px)); display: flex; flex-direction: column; overflow: hidden; }
 .taskbar[data-align='left'] ~ .start { left: 12px; margin-left: 0; }
-.start-search { padding: 28px 32px 0; flex: none; }
+/* 胶囊搜索框与底盘同心：内缩 = 底盘圆角 − 搜索框半高 */
+.start-search { padding: calc(var(--radius-flyout) - var(--control-lg) / 2); padding-bottom: 0; flex: none; }
 .start-body { flex: 1; min-height: 0; padding: 22px 32px 12px; display: flex; flex-direction: column; animation: start-swap var(--dur-gentle) var(--ease-out); }
 @keyframes start-swap { from { opacity: 0; transform: translateX(var(--from, 16px)); } }
 .start-head { display: flex; align-items: center; justify-content: space-between; margin: 0 4px 10px 12px; flex: none; }
@@ -32,11 +33,11 @@
 .start-empty { flex: 1; display: grid; place-items: center; color: var(--text-3); }
 
 /* ---------- 控制中心 ---------- */
-.cc { right: 12px; width: 384px; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
-.cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.cc-card { background: var(--fill-tile); border-radius: var(--radius-8); box-shadow: inset 0 0 0 1px var(--stroke-control); }
-.cc-conn { padding: 6px; display: flex; flex-direction: column; }
-.cc-row { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 6px; border-radius: var(--radius-item); text-align: left; min-width: 0; }
+.cc { right: 12px; width: 384px; padding: var(--flyout-pad); display: flex; flex-direction: column; gap: var(--cc-gap); --cc-gap: var(--space-8); }
+.cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--cc-gap); }
+.cc-card { background: var(--fill-tile); border-radius: var(--radius-tile); box-shadow: inset 0 0 0 1px var(--stroke-control); }
+.cc-conn { padding: var(--tile-pad); display: flex; flex-direction: column; }
+.cc-row { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 6px; border-radius: var(--radius-tile-item); text-align: left; min-width: 0; }
 .cc-row:hover { background: var(--fill-subtle-hover); }
 .cc-text { min-width: 0; flex: 1; text-align: left; }
 .cc-text > div:first-child { font: 600 13px/18px var(--font-ui); }
@@ -44,9 +45,9 @@
 .cc-orb { width: 32px; height: 32px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--fill-tile-hover); color: var(--text-1); transition: background var(--dur-fast) linear, color var(--dur-fast) linear, transform var(--dur-spring) var(--ease-spring); }
 [aria-pressed='true'] > .cc-orb, .cc-orb[aria-pressed='true'] { background: var(--accent); color: var(--on-accent); }
 button:active > .cc-orb { transform: scale(0.88); transition-duration: var(--dur-instant); }
-.cc-side { display: grid; grid-template-rows: 1fr 1fr; gap: 12px; }
+.cc-side { display: grid; grid-template-rows: 1fr 1fr; gap: var(--cc-gap); }
 .cc-focus { display: flex; align-items: center; gap: 10px; padding: 0 12px; text-align: left; transition: background var(--dur-instant) linear; }
-.cc-minis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cc-minis { display: grid; grid-template-columns: 1fr 1fr; gap: var(--cc-gap); }
 .cc-mini { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font: 11px/14px var(--font-ui); color: var(--text-1); transition: background var(--dur-instant) linear; }
 .cc-card:is(button):hover { background: var(--fill-tile-hover); }
 .cc-slider { padding: 10px 12px 12px; }
@@ -55,10 +56,12 @@ button:active > .cc-orb { transform: scale(0.88); transition-duration: var(--dur
 .cc-media { display: flex; align-items: center; gap: 12px; padding: 12px; }
 .cc-media img { width: 52px; height: 52px; border-radius: var(--radius-4); object-fit: cover; box-shadow: var(--shadow-4); flex: none; }
 .cc-media-ctl { display: flex; gap: 2px; }
-.cc-foot { display: flex; align-items: center; justify-content: space-between; padding: 0 2px; }
+.cc-foot { display: flex; align-items: center; justify-content: space-between; }
+/* 直接坐在底盘上的按钮与磁贴同样内缩，圆角也与磁贴一致 */
+.cc-foot .btn, .cc-sub > .btn { border-radius: var(--radius-tile); }
 .cc-sub { animation: start-swap var(--dur-gentle) var(--ease-out); display: flex; flex-direction: column; gap: 4px; }
 .cc-sub-head { display: flex; align-items: center; gap: 8px; padding: 0 2px 6px; font: var(--type-body-strong); }
-.cc-net { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: var(--radius-item); text-align: left; }
+.cc-net { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: var(--radius-tile-item); text-align: left; }
 .cc-net:hover { background: var(--fill-subtle-hover); }
 .cc-net[aria-current='true'] { background: var(--fill-tile); }
 
@@ -67,11 +70,11 @@ button:active > .cc-orb { transform: scale(0.88); transition-duration: var(--dur
 .flyout-group > * { pointer-events: auto; }
 .flyout-panel { position: relative; border-radius: var(--radius-flyout); --mat-shadow: var(--shadow-32); animation: flyout-in 300ms var(--ease-out) backwards; transition: --bl 420ms linear; }
 .flyout-group[data-state='closing'] .flyout-panel { animation: flyout-out 150ms var(--ease-in) forwards; }
-.notif { padding: 12px; display: flex; flex-direction: column; gap: var(--group-gap); animation-delay: 40ms; }
+.notif { padding: var(--flyout-pad); display: flex; flex-direction: column; gap: var(--group-gap); animation-delay: 40ms; }
 /* 通知堆叠：外大内小 */
 .notif .notif-card { border-radius: var(--radius-group-inner); }
-.notif .notif-card:first-of-type { border-top-left-radius: var(--radius-8); border-top-right-radius: var(--radius-8); }
-.notif .notif-card:last-of-type { border-bottom-left-radius: var(--radius-8); border-bottom-right-radius: var(--radius-8); }
+.notif .notif-card:first-of-type { border-top-left-radius: var(--radius-tile); border-top-right-radius: var(--radius-tile); }
+.notif .notif-card:last-of-type { border-bottom-left-radius: var(--radius-tile); border-bottom-right-radius: var(--radius-tile); }
 .notif-head { margin-bottom: 6px; }
 .notif-head { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 2px 6px; font: var(--type-body-strong); }
 .notif-card { position: relative; padding: 10px 12px 12px; text-align: left; transition: opacity var(--dur-fast) linear, transform var(--dur-normal) var(--ease-out); }

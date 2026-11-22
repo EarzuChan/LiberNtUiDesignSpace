@@ -56,7 +56,7 @@
 
 /* ---------- 桌面小组件 ---------- */
 .widgets { position: absolute; top: 20px; right: 20px; z-index: var(--z-widgets); display: grid; grid-template-columns: 164px 164px; gap: 12px; }
-.widget { position: relative; height: 164px; border-radius: var(--radius-flyout); padding: 16px; --mat-shadow: var(--shadow-8); overflow: hidden; display: flex; flex-direction: column; }
+.widget { position: relative; height: 164px; border-radius: var(--radius-20); padding: 16px; --mat-shadow: var(--shadow-8); overflow: hidden; display: flex; flex-direction: column; }
 .widget-wide { grid-column: span 2; }
 .widget-label { font: var(--type-caption); color: var(--text-2); }
 
@@ -145,30 +145,62 @@
   transition: --bl 420ms linear, background-color var(--dur-gentle) linear, box-shadow var(--dur-gentle) linear;
 }
 .taskbar[data-align='left'] .dock { left: 12px; translate: none; }
-.dock-btn { position: relative; width: 48px; height: 48px; border-radius: var(--dock-btn-r); display: grid; place-items: center; flex: none; transition: background var(--dur-instant) linear; }
-.dock-btn:hover { background: var(--fill-subtle-hover); }
-.dock-btn[data-active='true'], .dock-btn[data-open='true'] { background: var(--fill-subtle-selected); }
+.dock-btn { position: relative; --cell: 48px; --stack: 4px; width: var(--cell); height: var(--cell); border-radius: var(--dock-btn-r); display: grid; place-items: center; flex: none; transition: background var(--dur-instant) linear, box-shadow var(--dur-fast) linear, width var(--dur-fast) var(--ease-out), margin var(--dur-fast) var(--ease-out), padding var(--dur-fast) var(--ease-out); }
+.dock-btn:hover { background: var(--fill-plate-hover); }
+/* 前台/已展开：一块有厚度的底板（--plate-bevel） */
+.dock-btn[data-active='true'], .dock-btn[data-open='true'], .tray-btn[data-open='true'] { background: var(--fill-plate); box-shadow: var(--plate-bevel); }
 .dock-btn > img, .dock-btn > svg { transition: transform var(--dur-spring) var(--ease-spring); }
 .dock-btn > img { width: 36px; height: 36px; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.2)); }
-.dock-btn:hover > img { transform: translateY(-2px) scale(1.07); }
-.dock-btn:hover > svg { transform: scale(1.08); }
 .dock-btn:active > img, .dock-btn:active > svg { transform: scale(0.84); transition: transform var(--dur-instant) var(--ease-out); }
-.dock-btn::after { content: ''; position: absolute; left: 50%; bottom: 2px; width: 5px; height: 3px; margin-left: -2.5px; border-radius: 2px; background: var(--text-3); opacity: 0; transition: width var(--dur-gentle) var(--ease-out), margin var(--dur-gentle) var(--ease-out), background var(--dur-fast) linear, opacity var(--dur-fast) linear; }
-.dock-btn[data-running='true']::after { opacity: 1; }
-.dock-btn[data-active='true']::after { width: 16px; margin-left: -8px; background: var(--accent); }
+/* 运行指示：一枚圆点，前台与后台相同；前台靠底板区分 */
+.dock-btn::after { content: ''; position: absolute; left: 50%; bottom: 2px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--text-2); opacity: 0; transform: scale(0); transition: opacity var(--dur-fast) linear, transform var(--dur-normal) var(--ease-out); }
+.dock-btn[data-running='true']::after { opacity: 1; transform: none; }
+/* 多窗口：当前项或悬停项后面再垫一张底板（悬停时淡一些），不论窗口多少只叠两层。背板用蒙版挖掉被前板盖住的部分，前板的亮度因此不变。
+   圆形底板：背板整体右移，月牙露在圆外。方形底板：前板让出右侧一条，层叠收在图标格内，图标位置不动 */
+.dock-btn::before { content: ''; position: absolute; top: 0; bottom: 0; left: var(--stack); width: 100%; border-radius: inherit; pointer-events: none; opacity: 0; background: var(--fill-plate-hover); box-shadow: var(--plate-edge); transition: opacity var(--dur-fast) linear;
+  mask: radial-gradient(circle at calc(50% - var(--stack)) 50%, transparent calc(var(--cell) / 2 - 0.5px), #000 calc(var(--cell) / 2)); }
+.dock-btn[data-multi='true']:hover::before { opacity: 0.6; }
+.dock-btn[data-multi='true'][data-active='true']::before { opacity: 1; }
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-multi='true']:is([data-active='true'], :hover) { width: calc(var(--cell) - var(--stack)); margin-right: var(--stack); padding-left: var(--stack); }
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-multi='true']:is([data-active='true'], :hover)::after { left: calc(50% + var(--stack) / 2); }
+/* 让出的那一条仍算在按钮身上，否则指针移到上面会丢失悬停而来回抖动 */
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-multi='true']:is([data-active='true'], :hover)::before { pointer-events: auto; }
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn::before { left: calc(100% - var(--dock-btn-r)); width: calc(var(--dock-btn-r) + var(--stack)); border-radius: 0 var(--dock-btn-r) var(--dock-btn-r) 0;
+  mask: linear-gradient(#000 0 0) right / var(--stack) 100% no-repeat,
+    radial-gradient(circle at 0 100%, transparent calc(var(--dock-btn-r) - 0.5px), #000 var(--dock-btn-r)) left top / var(--dock-btn-r) var(--dock-btn-r) no-repeat,
+    radial-gradient(circle at 0 0, transparent calc(var(--dock-btn-r) - 0.5px), #000 var(--dock-btn-r)) left bottom / var(--dock-btn-r) var(--dock-btn-r) no-repeat; }
 .dock-btn[data-new='true'] > img { animation: dock-hop 520ms var(--ease-out); }
 @keyframes dock-hop { 30% { transform: translateY(-12px); } 60% { transform: translateY(0); } 78% { transform: translateY(-4px); } }
 .dock-sep { width: 1px; height: 28px; margin: 0 6px; background: var(--stroke-divider); flex: none; }
 .dock-search { color: var(--text-1); }
 
 .tray { position: absolute; right: 12px; bottom: 14px; height: 48px; padding: 6px; border-radius: var(--tray-r); display: flex; align-items: center; gap: 2px; --mat-shadow: var(--shadow-16); transition: --bl 420ms linear, background-color var(--dur-gentle) linear, box-shadow var(--dur-gentle) linear; }
-.tray-btn { height: 36px; min-width: 32px; padding: 0 10px; border-radius: var(--tray-btn-r); display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-1); transition: background var(--dur-instant) linear; }
-.tray-btn:hover { background: var(--fill-subtle-hover); }
-.tray-btn[data-open='true'] { background: var(--fill-subtle-selected); }
+.tray-btn { height: 36px; min-width: 32px; padding: 0 10px; border-radius: var(--tray-btn-r); display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-1); transition: background var(--dur-instant) linear, box-shadow var(--dur-fast) linear; }
+.tray-btn:hover { background: var(--fill-plate-hover); }
 .tray-clock { flex-direction: column; align-items: flex-end; gap: 0; font: var(--type-caption); line-height: 15px; padding: 0 10px; }
 .tray-ime { font: 600 13px/1 var(--font-ui); width: 32px; padding: 0; }
 .tray-ime[data-lang='en'] { width: 40px; font-size: 12px; letter-spacing: 0.02em; }
 .tray-peek { display: none; }
+
+/* ---------- 任务栏窗口预览：单层面板，各窗口的标题与缩略图直接并排其上。
+   每个窗口占一整列（上下左右各带一份内边距），相邻两列重叠一份内边距，所以缩略图之间的间隙是共用的；
+   悬停的那一列整列提亮，提亮层连同间隙一起占满。
+   圆角从里往外推：缩略图 4（工具窗口的小圆角），面板 = 缩略图 + 内边距 ---------- */
+.peek { --peek-pad: var(--flyout-pad); --peek-r: calc(var(--radius-4) + var(--peek-pad)); position: absolute; z-index: var(--z-flyout); bottom: calc(var(--taskbar-h) + var(--flyout-gap, 4px)); border-radius: var(--peek-r); display: flex; --mat-shadow: var(--shadow-32); animation: peek-in var(--dur-normal) var(--ease-out); transition: --bl 420ms linear; }
+.peek[data-state='closing'] { animation: peek-out 140ms var(--ease-in) forwards; pointer-events: none; }
+@keyframes peek-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+@keyframes peek-out { to { opacity: 0; transform: translateY(6px); } }
+.peek-card { padding: var(--peek-pad); border-radius: var(--peek-r); display: flex; flex-direction: column; gap: var(--space-8); transition: background var(--dur-instant) linear; }
+.peek-card + .peek-card { margin-left: calc(var(--peek-pad) * -1); }
+.peek-card:hover { background: var(--fill-plate-hover); }
+.peek-head { display: flex; align-items: center; gap: var(--space-8); height: 24px; padding-left: var(--space-4); font: var(--type-caption); color: var(--text-2); }
+.peek-card[data-active='true'] .peek-head { color: var(--text-1); font-weight: 600; }
+.peek-head img { width: 16px; height: 16px; flex: none; }
+.peek-head span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.peek-x { width: 24px; height: 24px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--text-2); opacity: 0; transition: opacity var(--dur-fast) linear, background var(--dur-instant) linear; }
+.peek-card:hover .peek-x, .peek-x:focus-visible { opacity: 1; }
+.peek-x:hover { background: var(--danger-fill); color: #fff; }
+.peek-thumb { position: relative; overflow: hidden; border-radius: var(--radius-4); background: var(--surface-base); box-shadow: 0 0 0 1px var(--stroke-control), var(--shadow-4); pointer-events: none; }
 
 /* ---------- 经典任务栏：贴底通栏，Win11 式 ---------- */
 [data-taskbar='classic'] .desktop-foot { display: none; }
@@ -178,12 +210,10 @@
 .taskbar[data-style='classic'] .dock::after, .taskbar[data-style='classic'] .tray::after { display: none; }
 .taskbar[data-style='classic'] .dock { padding: 0 6px; gap: 4px; }
 .taskbar[data-style='classic'][data-align='left'] .dock { left: 0; }
-.taskbar[data-style='classic'] .dock-btn { width: 40px; height: 40px; }
+.taskbar[data-style='classic'] .dock-btn { --cell: 40px; }
 .taskbar[data-style='classic'] .dock-btn > img { width: 26px; height: 26px; }
 .taskbar[data-style='classic'] .dock-btn > svg { width: 24px; height: 24px; }
-.taskbar[data-style='classic'] .dock-btn:hover > img { transform: none; }
 .taskbar[data-style='classic'] .dock-btn:active > img, .taskbar[data-style='classic'] .dock-btn:active > svg { transform: scale(0.84); }
-.taskbar[data-style='classic'] .dock-btn::after { bottom: 1px; }
 .taskbar[data-style='classic'] .dock-sep { display: none; }
 .taskbar[data-style='classic'] .tray { right: 0; padding: 0 0 0 6px; gap: 2px; }
 .taskbar[data-style='classic'] .tray-btn { height: 40px; }

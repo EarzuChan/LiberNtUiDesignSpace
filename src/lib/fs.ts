@@ -61,29 +61,29 @@ add('home', '项目', 'folder', { id: 'projects', icon: place('folder-projects')
 add('desktop', '设计系统', 'link', { id: 'desktop/design-system', icon: '/icons/apps/personalize.svg', href: '/spec.html', size: 1 * KB, modified: NOW - 20 * 60_000 });
 add('desktop', 'LiberNT 设计规范.md', 'markdown', {
   size: 6 * KB, modified: NOW - 40 * 60_000,
-  content: `# LiberNT 设计规范（草稿）
+  content: `# LiberNT Design Spec (draft)
 
-> 以 Fluent 为骨架，以更克制、更通透的材质为气质。
+> Fluent as the skeleton, with a more restrained, more translucent material as its character.
 
-## 原则
-1. 内容优先 —— 外壳退后，让壁纸与内容成为主角。
-2. 材质有据 —— 透明度与着色随背景亮度自适应，前景色跟随系统亮/暗模式。
-3. 层次清晰 —— 用模糊、阴影与发丝线表达前后关系，而不是粗边框。
-4. 动效克制 —— 进入急起缓停，退出干脆；弹簧只用在可直接操纵的对象上。
-5. 颜色有源 —— 强调色从壁纸提取，实色表面带一点主色调。
+## Principles
+1. Content first: the shell steps back so the wallpaper and content lead.
+2. Grounded materials: opacity and tint adapt to backdrop luminance; foreground colors follow the system light/dark mode.
+3. Clear hierarchy: blur, shadow and hairlines express depth instead of heavy borders.
+4. Restrained motion: enter fast and settle gently, exit promptly; springs only on directly manipulated objects.
+5. Sourced color: the accent is extracted from the wallpaper and solid surfaces carry a hint of it.
 
-## 参数速查
-- 间距：4px 栅格（2 / 4 / 6 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64）
-- 圆角：按角色分两极——结构 4–8（控件 4 · 列表项 5 · 卡片/菜单/窗口 8）· 悬浮 20 · 小物件全圆
-- 字阶：12 / 14 / 16 / 20 / 28 / 40 / 68
-- 控件高度：24 / 32 / 40
+## Quick reference
+- Spacing: 4px grid (2 / 4 / 6 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64)
+- Radius: two extremes by role. Structural 4–12 (controls 4 · list items 5 · cards/menus 8 · windows 12) · floating 16–28 (widgets 20 · flyouts 28) · small controls fully round
+- Type ramp: 12 / 14 / 16 / 20 / 28 / 40 / 68
+- Control heights: 24 / 32 / 40
 
-完整内容见独立规范页（/spec.html）。
+See the standalone spec page (/spec.html) for everything.
 `,
   });
 add('desktop', '路线图.xlsx', 'excel', { size: 48 * KB, modified: NOW - 2 * D });
 add('desktop', '灵感', 'folder', { modified: NOW - 4 * D });
-add('desktop/灵感', '材质参考.md', 'markdown', { size: 2 * KB, content: '# 材质参考\n\n- 薄玻璃：桌面小组件\n- 常规玻璃：Dock、托盘\n- 厚玻璃：开始菜单、菜单、提示\n- 云母：窗口底板\n' });
+add('desktop/灵感', '材质参考.md', 'markdown', { size: 2 * KB, content: '# Material Notes\n\n- Thin glass: desktop widgets\n- Regular glass: dock, tray\n- Thick glass: Start menu, menus, tooltips\n- Mica: window base\n' });
 
 // ---------- 文档 ----------
 add('documents', '工作', 'folder', { modified: NOW - 6 * D });
@@ -92,11 +92,11 @@ add('documents', '2026 年度总结.docx', 'word', { size: 284 * KB, modified: N
 add('documents', '产品发布会.pptx', 'powerpoint', { size: 18.4 * MB, modified: NOW - 1 * D });
 add('documents', '预算表 Q4.xlsx', 'excel', { size: 96 * KB, modified: NOW - 3 * D });
 add('documents', '合同扫描件.pdf', 'pdf', { size: 2.3 * MB, modified: NOW - 9 * D });
-add('documents', '会议纪要.txt', 'text', { size: 3 * KB, modified: NOW - 26 * H, content: '11 月 20 日 周会\n\n1. 窗口外壳定稿：圆角 8，云母底板 + 实色内容面板。\n2. Dock 采用悬浮胶囊，最大化窗口时自动变为通栏。\n3. 控制中心滑块改为粗轨道样式。\n\n待办：\n- [ ] 补充暗色模式对比度检查\n- [ ] 整理图标尺寸规范\n' });
-add('documents', 'tokens.json', 'json', { size: 12 * KB, modified: NOW - 2 * D, content: '{\n  "radius": { "control": 4, "item": 5, "card": 8, "menu": 8, "window": 8, "flyout": 20, "pill": 999 },\n  "space": [0, 2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 48, 64],\n  "motion": { "fast": 140, "normal": 220, "gentle": 320, "slow": 480 }\n}\n' });
+add('documents', '会议纪要.txt', 'text', { size: 3 * KB, modified: NOW - 26 * H, content: 'Weekly sync, November 20\n\n1. Window chrome finalized: radius 12, mica base + solid content pane.\n2. The dock is a floating capsule and becomes a full-width bar when a window is maximized.\n3. Control center sliders switch to the fat-track style.\n\nTo do:\n- [ ] Add a dark-mode contrast check\n- [ ] Write up the icon size guidelines\n' });
+add('documents', 'tokens.json', 'json', { size: 12 * KB, modified: NOW - 2 * D, content: '{\n  "radius": { "control": 4, "item": 5, "card": 8, "menu": 8, "window": 12, "flyout": 28, "pill": 999 },\n  "space": [0, 2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 48, 64],\n  "motion": { "fast": 140, "normal": 220, "gentle": 320, "slow": 480 }\n}\n' });
 add('documents/工作', '周报模板.docx', 'word', { size: 42 * KB });
 add('documents/工作', '需求清单.xlsx', 'excel', { size: 77 * KB });
-add('documents/读书笔记', '设计中的设计.md', 'markdown', { size: 5 * KB, content: '# 《设计中的设计》\n\n把熟悉的东西当作陌生的东西重新审视。\n' });
+add('documents/读书笔记', '设计中的设计.md', 'markdown', { size: 5 * KB, content: '# Designing Design\n\nLook at familiar things as if they were unfamiliar.\n' });
 
 // ---------- 下载 ----------
 add('downloads', 'LiberNT-26.11-x64.iso', 'iso', { size: 5.2 * GB, modified: NOW - 1 * H });
@@ -130,12 +130,12 @@ add('pictures', '海报-终稿.psd', 'psd', { size: 212 * MB, modified: NOW - 13
 add('projects', 'libernt-shell', 'folder', { icon: place('folder-github'), modified: NOW - 30 * 60_000 });
 add('projects', 'design-tokens', 'folder', { modified: NOW - 2 * D });
 add('projects/libernt-shell', 'src', 'folder');
-add('projects/libernt-shell', 'README.md', 'markdown', { size: 3 * KB, content: '# libernt-shell\n\nLiberNT 桌面外壳。\n\n```\npnpm dev\n```\n' });
+add('projects/libernt-shell', 'README.md', 'markdown', { size: 3 * KB, content: '# libernt-shell\n\nThe LiberNT desktop shell.\n\n```\npnpm dev\n```\n' });
 add('projects/libernt-shell', 'package.json', 'json', { size: 1 * KB, content: '{\n  "name": "libernt-shell",\n  "version": "26.11.0"\n}\n' });
 add('projects/libernt-shell', 'vite.config.ts', 'typescript', { size: 1 * KB, content: "import { defineConfig } from 'vite';\n\nexport default defineConfig({});\n" });
 add('projects/libernt-shell/src', 'main.tsx', 'typescript', { size: 2 * KB, content: "import { createRoot } from 'react-dom/client';\n" });
 add('projects/libernt-shell/src', 'shell.css', 'css', { size: 14 * KB, content: '.dock { border-radius: var(--radius-pill); }\n' });
-add('projects/design-tokens', 'tokens.css', 'css', { size: 11 * KB, content: ':root {\n  --radius-window: 8px;\n}\n' });
+add('projects/design-tokens', 'tokens.css', 'css', { size: 11 * KB, content: ':root {\n  --radius-window: 12px;\n}\n' });
 add('projects/design-tokens', 'build.py', 'python', { size: 2 * KB, content: 'print("build tokens")\n' });
 add('projects/design-tokens', 'export.sh', 'shell', { size: 1 * KB, content: '#!/bin/sh\necho export\n' });
 

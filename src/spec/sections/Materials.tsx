@@ -191,7 +191,7 @@ export function MotionSection() {
               ['最大化 / 贴靠', '位置与尺寸同时插值（FLIP）', '300ms ease-out'],
               ['系统浮层', '自下而上位移 32px 并淡入；退出位移 24px', '300ms ease-out / 150ms ease-in'],
               ['菜单', '从触发点缩放 0.94 → 1', '220ms ease-out'],
-              ['Dock 图标', '悬停上浮 2px 放大 1.07；按下缩至 0.84；启动时弹跳', '520ms spring'],
+              ['Dock 图标', '悬停只换底色，图标不动；按下缩至 0.84；启动时弹跳', '520ms spring'],
               ['自适应着色', '--bl 数值过渡，避免拖动窗口时着色跳变', '420ms linear'],
             ].map(r => <tr key={r[0]}><td className="t-body-strong">{r[0]}</td><td className="t-caption c-2">{r[1]}</td><td className="spec-code">{r[2]}</td></tr>)}
           </tbody>
