@@ -8,15 +8,15 @@ export type MenuItem =
   | { header: string }
   | { label: string; icon?: ReactNode; hint?: string; checked?: boolean; disabled?: boolean; danger?: boolean; onClick?: () => void; children?: MenuItem[] };
 
-interface MenuRequest { x: number; y: number; items: MenuItem[]; /** 以锚点矩形定位（下拉菜单） */ anchor?: DOMRect; minWidth?: number; placement?: 'below' | 'above' }
+interface MenuRequest { x: number; y: number; items: MenuItem[]; /** 以锚点矩形定位（下拉菜单） */ anchor?: DOMRect; minWidth?: number; placement?: 'below' | 'above'; /** 菜单使用的主题；默认跟随页面 */ theme?: string }
 const useMenu = create<{ req: MenuRequest | null }>(() => ({ req: null }));
 
 export const openMenu = (req: MenuRequest) => useMenu.setState({ req });
 export const closeMenu = () => useMenu.setState({ req: null });
-/** 在元素下方弹出下拉菜单 */
+/** 在元素下方弹出下拉菜单。锚点位于 data-overlay-theme 区域内时（如始终暗色的锁屏），菜单使用该主题 */
 export const openMenuAt = (el: Element, items: MenuItem[], opt: Partial<MenuRequest> = {}) => {
   const r = el.getBoundingClientRect();
-  openMenu({ x: r.left, y: r.bottom + 4, anchor: r, items, ...opt });
+  openMenu({ x: r.left, y: r.bottom + 4, anchor: r, items, theme: el.closest('[data-overlay-theme]')?.getAttribute('data-overlay-theme') ?? undefined, ...opt });
 };
 
 function MenuPanel({ items, x, y, anchor, minWidth, placement, parentRect, layer = 'shell' }: MenuRequest & { parentRect?: DOMRect; layer?: 'shell' }) {
@@ -105,7 +105,7 @@ export function MenuHost() {
   }, [req]);
   if (!req) return null;
   return (
-    <div className="menu-layer" onPointerDown={closeMenu} onContextMenu={e => { e.preventDefault(); closeMenu(); }}>
+    <div className="menu-layer" data-theme={req.theme} onPointerDown={closeMenu} onContextMenu={e => { e.preventDefault(); closeMenu(); }}>
       <MenuPanel key={`${req.x},${req.y}`} {...req} />
     </div>
   );

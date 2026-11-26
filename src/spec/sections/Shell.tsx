@@ -13,10 +13,13 @@ const BEHAVIOR = [
   ['贴靠', '拖到左/右边缘贴靠半屏，靠近上下四分之一处贴靠四分之一屏，拖到顶边最大化。松手前显示玻璃预览。从贴靠状态拖出时恢复原尺寸。'],
   ['最大化', '双击标题区或点击最大化按钮。窗口圆角归零，悬浮的 Dock 与托盘收拢为通栏底板。'],
   ['最小化', '窗口缩入 Dock 上对应的图标；再次点击图标还原。点击已聚焦应用的图标则最小化。'],
+  ['悬停与选中', '圆角矩形 Dock 与经典任务栏不绘制图标外框；悬停改为一团微弱的圆形光，前台状态只由底部宽舌片表达。胶囊 Dock 仍使用提亮底板。'],
+  ['运行指示', '胶囊 Dock 中为 5px 圆点；圆角矩形 Dock 与经典任务栏中为高 3px 的上圆角舌片。运行中宽 8px；前台使用强调色，宽度与图标相同（圆角矩形 Dock 36px，经典任务栏 26px）；舌片底边与容器底边齐平，在圆角矩形 Dock 中压住下沿高光。'],
   ['任务栏预览', '悬停在运行中的应用上片刻，图标上方浮出一块单层面板，各窗口的标题与缩略图（悬停那一刻的静态快照，最小化的窗口也有）直接并排其上。缩略图之间的间隙是共用的：悬停哪个窗口，哪一列就整列提亮并占满间隙。点击切到该窗口，右上角可直接关闭；预览打开后在图标间移动即时切换。'],
-  ['多窗口', '应用有两个及以上窗口时，它在前台或被悬停时底板后面再垫一张（悬停时淡一些），不论窗口多少只叠两层。圆形底板的月牙露在圆外；方形底板的层叠收在图标格内，图标位置不动。'],
+  ['多窗口', '应用有两个及以上窗口时，胶囊 Dock 中它在前台或被悬停时底板后面再垫一张（悬停时淡一些），不论窗口多少只叠两层，月牙露在圆外；圆角矩形 Dock 与经典任务栏不使用层叠底板。'],
   ['调整大小', '八个方向的隐形手柄，向外溢出 5px。每个应用声明最小尺寸。'],
   ['失焦', '阴影由 64 降为较浅的一级，标题与控制按钮降为三级文字色；材质保持不变。'],
+  ['窗口边缘', '整圈内沿高光属于窗口外壳而不是材质，绘制在内容层之上；最大化时随窗口圆角一起归零。'],
 ];
 
 export function ShellSection() {
@@ -25,12 +28,12 @@ export function ShellSection() {
   const url = resolveWallpaper(useSys(s => s.wallpaper), theme).url;
   const bl = theme === 'dark' ? 0.35 : 0.6;
   return (
-    <Section id="shell" title="窗口与外壳" lead="窗口由云母玻璃底板与实色内容面板两层构成：侧栏与标题区透出模糊后的桌面，内容区保持稳定的实色以保证阅读。任务栏默认是悬浮的玻璃胶囊 Dock（可改为圆角矩形），也可在设置中切换为贴底通栏的经典任务栏，两者都支持居中或靠左。">
+    <Section id="shell" title="窗口与外壳" lead="窗口由独立的边缘高光、云母玻璃底板与实色内容面板构成：边缘高光始终位于内容之上，侧栏与标题区透出模糊后的桌面，内容区保持稳定的实色以保证阅读。任务栏默认是悬浮的玻璃胶囊 Dock（可改为圆角矩形），也可在设置中切换为贴底通栏的经典任务栏，两者都支持居中或靠左。">
       <h3>解剖</h3>
       <div className="anatomy">
         <img src={url} alt="" />
         <div style={{ position: 'relative' }}>
-          <Glass thickness="mica" fixedLuma={bl} className="anatomy-win" noise>
+          <Glass thickness="mica" edge={false} fixedLuma={bl} className="anatomy-win" noise>
             <aside className="app-sidebar" style={{ width: 190 }}>
               <div className="set-side-head"><img src={APPS.files.icon} width={20} height={20} alt="" />文件</div>
               <div className="col" style={{ gap: 2, padding: '0 8px' }}>
@@ -49,19 +52,20 @@ export function ShellSection() {
                 {['word', 'pdf', 'excel'].map(n => <div key={n} className="fitem fitem-grid" aria-selected={n === 'pdf'}><img src={`/icons/mimetypes/${n}.svg`} alt="" /><span>{n === 'pdf' ? '合同.pdf' : n === 'word' ? '总结.docx' : '预算.xlsx'}</span></div>)}
               </div>
             </section>
+            <i className="win-edge" aria-hidden />
           </Glass>
           <span className="callout" style={{ left: -34, top: -12 }}>圆角 12</span>
           <span className="callout" style={{ left: -70, top: 262 }}>侧栏 · 云母玻璃 · 宽 248</span>
           <span className="callout" style={{ left: 250, top: -12 }}>标题区 52 · 可拖拽</span>
           <span className="callout" style={{ right: -58, top: 40 }}>控制按钮 40×32 · 沿中线对齐</span>
           <span className="callout" style={{ right: -40, top: 240 }}>内容面板 · --surface-pane</span>
-          <span className="callout" style={{ left: 220, bottom: -12 }}>阴影 64 · 发丝线 + 内沿高光</span>
+          <span className="callout" style={{ left: 220, bottom: -12 }}>阴影 64 · 窗口边缘高光</span>
         </div>
         <div style={{ position: 'relative' }}>
           <Glass thickness="regular" fixedLuma={bl} className="anatomy-dock" noise>
             <span className="dock-btn" data-open><Logo size={30} /></span>
             <span className="dock-btn dock-search"><Search24Regular /></span>
-            <span className="dock-sep" />
+            <span className="dock-gap" />
             {DOCK.map(([id, running, active]) => <span key={id} className="dock-btn" data-running={running} data-active={active} data-multi={active}><img src={APPS[id].icon} alt="" /></span>)}
           </Glass>
           <span className="callout" style={{ left: -96, top: 44 }}>高 60 · 胶囊</span>

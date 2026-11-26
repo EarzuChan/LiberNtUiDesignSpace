@@ -219,10 +219,12 @@ export function WindowView({ win, children }: { win: Win; children: ReactNode })
           thickness="mica"
           layer="window"
           z={() => st.current.z}
+          edge={false}
           className="win-frame"
           onAnimationEnd={e => { if (e.animationName === 'win-out') wm().remove(win.id); }}
         >
           {children}
+          <i className="win-edge" aria-hidden />
         </Glass>
         {!maximized && HANDLES.map(h => <div key={h} className={`win-rs win-rs-${h}`} onPointerDown={e => startResize(e, h)} />)}
       </div>

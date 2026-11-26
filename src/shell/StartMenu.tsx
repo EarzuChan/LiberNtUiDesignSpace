@@ -3,10 +3,11 @@ import { APPS, START_PINNED, type AppDef } from '@/lib/apps';
 import { formatTime, iconOf, pathOf, useFs, type FsNode } from '@/lib/fs';
 import { openNode } from '@/lib/open';
 import { cmpText, matchText } from '@/i18n';
+import { useSession } from '@/lib/session';
 import { useSys } from '@/lib/system';
 import { useWm } from '@/lib/wm';
 import { Avatar, Button, Glass, TextField, openMenuAt } from '@/ui';
-import { ArrowClockwise16Regular, ChevronLeft16Regular, ChevronRight16Regular, LockClosed16Regular, Power20Regular, Search20Regular, WeatherMoon16Regular } from '@/ui/icons';
+import { ArrowClockwise16Regular, ArrowExit16Regular, ArrowSync16Regular, ChevronLeft16Regular, ChevronRight16Regular, LockClosed16Regular, Power20Regular, Search20Regular, WeatherMoon16Regular } from '@/ui/icons';
 import { SETTINGS_PAGES } from '@/apps/settings/pages';
 import { useFlyout } from './hooks';
 
@@ -25,7 +26,7 @@ export function StartMenu() {
   const close = () => useSys.getState().setFlyout(null);
   const launch = (a: AppDef) => { close(); useWm.getState().launch(a.id); };
   const openFile = (n: FsNode) => { close(); openNode(n); };
-  const lock = () => useSys.getState().set({ locked: true, flyout: null });
+  const session = useSession.getState();
 
   const q = query.trim().toLowerCase();
   const results = useMemo(() => {
@@ -122,11 +123,13 @@ export function StartMenu() {
           tip="电源"
           icon={<Power20Regular />}
           onClick={e => openMenuAt(e.currentTarget, [
-            { label: '锁定', icon: <LockClosed16Regular />, onClick: lock },
-            { label: '睡眠', icon: <WeatherMoon16Regular />, onClick: lock },
+            { label: '锁定', icon: <LockClosed16Regular />, onClick: () => session.go('lock') },
+            { label: '睡眠', icon: <WeatherMoon16Regular />, onClick: () => session.go('sleep') },
+            { label: '注销', icon: <ArrowExit16Regular />, onClick: () => session.end('signout') },
             { separator: true },
-            { label: '重启', icon: <ArrowClockwise16Regular />, onClick: () => location.reload() },
-            { label: '关机', icon: <Power20Regular style={{ width: 16, height: 16 }} />, onClick: lock },
+            { label: '更新并重启', icon: <ArrowSync16Regular />, onClick: () => session.end('update') },
+            { label: '重启', icon: <ArrowClockwise16Regular />, onClick: () => session.end('restart') },
+            { label: '关机', icon: <Power20Regular style={{ width: 16, height: 16 }} />, onClick: () => session.end('shutdown') },
           ], { placement: 'above' })}
         />
       </div>

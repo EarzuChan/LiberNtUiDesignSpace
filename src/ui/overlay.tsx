@@ -4,9 +4,9 @@ import { Glass } from './Glass';
 import { Button, cx } from './controls';
 import { CheckmarkCircle20Filled, ChevronDown16Regular, ChevronRight16Regular, ErrorCircle20Filled, Info20Filled, Warning20Filled } from './icons';
 
-/** 全局提示宿主：任何带 data-tip 的元素悬停后显示提示；data-tip-side 可取 top/bottom */
+/** 全局提示宿主：任何带 data-tip 的元素悬停后显示提示；data-tip-side 可取 top/bottom。元素位于 data-overlay-theme 区域内时提示使用该主题 */
 export function TooltipHost() {
-  const [tip, setTip] = useState<{ text: string; rect: DOMRect; side: string } | null>(null);
+  const [tip, setTip] = useState<{ text: string; rect: DOMRect; side: string; theme?: string } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState<{ left: number; top: number } | null>(null);
   useEffect(() => {
@@ -21,7 +21,7 @@ export function TooltipHost() {
       current = el;
       timer = window.setTimeout(() => {
         const text = el.getAttribute('data-tip');
-        if (text && el.isConnected) setTip({ text, rect: el.getBoundingClientRect(), side: el.getAttribute('data-tip-side') ?? 'top' });
+        if (text && el.isConnected) setTip({ text, rect: el.getBoundingClientRect(), side: el.getAttribute('data-tip-side') ?? 'top', theme: el.closest('[data-overlay-theme]')?.getAttribute('data-overlay-theme') ?? undefined });
       }, 450);
     };
     document.addEventListener('pointerover', over);
@@ -41,7 +41,7 @@ export function TooltipHost() {
   }, [tip]);
   if (!tip) return null;
   return createPortal(
-    <Glass ref={ref} thickness="thick" className="tooltip" style={{ left: pos?.left ?? 0, top: pos?.top ?? 0, visibility: pos ? 'visible' : 'hidden', ['--ty' as string]: tip.side === 'bottom' ? '-4px' : '4px' }}>
+    <Glass ref={ref} thickness="thick" className="tooltip" data-theme={tip.theme} style={{ left: pos?.left ?? 0, top: pos?.top ?? 0, visibility: pos ? 'visible' : 'hidden', ['--ty' as string]: tip.side === 'bottom' ? '-4px' : '4px' }}>
       {tip.text}
     </Glass>,
     document.body.querySelector('[data-theme-root]') ?? document.body,

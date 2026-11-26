@@ -24,6 +24,7 @@ panel-left sidebar? document-pdf document-text folder-zip? arrow-enter text-sort
 arrow-sort-down arrow-sort-up checkmark-starburst? cloud-arrow-down? design-ideas shapes
 oval dock image-add paint-bucket color-background layer cursor-click zoom-fit arrow-rotate-clockwise align-left drop cursor router fingerprint password mail cloud-sync top-speed plug-connected wifi-settings bluetooth-connected
 shield-lock? camera notebook? window-apps? arrow-reset bug? beaker? flag? subtract-circle add-circle dismiss-circle
+wrench window-console arrow-counterclockwise developer-board stethoscope
 `.split(/\s+/).filter(Boolean);
 const dir = 'node_modules/@fluentui/react-icons/lib/atoms/headless-svg';
 let out = '// 由 scripts/gen-icons.mjs 生成。Fluent System Icons（MIT），按组导出，打包时按需摇树。\n';

@@ -48,9 +48,8 @@ export interface SysState {
   deviceName: string;
   /** 是否已做过首次访问引导（自动打开个性化页） */
   welcomed: boolean;
-  /* ---- 以下为运行时状态（flyout、locked、wallpaperRev 不持久化） ---- */
+  /* ---- 以下为运行时状态（flyout、wallpaperRev 不持久化） ---- */
   flyout: Flyout;
-  locked: boolean;
   /** 当前壁纸文件及从中提取的候选强调色 */
   wallpaperFile: string;
   wallpaperPalette: AccentColor[];
@@ -63,7 +62,7 @@ export interface SysState {
   set: (p: Partial<SysState>) => void;
 }
 
-const RUNTIME = ['flyout', 'locked', 'wallpaperRev', 'setFlyout', 'toggleFlyout', 'set', 'setLanguage'] as const;
+const RUNTIME = ['flyout', 'wallpaperRev', 'setFlyout', 'toggleFlyout', 'set', 'setLanguage'] as const;
 
 export const useSys = create<SysState>()(
   persist(
@@ -102,7 +101,6 @@ export const useSys = create<SysState>()(
       deviceName: 'LIBER-STUDIO',
       welcomed: false,
       flyout: null,
-      locked: false,
       wallpaperFile: '',
       wallpaperPalette: [],
       wallpaperDim: 0,

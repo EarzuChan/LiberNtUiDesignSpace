@@ -39,8 +39,9 @@ function Session({ active, onTitle }: { active: boolean; onTitle: (title: string
     const find = (name: string) => kids.find(n => n.name === name || tr(n.name) === name) ?? kids.find(n => [n.name, tr(n.name)].some(x => x.toLowerCase().startsWith(name.toLowerCase())));
     switch (cmd) {
       case '': break;
-      case 'help': out.push('  ls            列出当前目录', '  cd <目录>     切换目录（.. 返回上级，~ 回到主目录）', '  cat <文件>    显示文本文件内容', '  open <名称>   打开文件、文件夹或应用', '  theme <light|dark>  切换主题', '  neofetch      系统信息', '  pwd  date  whoami  echo  clear'); break;
+      case 'help': out.push('  ls            列出当前目录', '  cd <目录>     切换目录（.. 返回上级，~ 回到主目录）', '  cat <文件>    显示文本文件内容', '  open <名称>   打开文件、文件夹或应用', '  theme <light|dark>  切换主题', '  neofetch      系统信息', '  bugcheck      触发蓝屏（演示）', '  pwd  date  whoami  echo  clear'); break;
       case 'clear': setLines([]); return;
+      case 'bugcheck': location.href = '/bugcheck.html?flow'; return;
       case 'pwd': out.push(pathOf(cwd, nodes).slice(1).map(n => tr(n.name).replace(/^.*\((\w:)\)$/, '$1')).join('\\')); break;
       case 'whoami': out.push(`${sys.deviceName.toLowerCase()}\\${sys.userName.toLowerCase()}`); break;
       case 'date': out.push(new Date().toLocaleString(locale())); break;

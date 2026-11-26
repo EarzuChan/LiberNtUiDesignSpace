@@ -7,6 +7,7 @@ import { Desktop } from '@/shell/Desktop';
 import { applySystemToDocument, useSys } from '@/lib/system';
 import { useWm } from '@/lib/wm';
 import { useFs } from '@/lib/fs';
+import { useSession } from '@/lib/session';
 import { startWallpaperSync } from '@/lib/wallpaperSync';
 
 applySystemToDocument();
@@ -18,6 +19,6 @@ if (!useSys.getState().welcomed || new URLSearchParams(location.search).has('wel
   useSys.getState().set({ welcomed: true });
 }
 // 调试/自动化入口
-(window as unknown as { __lnt: unknown }).__lnt = { sys: useSys, wm: useWm, fs: useFs };
+(window as unknown as { __lnt: unknown }).__lnt = { sys: useSys, wm: useWm, fs: useFs, session: useSession };
 
 createRoot(document.getElementById('root')!).render(<Desktop />);

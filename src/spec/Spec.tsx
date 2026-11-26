@@ -10,11 +10,12 @@ import { MaterialSection, MotionSection } from './sections/Materials';
 import { IconSection } from './sections/Icons';
 import { ControlSection } from './sections/Controls';
 import { ShellSection } from './sections/Shell';
+import { ScenesSection } from './sections/Scenes';
 
 const NAV: [string, [string, string][]][] = [
   ['基础', [['overview', '概述'], ['color', '颜色'], ['type', '字体'], ['spacing', '间距与尺寸'], ['radius', '圆角'], ['elevation', '阴影与层级']]],
   ['质感', [['material', '材质'], ['motion', '动效'], ['icons', '图标']]],
-  ['组件', [['controls', '控件'], ['shell', '窗口与外壳']]],
+  ['组件', [['controls', '控件'], ['shell', '窗口与外壳'], ['scenes', '系统场景']]],
 ];
 
 export function Spec() {
@@ -72,6 +73,7 @@ export function Spec() {
           <IconSection />
           <ControlSection />
           <ShellSection />
+          <ScenesSection />
         </div>
       </main>
       <MenuHost />

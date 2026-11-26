@@ -33,8 +33,16 @@ const PUNCT: Record<string, string> = { '。': '.', '，': ', ', '、': ', ', '�
 
 const plural = (n: string, one: string, many: string) => `${n} ${Number(n) === 1 ? one : many}`;
 
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /** 拼接字符串的翻译规则：按顺序匹配，捕获组里的中文递归翻译 */
 const RULES: [RegExp, (m: RegExpMatchArray) => string][] = [
+  [/^(\d+) 秒后自动启动 (.+)$/, m => `Starting ${m[2]} automatically in ${plural(m[1], 'second', 'seconds')}`],
+  [/^内部版本 ([\d.]+)$/, m => `Build ${m[1]}`],
+  [/^LiberNT 恢复环境 \[版本 (.+)\]$/, m => `LiberNT Recovery Environment [Version ${m[1]}]`],
+  [/^分区 (\d+)$/, m => `Partition ${m[1]}`],
+  [/^(\d+) 月 (\d+) 日 (\d+:\d+)$/, m => `${MONTHS[+m[1] - 1]} ${m[2]}, ${m[3]}`],
+  [/^(\d+) 月 (\d+) 日安装$/, m => `Installed ${MONTHS[+m[1] - 1]} ${m[2]}`],
   [/^在 (.+) 中搜索$/, m => `Search ${tr(m[1])}`],
   [/^没有与“(.*)”匹配的项目$/, m => `No items match “${m[1]}”`],
   [/^已选择 (\d+) 个项目$/, m => `${plural(m[1], 'item', 'items')} selected`],

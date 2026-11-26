@@ -51,12 +51,50 @@ await run('files menu', () => {});
 await page.keyboard.press('Escape');
 for (const [app, payload] of [['notepad', "{ id: 'desktop/LiberNT 设计规范.md' }"], ['photos', "{ id: 'pictures/优胜美地.webp' }"], ['calculator', 'undefined'], ['terminal', 'undefined'], ['store', 'undefined']])
   await run('app:' + app, new Function(`(() => { const w = window.__lnt.wm.getState(); w.wins.forEach(x => w.close(x.id)); w.open('${app}', ${payload}); })()`));
-await run('lock', () => window.__lnt.sys.getState().set({ locked: true }));
-await page.evaluate(() => window.__lnt.sys.getState().set({ locked: false }));
+// 嵌入桌面的锁屏与登录
+await run('lock', () => window.__lnt.session.getState().go('lock'));
+await run('login', () => window.__lnt.session.getState().go('login'));
+await page.evaluate(() => window.__lnt.session.getState().go('desktop'));
 
 await page.goto(base + '/spec.html', { waitUntil: 'networkidle0' });
 await sleep(800);
 await scan('spec');
+
+// T2 场景页：各阶段，以及登录的几种状态
+for (const p of ['lock', 'login', 'welcome', 'blocked', 'blocked&pending=signout', 'blocked&pending=restart', 'signout', 'restart', 'shutdown', 'update', 'off']) {
+  await page.goto(`${base}/loginui.html?phase=${p}`, { waitUntil: 'networkidle0' });
+  await sleep(p === 'off' ? 2800 : 900);
+  await scan('loginui:' + p);
+}
+await page.goto(base + '/loginui.html?phase=login', { waitUntil: 'networkidle0' });
+await sleep(600);
+await page.keyboard.type('0000');
+await sleep(300);
+await scan('loginui:error');
+for (const sel of ['.lu-opt:nth-child(2)', '.lu-opt:nth-child(3)', '.lu-user:nth-child(3)']) { await page.click(sel); await sleep(300); await scan('loginui:' + sel); }
+for (const n of [2, 3, 4]) { await page.click(`.lu-btn:nth-child(${n})`); await sleep(400); await scan('loginui:menu ' + n); await page.keyboard.press('Escape'); await sleep(200); }
+
+// T0 场景页（语言取自上面写入的系统设置）
+const press = async keys => { for (const k of keys) { await page.keyboard.press(k); await sleep(120); } };
+for (const p of ['boot.html?mode=update', 'boot.html?mode=check', 'boot.html?mode=repair', 'bootmenu.html', 'bootmenu.html?view=advanced', 'bugcheck.html']) {
+  await page.goto(`${base}/${p}`, { waitUntil: 'networkidle0' });
+  await sleep(1800);
+  await scan(p);
+}
+// 恢复环境：首页 → 各工具的选项页 → 执行中 → 结果；最后是命令行
+for (const [tool, keys] of [['repair', ['ArrowDown']], ['restore', ['ArrowDown', 'ArrowRight']], ['uninstall', ['ArrowDown', 'ArrowDown']], ['reset', ['ArrowDown', 'ArrowDown', 'ArrowRight']]]) {
+  await page.goto(base + '/recovery.html', { waitUntil: 'networkidle0' });
+  await sleep(500);
+  await scan('recovery');
+  await press([...keys, 'Enter']);
+  await scan('recovery:' + tool);
+  if (tool !== 'repair') await press(['Enter']);
+  for (let i = 0; i < 4; i++) { await scan(`recovery:${tool} work`); await sleep(1500); }
+  await scan(`recovery:${tool} done`);
+}
+await page.goto(base + '/recovery.html', { waitUntil: 'networkidle0' });
+await press(['ArrowDown', 'ArrowDown', 'ArrowDown', 'ArrowRight', 'Enter', 'h', 'e', 'l', 'p', 'Enter', 'x', 'Enter']);
+await scan('recovery:console');
 
 if (found.size) { console.log(`${found.size} untranslated string(s):`); for (const [s, w] of found) console.log(`  [${w}] ${s}`); }
 else console.log('OK: no untranslated Chinese found in the English UI');

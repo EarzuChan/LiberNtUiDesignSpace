@@ -12,6 +12,7 @@ export default defineConfig({
       input: {
         desktop: resolve(import.meta.dirname, 'index.html'),
         spec: resolve(import.meta.dirname, 'spec.html'),
+        ...Object.fromEntries(['loginui', 'boot', 'bootmenu', 'bugcheck', 'recovery'].map(p => [p, resolve(import.meta.dirname, `${p}.html`)])),
       },
     },
   },

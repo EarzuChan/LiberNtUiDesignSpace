@@ -8,6 +8,7 @@
 | 应用 / 位置 / 设备 / 文件类型图标 | `public/icons/` | [vinceliuice/Fluent-icon-theme](https://github.com/vinceliuice/Fluent-icon-theme)（其中包含第三方品牌标志，商标归各自所有者） | GPL-3.0 |
 | 3D 表情（头像、天气） | `public/emoji/` | [microsoft/fluentui-emoji](https://github.com/microsoft/fluentui-emoji) | MIT |
 | 壁纸：光瀑、流光、雪峰、云阶 | `public/wallpapers/{waterfall,next,peak,nuvole}-*` | [KDE/plasma-workspace-wallpapers](https://github.com/KDE/plasma-workspace-wallpapers)、[KDE/breeze](https://github.com/KDE/breeze)（Waterfall、Next、Mountain、Nuvole） | CC BY-SA 4.0 |
+| T0 场景背景 | `public/lite/backdrop.webp` | 由「光瀑」壁纸（Krystian Zajdel · KDE）经 `scripts/gen-lite.mjs` 模糊、重新着色生成 | CC BY-SA 4.0 |
 | 壁纸：海蚀拱及其余摄影壁纸 | `public/wallpapers/` 其余文件 | [elementary/wallpapers](https://github.com/elementary/wallpapers) | 各图许可见该仓库 `debian/copyright` |
 
 壁纸已缩放为 3840×2160 并转为 WebP；图标文件仅重命名，未改动内容。

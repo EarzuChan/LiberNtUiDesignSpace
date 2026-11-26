@@ -119,6 +119,7 @@
   --z-snap: 1500;
   --z-taskbar: 2000;
   --z-flyout: 2100;
+  --z-lock: 2500; /* 锁屏与登录：盖住整个会话，但在菜单、提示和亮度覆盖层之下 */
   --z-menu: 3000;
   --z-tooltip: 4000;
   --z-overlay: 5000;
@@ -129,6 +130,15 @@
   --blur-regular: 40px;
   --blur-thick: 60px;
   --blur-mica: 90px;
+
+  /* ---------- 壁纸上的内容（锁屏、登录）：始终按暗色处理，靠压暗与投影保证可读 ---------- */
+  --wp-veil: rgb(0 0 0 / 0.06); /* 锁屏：壁纸上极轻的一层压暗 */
+  --wp-veil-strong: rgb(0 0 0 / 0.3); /* 登录、关机：叠在模糊后的壁纸上 */
+  --wp-veil-solid: rgb(0 0 0 / 0.62); /* 关闭透明效果时代替模糊 */
+  --wp-scrim: rgb(0 0 0 / 0.5); /* 时钟背后的顶部渐变，强度随壁纸亮度变化 */
+  --wp-text-shadow: 0 1px 2px rgb(0 0 0 / 0.26), 0 2px 24px rgb(0 0 0 / 0.24);
+  --wp-icon-shadow: drop-shadow(0 1px 4px rgb(0 0 0 / 0.4));
+  --screen-off: #000; /* 熄屏 */
 }
 
 /* ==========================================================================
@@ -219,7 +229,6 @@
   --glass-sat: 1.7;
   --glass-edge: rgb(255 255 255 / 0.5); /* 内沿高光 */
   --glass-edge-top: rgb(255 255 255 / 0.85);
-  --glass-outline: rgb(0 0 0 / 0.12); /* 外沿发丝线 */
   --mica-a0: 0.9;
   --mica-a1: 0.74;
 
@@ -315,7 +324,6 @@
   --glass-sat: 1.5;
   --glass-edge: rgb(255 255 255 / 0.1);
   --glass-edge-top: rgb(255 255 255 / 0.2);
-  --glass-outline: rgb(0 0 0 / 0.5);
   --mica-a0: 0.72;
   --mica-a1: 0.86;
 

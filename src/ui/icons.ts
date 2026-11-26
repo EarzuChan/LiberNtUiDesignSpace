@@ -221,3 +221,8 @@ export * from '@fluentui/react-icons/headless/svg/flag';
 export * from '@fluentui/react-icons/headless/svg/subtract-circle';
 export * from '@fluentui/react-icons/headless/svg/add-circle';
 export * from '@fluentui/react-icons/headless/svg/dismiss-circle';
+export * from '@fluentui/react-icons/headless/svg/wrench';
+export * from '@fluentui/react-icons/headless/svg/window-console';
+export * from '@fluentui/react-icons/headless/svg/arrow-counterclockwise';
+export * from '@fluentui/react-icons/headless/svg/developer-board';
+export * from '@fluentui/react-icons/headless/svg/stethoscope';

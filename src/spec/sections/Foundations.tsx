@@ -129,7 +129,7 @@ export function ColorSection() {
         <h4>控件填充</h4>
         <Tokens names={['--fill-control', '--fill-control-hover', '--fill-control-pressed', '--fill-control-alt', '--fill-control-strong', '--fill-subtle-hover', '--fill-subtle-selected', '--fill-input', '--fill-track', '--fill-tile']} />
         <h4>描边</h4>
-        <Tokens names={['--stroke-control', '--stroke-control-edge', '--stroke-input-bottom', '--stroke-divider', '--stroke-card', '--glass-edge', '--glass-outline']} />
+        <Tokens names={['--stroke-control', '--stroke-control-edge', '--stroke-input-bottom', '--stroke-divider', '--stroke-card', '--glass-edge']} />
         <h4>表面</h4>
         <Tokens names={['--surface-base', '--surface-pane', '--surface-card', '--surface-card-solid', '--surface-smoke']} />
         <h4>状态</h4>

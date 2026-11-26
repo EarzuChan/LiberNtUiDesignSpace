@@ -72,11 +72,19 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  --mat-shadow: var(--shadow-window-inactive);
+  box-shadow: var(--shadow-window-inactive);
   animation: win-in 280ms var(--ease-out);
   transition: --bl 420ms linear, border-radius var(--dur-normal) var(--ease-out), box-shadow var(--dur-normal) linear;
 }
-.win[data-active='true'] .win-frame { --mat-shadow: var(--shadow-64); }
+.win-edge {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--glass-edge), inset 0 1px 0 0 var(--glass-edge-top);
+}
+.win[data-active='true'] .win-frame { box-shadow: var(--shadow-64); }
 .win[data-snap='max'] .win-frame { border-radius: 0; }
 .win[data-closing] .win-frame { animation: win-out 160ms var(--ease-in) forwards; }
 @keyframes win-in { from { opacity: 0; transform: scale(0.94); } }
@@ -126,7 +134,7 @@
 .taskbar[data-shape='pill'] .tray { padding: 6px 8px; }
 .taskbar > * { pointer-events: auto; }
 /* 有窗口最大化时，悬浮胶囊收拢为通栏底板 */
-.taskbar-plate { position: absolute; inset: 0; opacity: 0; pointer-events: none !important; transition: opacity var(--dur-gentle) linear, --bl 420ms linear; box-shadow: inset 0 1px 0 var(--glass-edge), 0 -1px 0 var(--glass-outline); }
+.taskbar-plate { position: absolute; inset: 0; opacity: 0; pointer-events: none !important; transition: opacity var(--dur-gentle) linear, --bl 420ms linear; box-shadow: inset 0 1px 0 var(--glass-edge); }
 .taskbar[data-solid='true'] .taskbar-plate { opacity: 1; }
 .taskbar[data-solid='true'] .dock, .taskbar[data-solid='true'] .tray { background-color: transparent; backdrop-filter: none; box-shadow: none; }
 
@@ -149,29 +157,28 @@
 .dock-btn:hover { background: var(--fill-plate-hover); }
 /* 前台/已展开：一块有厚度的底板（--plate-bevel） */
 .dock-btn[data-active='true'], .dock-btn[data-open='true'], .tray-btn[data-open='true'] { background: var(--fill-plate); box-shadow: var(--plate-bevel); }
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-active='true'], :is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-open='true'] { background: transparent; box-shadow: none; }
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn:hover { background: radial-gradient(circle at 50% 50%, var(--fill-plate-hover) 0 52%, transparent 82%); box-shadow: none; }
 .dock-btn > img, .dock-btn > svg { transition: transform var(--dur-spring) var(--ease-spring); }
 .dock-btn > img { width: 36px; height: 36px; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.2)); }
 .dock-btn:active > img, .dock-btn:active > svg { transform: scale(0.84); transition: transform var(--dur-instant) var(--ease-out); }
-/* 运行指示：一枚圆点，前台与后台相同；前台靠底板区分 */
-.dock-btn::after { content: ''; position: absolute; left: 50%; bottom: 2px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--text-2); opacity: 0; transform: scale(0); transition: opacity var(--dur-fast) linear, transform var(--dur-normal) var(--ease-out); }
+/* 运行指示：胶囊 Dock 用圆点；方形底板与经典任务栏用从底边长出的舌片。负 bottom 让它越过图标格并压住容器下沿 */
+.dock-btn::after { content: ''; position: absolute; left: 50%; bottom: 2px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--text-2); opacity: 0; transform: scale(0); transition: opacity var(--dur-fast) linear, transform var(--dur-normal) var(--ease-out), width var(--dur-fast) var(--ease-out), margin-left var(--dur-fast) var(--ease-out), background-color var(--dur-fast) linear; }
 .dock-btn[data-running='true']::after { opacity: 1; transform: none; }
-/* 多窗口：当前项或悬停项后面再垫一张底板（悬停时淡一些），不论窗口多少只叠两层。背板用蒙版挖掉被前板盖住的部分，前板的亮度因此不变。
-   圆形底板：背板整体右移，月牙露在圆外。方形底板：前板让出右侧一条，层叠收在图标格内，图标位置不动 */
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn::after { bottom: -6px; width: 8px; height: 3px; margin-left: -4px; border-radius: 2px 2px 0 0; transform-origin: 50% 100%; }
+.taskbar[data-shape='rounded'] .dock-btn[data-active='true']::after { width: 36px; margin-left: -18px; background: var(--accent); }
+.taskbar[data-style='classic'] .dock-btn[data-active='true']::after { width: 26px; margin-left: -13px; background: var(--accent); }
+.taskbar[data-style='classic'] .dock-btn::after { bottom: -4px; }
+/* 多窗口：胶囊 Dock 中当前项或悬停项后面再垫一张圆形底板（悬停时淡一些），不论窗口多少只叠两层。背板用蒙版挖掉被前板盖住的部分，前板的亮度因此不变 */
 .dock-btn::before { content: ''; position: absolute; top: 0; bottom: 0; left: var(--stack); width: 100%; border-radius: inherit; pointer-events: none; opacity: 0; background: var(--fill-plate-hover); box-shadow: var(--plate-edge); transition: opacity var(--dur-fast) linear;
   mask: radial-gradient(circle at calc(50% - var(--stack)) 50%, transparent calc(var(--cell) / 2 - 0.5px), #000 calc(var(--cell) / 2)); }
 .dock-btn[data-multi='true']:hover::before { opacity: 0.6; }
 .dock-btn[data-multi='true'][data-active='true']::before { opacity: 1; }
-:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-multi='true']:is([data-active='true'], :hover) { width: calc(var(--cell) - var(--stack)); margin-right: var(--stack); padding-left: var(--stack); }
-:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-multi='true']:is([data-active='true'], :hover)::after { left: calc(50% + var(--stack) / 2); }
-/* 让出的那一条仍算在按钮身上，否则指针移到上面会丢失悬停而来回抖动 */
-:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn[data-multi='true']:is([data-active='true'], :hover)::before { pointer-events: auto; }
-:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn::before { left: calc(100% - var(--dock-btn-r)); width: calc(var(--dock-btn-r) + var(--stack)); border-radius: 0 var(--dock-btn-r) var(--dock-btn-r) 0;
-  mask: linear-gradient(#000 0 0) right / var(--stack) 100% no-repeat,
-    radial-gradient(circle at 0 100%, transparent calc(var(--dock-btn-r) - 0.5px), #000 var(--dock-btn-r)) left top / var(--dock-btn-r) var(--dock-btn-r) no-repeat,
-    radial-gradient(circle at 0 0, transparent calc(var(--dock-btn-r) - 0.5px), #000 var(--dock-btn-r)) left bottom / var(--dock-btn-r) var(--dock-btn-r) no-repeat; }
+:is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn::before { content: none; }
 .dock-btn[data-new='true'] > img { animation: dock-hop 520ms var(--ease-out); }
 @keyframes dock-hop { 30% { transform: translateY(-12px); } 60% { transform: translateY(0); } 78% { transform: translateY(-4px); } }
 .dock-sep { width: 1px; height: 28px; margin: 0 6px; background: var(--stroke-divider); flex: none; }
+.dock-gap { width: 1px; margin: 0 6px; flex: none; }
 .dock-search { color: var(--text-1); }
 
 .tray { position: absolute; right: 12px; bottom: 14px; height: 48px; padding: 6px; border-radius: var(--tray-r); display: flex; align-items: center; gap: 2px; --mat-shadow: var(--shadow-16); transition: --bl 420ms linear, background-color var(--dur-gentle) linear, box-shadow var(--dur-gentle) linear; }
@@ -232,30 +239,3 @@
 .screen-dim, .screen-warm { position: absolute; inset: 0; z-index: var(--z-overlay); pointer-events: none; transition: opacity var(--dur-slow) linear; }
 .screen-dim { background: #000; }
 .screen-warm { background: oklch(0.75 0.14 65); mix-blend-mode: multiply; }
-
-/* ---------- 锁屏 ---------- */
-.lock { position: absolute; inset: 0; z-index: 6000; color: #fff; overflow: hidden; animation: lock-in 420ms var(--ease-out); }
-.lock[data-leaving='true'] { animation: lock-out 420ms var(--ease-in) forwards; }
-@keyframes lock-in { from { opacity: 0; transform: scale(1.04); } }
-@keyframes lock-out { to { opacity: 0; transform: translateY(-8%); } }
-.lock-wp { position: absolute; inset: 0; transition: transform 600ms var(--ease-out); }
-.lock-wp .wp-layer { animation: none; }
-.lock[data-stage='login'] .lock-wp { transform: scale(1.06); }
-.lock-veil { position: absolute; inset: 0; backdrop-filter: blur(0px) saturate(1); background: rgb(0 0 0 / 0.06); transition: backdrop-filter 500ms var(--ease-out), background 500ms linear; }
-.lock[data-stage='login'] .lock-veil { backdrop-filter: blur(44px) saturate(1.4); background: rgb(0 0 0 / 0.28); }
-.lock-clock { position: absolute; left: 0; right: 0; top: 13vh; text-align: center; transition: opacity 300ms linear, transform 500ms var(--ease-out); text-shadow: 0 2px 24px rgb(0 0 0 / 0.22); }
-.lock-date { font: 600 24px/32px var(--font-display); opacity: 0.92; }
-.lock-time { font: 600 148px/156px var(--font-display); letter-spacing: -0.035em; font-variant-numeric: tabular-nums; opacity: 0.94; }
-.lock[data-stage='login'] .lock-clock { opacity: 0; transform: translateY(-40px) scale(0.92); }
-.lock-hint { position: absolute; left: 0; right: 0; bottom: 9vh; text-align: center; font: var(--type-body); opacity: 0.8; text-shadow: 0 1px 8px rgb(0 0 0 / 0.4); transition: opacity 200ms linear; animation: lock-breathe 3s ease-in-out infinite; }
-@keyframes lock-breathe { 50% { opacity: 0.45; } }
-.lock[data-stage='login'] .lock-hint { opacity: 0; animation: none; }
-.lock-login { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; opacity: 0; pointer-events: none; transform: translateY(24px); transition: opacity 300ms linear, transform 500ms var(--ease-out); }
-.lock[data-stage='login'] .lock-login { opacity: 1; pointer-events: auto; transform: none; }
-.lock-login .avatar { box-shadow: 0 0 0 2px rgb(255 255 255 / 0.5), 0 12px 40px rgb(0 0 0 / 0.3); }
-.lock-login .field { width: 260px; margin-top: 8px; background: rgb(255 255 255 / 0.16); border-color: rgb(255 255 255 / 0.22); color: #fff; }
-.lock-login .field:hover, .lock-login .field:focus-within { background: rgb(255 255 255 / 0.22); }
-.lock-login .field input::placeholder { color: rgb(255 255 255 / 0.6); }
-.lock-go { width: 26px; height: 26px; margin-right: -6px; border-radius: 50%; display: grid; place-items: center; background: rgb(255 255 255 / 0.22); color: #fff; }
-.lock-go:hover { background: rgb(255 255 255 / 0.36); }
-.lock-status { position: absolute; right: 28px; bottom: 24px; display: flex; gap: 14px; opacity: 0.9; filter: drop-shadow(0 1px 4px rgb(0 0 0 / 0.4)); }

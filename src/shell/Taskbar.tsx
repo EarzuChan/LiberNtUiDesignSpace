@@ -92,7 +92,7 @@ export function Taskbar() {
         <button type="button" className="dock-btn dock-search" data-flyout-trigger data-tip="搜索" onClick={() => { useSys.getState().setFlyout('start'); setTimeout(() => document.querySelector<HTMLInputElement>('.start-search input')?.focus(), 60); }}>
           <Search24Regular />
         </button>
-        <span className="dock-sep" />
+        {style === 'dock' && <span className="dock-gap" />}
         {DOCK_PINNED.map(a => <DockApp key={a} app={a} peek={api} />)}
         {running.length > 0 && <span className="dock-sep" />}
         {running.map(a => <DockApp key={a} app={a} peek={api} />)}

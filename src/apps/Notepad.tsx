@@ -19,6 +19,7 @@ export function Notepad({ win }: { win: Win }) {
   const dirty = text !== saved;
 
   useEffect(() => { useWm.getState().setTitle(win.id, `${name} - 记事本`); }, [name, win.id]);
+  useEffect(() => { useWm.getState().setDirty(win.id, dirty); }, [dirty, win.id]);
 
   const save = () => {
     if (id) useFs.getState().write(id, text);

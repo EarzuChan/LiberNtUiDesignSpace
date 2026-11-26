@@ -1,0 +1,120 @@
+/* ==========================================================================
+   T2 · 安全桌面：锁屏、登录、睡眠、注销 / 重启 / 关机
+   始终按暗色处理（根节点 data-theme="dark"），可用全套材质，但元素少、节奏慢。
+
+   .lu 自身和带玻璃的容器不做透明度动画：里面有真玻璃（通知胶囊、角落按钮组），祖先一旦半透明
+   就会成为 backdrop root。所以每一层各自过渡——壁纸层、压暗层、文字、玻璃元素自身。
+   data-view：clock 锁屏 / login 登录 / welcome 欢迎 / end 结束会话 / blocked 应用阻止 / dark 熄屏
+   ========================================================================== */
+.lu { position: absolute; inset: 0; z-index: var(--z-lock); overflow: hidden; }
+.lu[data-leaving='true'] { pointer-events: none; }
+@keyframes lu-fade { from { opacity: 0; } }
+@keyframes lu-rise { from { opacity: 0; transform: translateY(16px); } }
+
+/* ---------- 壁纸、渐变、压暗层 ---------- */
+.lu-wp { position: absolute; inset: 0; transition: transform 600ms var(--ease-out), opacity 480ms linear; }
+.lu-wp .wp-layer { animation: none; }
+.lu[data-embedded='true'] .lu-wp { animation: lu-wp-in 420ms var(--ease-out); }
+@keyframes lu-wp-in { from { opacity: 0; transform: scale(1.04); } }
+.lu:not([data-view='clock']) .lu-wp { transform: scale(1.06); }
+.lu[data-leaving='true'] .lu-wp { opacity: 0; }
+
+/* 锁屏：时钟与底部提示背后的渐变；登录：模糊层之下的整屏压暗。强度都随壁纸亮度变化（见 useScrim） */
+.lu-scrim, .lu-shade { position: absolute; inset: 0; pointer-events: none; transition: opacity 600ms linear; }
+.lu-scrim { background: linear-gradient(var(--wp-scrim), transparent 58%), linear-gradient(to top, var(--wp-veil-strong), transparent 26%); }
+.lu-shade { background: var(--wp-veil-strong); }
+.lu[data-leaving='true'] .lu-scrim, .lu[data-leaving='true'] .lu-shade { opacity: 0 !important; }
+
+.lu-veil { position: absolute; inset: 0; background: var(--wp-veil); backdrop-filter: blur(0px) saturate(1); transition: backdrop-filter 500ms var(--ease-out), background 500ms linear; }
+.lu[data-embedded='true'] .lu-veil { animation: lu-veil-in 420ms var(--ease-out); }
+@keyframes lu-veil-in { from { background: transparent; backdrop-filter: blur(0px) saturate(1); } }
+.lu:not([data-view='clock']) .lu-veil { background: var(--wp-veil-strong); backdrop-filter: blur(var(--blur-regular)) saturate(1.4); }
+[data-transparency='off'] .lu:not([data-view='clock']) .lu-veil { background: var(--wp-veil-solid); backdrop-filter: none; }
+.lu[data-leaving='true'] .lu-veil { background: transparent; backdrop-filter: blur(0px) saturate(1); }
+
+/* ---------- 锁屏 ---------- */
+.lu-clock { position: absolute; left: 0; right: 0; top: 13vh; display: flex; flex-direction: column; align-items: center; text-shadow: var(--wp-text-shadow); pointer-events: none; opacity: 0; transform: translateY(-40px) scale(0.92); transition: opacity 300ms linear, transform 500ms var(--ease-out); animation: lu-fade 420ms linear; }
+.lu[data-view='clock'] .lu-clock { opacity: 1; transform: none; }
+.lu-date { font: 600 24px/32px var(--font-display); opacity: 0.92; }
+.lu-time { font: 600 148px/156px var(--font-display); letter-spacing: -0.035em; font-variant-numeric: tabular-nums; opacity: 0.94; }
+.lu-glance { margin-top: 8px; display: flex; align-items: center; gap: 8px; font: var(--type-body-large); }
+.lu-glance img { width: 24px; height: 24px; }
+
+.lu-chip { position: absolute; left: 50%; bottom: calc(9vh + 44px); translate: -50% 0; height: 40px; padding: 0 16px 0 12px; border-radius: var(--radius-pill); display: flex; align-items: center; gap: 10px; font: var(--type-body); --mat-shadow: var(--shadow-8); opacity: 0; pointer-events: none; transition: --bl 420ms linear, opacity 200ms linear; animation: lu-fade 420ms linear; }
+.lu[data-view='clock'] .lu-chip { opacity: 1; pointer-events: auto; }
+.lu-chip-icons { display: flex; }
+.lu-chip-icons img { width: 20px; height: 20px; }
+.lu-chip-icons img + img { margin-left: -5px; }
+
+.lu-hint { position: absolute; left: 0; right: 0; bottom: 9vh; text-align: center; font: var(--type-body); text-shadow: var(--wp-text-shadow); pointer-events: none; opacity: 0; transition: opacity 200ms linear; }
+.lu[data-view='clock'] .lu-hint { opacity: 0.8; animation: lu-breathe 3s ease-in-out infinite; }
+@keyframes lu-breathe { 50% { opacity: 0.45; } }
+.lu-status { position: absolute; right: 28px; bottom: 24px; display: flex; gap: 14px; filter: var(--wp-icon-shadow); pointer-events: none; opacity: 0; transition: opacity 200ms linear; }
+.lu[data-view='clock'] .lu-status { opacity: 0.9; }
+
+/* ---------- 登录 ---------- */
+.lu-login { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; opacity: 0; pointer-events: none; transform: translateY(24px); transition: opacity 300ms linear, transform 500ms var(--ease-out); }
+.lu[data-view='login'] .lu-login, .lu[data-view='welcome'] .lu-login { opacity: 1; pointer-events: auto; transform: none; }
+.lu[data-leaving='true'] .lu-login { opacity: 0; transform: translateY(-32px); transition-duration: 240ms, 480ms; }
+.lu-login .avatar { box-shadow: 0 0 0 2px var(--stroke-control-strong), var(--shadow-32); }
+.lu-name { font: var(--type-title); letter-spacing: -0.01em; }
+.lu .lu-field { width: 260px; margin-top: 8px; background: var(--fill-plate); border-color: var(--stroke-control-edge); }
+.lu .lu-field:hover, .lu .lu-field:focus-within { background: var(--fill-tile-hover); }
+.lu-go { width: 26px; height: 26px; margin-right: -6px; border-radius: 50%; display: grid; place-items: center; background: var(--fill-plate); color: var(--text-1); transition: background var(--dur-fast) linear, color var(--dur-fast) linear; }
+.lu-go:hover { background: var(--fill-tile-hover); }
+.lu-go[data-ready='true'] { background: var(--accent); color: var(--on-accent); }
+.lu-go[data-ready='true']:hover { background: var(--accent-hover); }
+.lu-enter { margin-top: 8px; min-width: 120px; }
+.lu-shake-a { animation: lu-shake-a 380ms var(--ease-in-out); }
+.lu-shake-b { animation: lu-shake-b 380ms var(--ease-in-out); }
+@keyframes lu-shake-a { 20% { transform: translateX(-9px); } 45% { transform: translateX(7px); } 70% { transform: translateX(-4px); } 88% { transform: translateX(2px); } }
+@keyframes lu-shake-b { 20% { transform: translateX(-9px); } 45% { transform: translateX(7px); } 70% { transform: translateX(-4px); } 88% { transform: translateX(2px); } }
+.lu-msg { min-height: 16px; font: var(--type-caption); color: var(--text-2); text-align: center; }
+.lu-msg[data-kind='error'] { color: var(--critical); }
+.lu-msg[data-kind='caps'] { color: var(--caution); }
+
+/* 登录方式：玻璃上的可选中项，悬停提亮，选中再亮一档并带厚度 */
+.lu-opts { display: flex; gap: 4px; }
+.lu-opt { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--text-2); transition: background var(--dur-instant) linear, box-shadow var(--dur-fast) linear; }
+.lu-opt:hover { background: var(--fill-plate-hover); color: var(--text-1); }
+.lu-opt[aria-pressed='true'] { background: var(--fill-plate); box-shadow: var(--plate-bevel); color: var(--text-1); }
+.lu-finger { width: 72px; height: 72px; margin-top: 8px; border-radius: 50%; display: grid; place-items: center; background: var(--fill-plate); box-shadow: var(--plate-bevel); transition: background var(--dur-fast) linear, color var(--dur-fast) linear; }
+.lu-finger:hover { background: var(--fill-tile-hover); }
+.lu-finger[data-scanning='true'] { color: var(--accent-text); animation: lu-scan 800ms ease-in-out; }
+@keyframes lu-scan { 50% { box-shadow: var(--plate-bevel), 0 0 0 6px var(--accent-ring); } }
+.lu-welcome { height: 40px; margin-top: 8px; display: flex; align-items: center; gap: 10px; font: var(--type-body-large); animation: lu-fade 300ms linear; }
+.lu .ring circle { stroke: currentColor; }
+
+/* 切换用户 */
+.lu-users { position: absolute; left: 20px; bottom: 16px; display: flex; flex-direction: column; gap: 2px; opacity: 0; pointer-events: none; transition: opacity 300ms linear; }
+.lu[data-view='login'] .lu-users { opacity: 1; pointer-events: auto; }
+.lu-user { display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 18px 0 6px; border-radius: var(--radius-pill); text-align: left; transition: background var(--dur-instant) linear, box-shadow var(--dur-fast) linear; }
+.lu-user:hover { background: var(--fill-plate-hover); }
+.lu-user[aria-pressed='true'] { background: var(--fill-plate); box-shadow: var(--plate-bevel); }
+
+/* 角落按钮组：输入法、网络、辅助功能、电源（与托盘同规格的玻璃胶囊） */
+.lu-corner { position: absolute; right: 12px; bottom: 14px; height: 48px; padding: 6px 8px; border-radius: var(--radius-pill); display: flex; align-items: center; gap: 2px; --mat-shadow: var(--shadow-16); opacity: 0; pointer-events: none; transition: --bl 420ms linear, opacity 300ms linear; }
+.lu[data-view='login'] .lu-corner { opacity: 1; pointer-events: auto; }
+.lu-btn { height: 36px; min-width: 36px; padding: 0 10px; border-radius: var(--radius-pill); display: flex; align-items: center; justify-content: center; color: var(--text-1); transition: background var(--dur-instant) linear; }
+.lu-btn:hover { background: var(--fill-plate-hover); }
+.lu-ime { font: 600 12px/1 var(--font-ui); letter-spacing: 0.02em; }
+
+/* ---------- 注销 / 重启 / 关机 ---------- */
+.lu-end, .lu-blocked { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; animation: lu-rise 480ms var(--ease-out); }
+.lu-end { gap: 20px; }
+.lu-title { font: var(--type-title); letter-spacing: -0.01em; text-align: center; }
+.lu-note { max-width: 420px; color: var(--text-2); text-align: center; text-wrap: balance; }
+.lu-end .lu-note { margin-top: -12px; }
+.lu-blocked .lu-note { margin-top: 8px; }
+.lu-block-list { width: min(420px, calc(100% - 48px)); margin-top: 24px; }
+.lu-block-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 14px; }
+.lu-block-row img { width: 28px; height: 28px; }
+.lu-block-row > div { min-width: 0; }
+.lu-block-actions { display: flex; gap: 8px; margin-top: 24px; }
+.lu[data-leaving='true'] .lu-blocked { opacity: 0; transition: opacity 240ms linear; }
+
+/* ---------- 熄屏层：睡眠、关机后，以及场景之间的黑场 ---------- */
+.lu-black { position: absolute; inset: 0; display: grid; place-items: end center; padding-bottom: 9vh; background: var(--screen-off); font: var(--type-caption); color: var(--text-3); opacity: 0; pointer-events: none; transition: opacity 700ms linear; }
+.lu[data-black='true'] .lu-black { opacity: 1; pointer-events: auto; }
+.lu[data-embedded='true'] .lu-black { animation: lu-fade 700ms linear; }
+.lu-black span { animation: lu-fade 600ms linear 1800ms both; }

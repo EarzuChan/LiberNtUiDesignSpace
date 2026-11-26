@@ -111,11 +111,11 @@ transition: --bl 420ms linear;   /* @property 注册为 <number> */`}</pre>
       </div>
 
       <h3>边缘</h3>
-      <p>玻璃边缘由三部分构成：外沿 1px 深色发丝线把表面从背景中分离，内沿 1px 高光勾勒厚度，顶边高光更亮以暗示来自上方的光源。不模拟折射与色散。大面积模糊表面叠加一层极淡的噪点以消除色带。</p>
+      <p>玻璃边缘由两层高光构成：内沿 1px 高光勾勒厚度，顶边高光更亮以暗示来自上方的光源；外沿不再叠加深色发丝线，表面依靠着色、阴影与背景分离。不模拟折射与色散。窗口外壳不依赖这一层，另有绘制在内容之上的独立边缘高光。大面积模糊表面叠加一层极淡的噪点以消除色带。</p>
       <div className="mat-stage" style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
         <img src={url} alt="" />
         <Glass thickness="regular" edge={false} fixedLuma={0.5} className="mat-card edge-demo"><span>无边缘</span></Glass>
-        <Glass thickness="regular" fixedLuma={0.5} className="mat-card edge-demo"><span>.mat-edge　发丝线 + 内沿高光</span></Glass>
+        <Glass thickness="regular" fixedLuma={0.5} className="mat-card edge-demo"><span>.mat-edge　内沿高光</span></Glass>
         <Glass thickness="regular" fixedLuma={0.5} noise className="mat-card edge-demo" style={{ ['--mat-shadow' as string]: 'var(--shadow-32)' }}><span>+ 噪点 + 阴影 32</span></Glass>
       </div>
       <p className="spec-note" style={{ marginTop: 16 }}>关闭「透明效果」后，所有 <Kv>.mat</Kv> 回退为同色相的不透明表面，布局与层次保持不变。</p>

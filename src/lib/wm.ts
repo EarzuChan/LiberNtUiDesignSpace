@@ -15,6 +15,8 @@ export interface Win extends Rect {
   closing: boolean;
   /** 启动参数，例如文件管理器的初始路径 */
   payload?: unknown;
+  /** 有未保存的更改：注销 / 关机时会被列为阻止项 */
+  dirty?: boolean;
 }
 
 interface WmState {
@@ -36,6 +38,7 @@ interface WmState {
   setSnap: (id: string, snap: SnapZone | null) => void;
   setRect: (id: string, r: Partial<Rect>) => void;
   setTitle: (id: string, title: string) => void;
+  setDirty: (id: string, dirty: boolean) => void;
   setSnapPreview: (z: SnapZone | null) => void;
   showDesktop: () => void;
 }
@@ -116,6 +119,7 @@ export const useWm = create<WmState>()((set, get) => ({
   setSnap: (id, snap) => set(s => ({ wins: patch(s.wins, id, { snap }) })),
   setRect: (id, r) => set(s => ({ wins: patch(s.wins, id, r) })),
   setTitle: (id, title) => set(s => (s.wins.find(w => w.id === id)?.title === title ? s : { wins: patch(s.wins, id, { title }) })),
+  setDirty: (id, dirty) => set(s => (!!s.wins.find(w => w.id === id)?.dirty === dirty ? s : { wins: patch(s.wins, id, { dirty }) })),
   setSnapPreview: z => { if (get().snapPreview !== z) set({ snapPreview: z }); },
   showDesktop() {
     const s = get();

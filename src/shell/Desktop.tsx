@@ -13,7 +13,7 @@ import { Widgets } from './Widgets';
 import { StartMenu } from './StartMenu';
 import { ControlCenter } from './ControlCenter';
 import { CalendarFlyout } from './CalendarFlyout';
-import { LockScreen } from './LockScreen';
+import { LoginUI } from '@/loginui/LoginUI';
 import './shell.css';
 import './flyouts.css';
 
@@ -84,7 +84,7 @@ export function Desktop() {
       <CalendarFlyout />
       <div className="screen-warm" style={{ opacity: nightLight ? 0.3 : 0 }} />
       <div className="screen-dim" style={{ opacity: ((100 - brightness) / 100) * 0.62 }} />
-      <LockScreen />
+      <LoginUI embedded />
       <MenuHost />
       <TooltipHost />
     </div>
