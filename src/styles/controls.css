@@ -117,33 +117,30 @@
 .check[aria-checked='true']:active .radio-dot::after { transform: scale(0.8); }
 
 /* ---------- Slider ---------- */
-/* 静止时只有轨道与填充；悬停、拖动或键盘聚焦时浮现一枚横向的玻璃手柄，透出下面的轨道。
-   手柄中线始终对齐填充的末端，所以在两头会探出轨道半个手柄宽 */
-.slider { position: relative; height: var(--control-md); flex: 1 1 auto; min-width: 80px; touch-action: none; user-select: none; --pn: 0.5; --thumb-w: 24px; --thumb-a: 50%; --thumb-a-drag: 32%; }
-[data-theme='dark'] .slider { --thumb-a: 24%; --thumb-a-drag: 14%; }
-.slider-track { position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; border-radius: var(--radius-full); background: var(--fill-track); overflow: hidden; }
+/* 胶囊手柄始终可见：静止时不透明（亮色近白、暗色近黑），拖动时变为透出轨道的玻璃。
+   手柄中线对齐填充的末端；轨道两头各内缩半个手柄宽，手柄因此始终落在控件宽度之内 */
+.slider { position: relative; height: var(--control-md); flex: 1 1 auto; min-width: 80px; touch-action: none; user-select: none; --pn: 0.5; --thumb-w: 24px; --thumb-a-drag: 32%; }
+[data-theme='dark'] .slider { --thumb-a-drag: 40%; }
+.slider-track { position: absolute; left: calc(var(--thumb-w) / 2); right: calc(var(--thumb-w) / 2); top: 50%; height: 6px; margin-top: -3px; border-radius: var(--radius-full); background: var(--fill-track); overflow: hidden; }
 .slider-fill { position: absolute; left: 0; top: 0; bottom: 0; width: calc(100% * var(--pn)); background: var(--accent); border-radius: inherit; }
 .slider-thumb {
   position: absolute;
   top: 50%;
-  left: calc(100% * var(--pn));
+  left: calc(var(--thumb-w) / 2 + (100% - var(--thumb-w)) * var(--pn));
   width: var(--thumb-w);
   height: 16px;
   margin: -8px 0 0 calc(var(--thumb-w) / -2);
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--surface-raised) var(--thumb-a), transparent);
+  border-radius: var(--radius-pill);
+  background: var(--surface-thumb);
   backdrop-filter: blur(1.5px) saturate(1.5);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.45), inset 0 1px 0 0 rgb(255 255 255 / 0.9), 0 0 0 0.5px rgb(0 0 0 / 0.2), 0 1px 3px rgb(0 0 0 / 0.24), 0 3px 8px rgb(0 0 0 / 0.14);
-  opacity: 0;
-  transform: scale(0.5);
-  transition: opacity var(--dur-fast) linear, transform var(--dur-normal) var(--ease-out), background var(--dur-fast) linear;
+  box-shadow: inset 0 0 0 1px var(--glass-edge), inset 0 1px 0 0 var(--glass-edge-top), 0 0 0 0.5px rgb(0 0 0 / 0.2), 0 1px 3px rgb(0 0 0 / 0.24), 0 3px 8px rgb(0 0 0 / 0.14);
+  transition: transform var(--dur-normal) var(--ease-out), background var(--dur-fast) linear;
 }
-.slider:hover .slider-thumb, .slider:focus-visible .slider-thumb, .slider[data-dragging='true'] .slider-thumb { opacity: 1; transform: none; }
-.slider[data-dragging='true'] .slider-thumb { transform: scale(1.06); background: color-mix(in srgb, var(--surface-raised) var(--thumb-a-drag), transparent); }
+.slider[data-dragging='true'] .slider-thumb { transform: scale(1.12); background: color-mix(in srgb, var(--surface-thumb) var(--thumb-a-drag), transparent); }
 
 /* 粗滑块：控制中心用，图标嵌在轨道内 */
 .slider-fat { height: 32px; --fat-r: var(--radius-pill); }
-.slider-fat .slider-track { height: 32px; margin-top: -16px; border-radius: var(--fat-r); background: var(--fill-track); }
+.slider-fat .slider-track { left: 0; right: 0; height: 32px; margin-top: -16px; border-radius: var(--fat-r); background: var(--fill-track); }
 .slider-fat .slider-fill { width: calc(32px + (100% - 32px) * var(--pn)); border-radius: var(--fat-r); background: var(--slider-fat-fill, rgb(255 255 255 / 0.92)); box-shadow: 0 0 6px rgb(0 0 0 / 0.12); }
 .slider-fat .slider-thumb { display: none; }
 .slider-fat .slider-icon { position: absolute; left: 0; top: 0; width: 32px; height: 32px; display: grid; place-items: center; color: rgb(0 0 0 / 0.7); pointer-events: none; }
@@ -186,7 +183,8 @@
 
 /* ---------- Segmented ---------- */
 .seg { display: inline-flex; position: relative; padding: 3px; border-radius: var(--radius-pill); background: var(--fill-control-alt); box-shadow: inset 0 0 0 1px var(--stroke-control); }
-.seg-item { position: relative; z-index: 1; height: 26px; padding: 0 14px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-2); transition: color var(--dur-fast) linear; }
+/* 给定宽度时（父级拉伸或写了 width），各项按内容宽度为基准平分多出的空间；自适应宽度时没有余量，不受影响 */
+.seg-item { position: relative; z-index: 1; flex: 1 1 auto; justify-content: center; height: 26px; padding: 0 14px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: var(--space-6); color: var(--text-2); transition: color var(--dur-fast) linear; }
 .seg-item:hover { color: var(--text-1); }
 .seg-item[aria-selected='true'] { color: var(--text-1); }
 .seg-thumb { position: absolute; top: 3px; bottom: 3px; border-radius: var(--radius-pill); background: var(--surface-card-solid); box-shadow: var(--shadow-2), inset 0 0 0 0.5px var(--stroke-control); transition: left var(--dur-gentle) var(--ease-out), width var(--dur-gentle) var(--ease-out); }
@@ -281,7 +279,14 @@
 .crumbs { display: flex; align-items: center; gap: 2px; min-width: 0; }
 .crumb { height: 28px; padding: 0 var(--space-8); border-radius: var(--radius-control); color: var(--text-2); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
 .crumb:hover { background: var(--fill-subtle-hover); color: var(--text-1); }
-.crumb:last-child { color: var(--text-1); font-weight: 600; }
+.crumb[aria-current] { color: var(--text-1); font-weight: 600; }
+.crumb[aria-current]:hover { background: none; }
+/* 标题字号：上级用二级文字色、可点；当前级一级文字色。窄时上级先截断，当前级始终完整。负边距让首项文字与正文左缘对齐 */
+.crumbs-title { margin-left: calc(var(--space-8) * -1); }
+.crumbs-title .crumb { display: block; height: auto; min-width: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; border-radius: var(--radius-8); font: var(--type-title); letter-spacing: -0.01em; }
+.crumbs-title .crumb[aria-current] { flex: none; animation: crumb-in var(--dur-gentle) var(--ease-out); }
+.crumbs-title > [data-fui-icon] { margin: 0 2px; }
+@keyframes crumb-in { from { opacity: 0; transform: translateX(12px); } }
 .crumbs > [data-fui-icon] { color: var(--text-3); flex: none; }
 
 /* ---------- Kbd ---------- */

@@ -5,7 +5,7 @@ import { formatSize, formatTime, iconOf, isContainer, pathOf, typeLabel, useFs, 
 import { openNode } from '@/lib/open';
 import { useWm, type Win } from '@/lib/wm';
 import { Caption } from '@/shell/Window';
-import { Breadcrumb, Button, Dialog, NavItem, ProgressBar, ProgressiveBlur, TextField, openMenu, openMenuAt, type MenuItem } from '@/ui';
+import { Breadcrumb, Button, Dialog, NavItem, ProgressiveBlur, TextField, openMenu, openMenuAt, useScrollEdge, type MenuItem } from '@/ui';
 import {
   ArrowClockwise16Regular, ArrowLeft16Regular, ArrowRight16Regular, ArrowSort16Regular, ArrowSortDown16Regular, ArrowSortUp16Regular, ArrowUp16Regular,
   ClipboardPaste16Regular, Copy16Regular, Cut16Regular, Delete16Regular, FolderAdd16Regular, Grid16Regular, Info16Regular, Open16Regular,
@@ -177,21 +177,20 @@ export function Files({ win }: { win: Win }) {
     />
   );
 
+  const [navRef, navEdge] = useScrollEdge();
+
   return (
     <div className="app">
       <aside className="app-sidebar">
         <div className="files-side-head" data-drag><img src="/icons/apps/files.svg" width={20} height={20} alt="" />文件</div>
-        <nav className="files-nav scroll">
+        <nav className="files-nav scroll" ref={navRef}>
           <NavItem active={path === QUICK} onClick={() => go(QUICK)} icon={<img src="/icons/places/home.svg" alt="" />} label="主页" />
           <div className="files-nav-title">已固定</div>
           {PINNED.map(id => side(id))}
           <div className="files-nav-title">位置</div>
           {['pc', 'c', 'd', 'e', 'network', 'trash'].map(id => side(id))}
         </nav>
-        <div className="files-storage">
-          <div className="row" style={{ justifyContent: 'space-between' }}><span className="t-caption">系统 (C:)</span><span className="t-caption c-2 tnum">326 GB 可用</span></div>
-          <ProgressBar value={36} style={{ marginTop: 8 }} />
-        </div>
+        {navEdge}
       </aside>
 
       <section className="app-pane files-pane" data-view={special ? 'grid' : view} data-details={details}>

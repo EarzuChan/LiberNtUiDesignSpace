@@ -15,7 +15,8 @@
       "Exec(xargs)",
       "Exec(head)",
       "Exec(awk)",
-      "Exec(gzip)"
+      "Exec(gzip)",
+      "Exec(pnpm typecheck)"
     ]
   }
 }

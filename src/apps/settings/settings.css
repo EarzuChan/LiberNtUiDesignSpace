@@ -11,10 +11,16 @@
 .set-head-row { position: relative; height: 100%; display: flex; }
 .set-head-bar { height: 52px; margin-left: auto; display: flex; }
 .set-title { position: absolute; left: 0; right: 0; bottom: 10px; padding: 0 44px; pointer-events: none; }
+.set-title .crumbs { pointer-events: auto; }
 .set-title > div { max-width: 800px; margin: 0 auto; display: flex; align-items: baseline; gap: 8px; }
 .set-scroll { flex: 1; min-height: 0; padding: 112px 44px 40px; }
 .set-content { max-width: 800px; margin: 0 auto; animation: set-in var(--dur-gentle) var(--ease-out); }
 @keyframes set-in { from { opacity: 0; transform: translateY(14px); } }
+/* 层级用方向表达：进入次级页从右侧滑入，返回从左侧滑入 */
+.set-content[data-dir='in'] { animation-name: set-push; }
+.set-content[data-dir='out'] { animation-name: set-pop; }
+@keyframes set-push { from { opacity: 0; transform: translateX(32px); } }
+@keyframes set-pop { from { opacity: 0; transform: translateX(-32px); } }
 
 .set-hero { display: flex; align-items: center; gap: 20px; padding: 20px 24px; margin-bottom: 4px; }
 .set-hero-tiles { display: flex; gap: 8px; margin-left: auto; }

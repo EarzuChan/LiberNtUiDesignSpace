@@ -20,7 +20,7 @@ const NETWORKS = [
 ];
 const WifiIcon = [Wifi120Regular, Wifi120Regular, Wifi220Regular, Wifi320Regular];
 
-export function NetworkPage() {
+export function NetworkPage({ open }: PageProps) {
   const s = useSys();
   const [hotspot, setHotspot] = useState(false);
   const [vpn, setVpn] = useState(false);
@@ -52,7 +52,7 @@ export function NetworkPage() {
             );
           }) : <div className="notif-empty">打开 WLAN 以查看可用网络</div>}
         </Expander>
-        <SettingRow icon={<PlugConnected20Regular />} title="以太网" desc="未连接" chevron onClick={() => {}} />
+        <SettingRow icon={<PlugConnected20Regular />} title="以太网" desc="未连接" chevron onClick={() => open('ethernet')} />
         <SettingRow icon={<Shield20Regular />} title="VPN" desc="添加、连接和管理 VPN">
           <Switch checked={vpn} onChange={setVpn} />
         </SettingRow>
@@ -62,7 +62,7 @@ export function NetworkPage() {
         <SettingRow icon={<Airplane20Regular />} title="飞行模式" desc="停止所有无线通信">
           <Switch checked={s.airplane} onChange={v => s.set({ airplane: v })} />
         </SettingRow>
-        <SettingRow icon={<Globe20Regular />} title="代理" desc="用于 WLAN 和以太网连接的代理服务器" chevron onClick={() => {}} />
+        <SettingRow icon={<Globe20Regular />} title="代理" desc="用于 WLAN 和以太网连接的代理服务器" chevron onClick={() => open('proxy')} />
       </Group>
     </>
   );
@@ -75,7 +75,7 @@ const DEVICES = [
   { name: 'Liber Phone', kind: '手机', icon: '/icons/devices/phone.svg', state: '已配对', battery: undefined },
 ];
 
-export function BluetoothPage() {
+export function BluetoothPage({ open }: PageProps) {
   const s = useSys();
   const [speed, setSpeed] = useState(60);
   const on = s.bluetooth && !s.airplane;
@@ -102,14 +102,14 @@ export function BluetoothPage() {
         <SettingRow icon={<Cursor20Regular />} title="鼠标指针速度">
           <Slider value={speed} onChange={setSpeed} style={{ flex: '0 0 220px' }} />
         </SettingRow>
-        <SettingRow icon={<Keyboard20Regular />} title="键盘" desc="重复速度、快捷键" chevron onClick={() => {}} />
-        <SettingRow icon={<Print20Regular />} title="打印机和扫描仪" desc="首选项、疑难解答" chevron onClick={() => {}} />
+        <SettingRow icon={<Keyboard20Regular />} title="键盘" desc="重复速度、快捷键" chevron onClick={() => open('keyboard')} />
+        <SettingRow icon={<Print20Regular />} title="打印机和扫描仪" desc="首选项、疑难解答" chevron onClick={() => open('printers')} />
       </Group>
     </>
   );
 }
 
-export function AppsPage() {
+export function AppsPage({ open }: PageProps) {
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('名称');
   const sizes = (i: number) => [412, 96.4, 28.1, 1.2 * 1024, 64.3, 233, 18.6, 742][i % 8];
@@ -127,7 +127,7 @@ export function AppsPage() {
         {apps.map(a => (
           <SettingRow key={a.id} icon={<img src={a.icon} width={32} height={32} alt="" style={{ margin: '0 -6px' }} />} title={a.name} desc={`${a.builtin ? 'LiberNT 系统组件' : a.category} · ${a.date}`}>
             <span className="c-2 tnum">{a.mb >= 1024 ? `${(a.mb / 1024).toFixed(1)} GB` : `${a.mb} MB`}</span>
-            <Button variant="subtle" iconOnly icon={<MoreHorizontal16Regular />} onClick={e => openMenuAt(e.currentTarget, [{ label: '高级选项' }, { label: '移动' }, { separator: true }, { label: '卸载', danger: true, disabled: a.builtin }])} />
+            <Button variant="subtle" iconOnly icon={<MoreHorizontal16Regular />} onClick={e => openMenuAt(e.currentTarget, [{ label: '高级选项', onClick: () => open(a.id) }, { label: '移动' }, { separator: true }, { label: '卸载', danger: true, disabled: a.builtin }])} />
           </SettingRow>
         ))}
       </Group>
@@ -135,7 +135,7 @@ export function AppsPage() {
   );
 }
 
-export function AccountsPage({ go }: PageProps) {
+export function AccountsPage({ go, open }: PageProps) {
   const s = useSys();
   const [sync, setSync] = useState(true);
   return (
@@ -155,8 +155,8 @@ export function AccountsPage({ go }: PageProps) {
           <SettingRow icon={<Password20Regular />} title="PIN" desc="用于登录和验证身份"><Button>更改</Button></SettingRow>
           <SettingRow icon={<Key20Regular />} title="密码" desc="上次更改：3 个月前"><Button>更改</Button></SettingRow>
         </Expander>
-        <SettingRow icon={<Mail20Regular />} title="电子邮件和账户" desc="邮件、日历和联系人使用的账户" chevron onClick={() => {}} />
-        <SettingRow icon={<People20Regular />} title="家庭和其他用户" desc="设备访问权限、工作或学校用户" chevron onClick={() => {}} />
+        <SettingRow icon={<Mail20Regular />} title="电子邮件和账户" desc="邮件、日历和联系人使用的账户" chevron onClick={() => open('email')} />
+        <SettingRow icon={<People20Regular />} title="家庭和其他用户" desc="设备访问权限、工作或学校用户" chevron onClick={() => open('family')} />
         <SettingRow icon={<CloudSync20Regular />} title="同步设置" desc="主题、密码和语言首选项">
           <Switch checked={sync} onChange={setSync} />
         </SettingRow>

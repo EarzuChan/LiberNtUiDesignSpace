@@ -142,9 +142,11 @@ export function DesktopIcons() {
           onDoubleClick={() => openNode(n)}
           onContextMenu={e => iconMenu(e, n)}
         >
-          <img src={n.id === 'trash' && trashFull ? '/icons/places/trash-full.svg' : iconOf(n)} alt="" />
-          {n.href && <i className="dicon-link"><ArrowUpRight12Filled /></i>}
-          <span>{n.name}</span>
+          <span className="dicon-body">
+            <img src={n.id === 'trash' && trashFull ? '/icons/places/trash-full.svg' : iconOf(n)} alt="" />
+            {n.href && <i className="dicon-link"><ArrowUpRight12Filled /></i>}
+            <span className="dicon-name">{n.name}</span>
+          </span>
         </button>
       ))}
       {marquee && <div className="marquee" style={{ left: marquee.x, top: marquee.y, width: marquee.w, height: marquee.h }} />}

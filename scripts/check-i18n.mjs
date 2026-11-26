@@ -39,6 +39,8 @@ await run('desktop menu', () => { window.__lnt.sys.getState().setFlyout(null); d
 await page.keyboard.press('Escape');
 for (const p of ['system', 'bluetooth', 'network', 'personalization', 'apps', 'accounts', 'time', 'accessibility', 'privacy', 'update', 'about'])
   await run('settings:' + p, new Function(`window.__lnt.wm.getState().launch('settings', { page: '${p}' })`));
+for (const [p, sub] of [['network', 'ethernet'], ['network', 'proxy'], ['bluetooth', 'keyboard'], ['bluetooth', 'printers'], ['accounts', 'email'], ['accounts', 'family'], ['privacy', 'security'], ['update', 'history'], ['update', 'advanced'], ['update', 'advanced/optional'], ['apps', 'photos']])
+  await run(`settings:${p}/${sub}`, new Function(`window.__lnt.wm.getState().launch('settings', { page: '${p}', sub: '${sub}'.split('/') })`));
 await page.evaluate(() => document.querySelectorAll('.srow[aria-expanded="false"]').forEach(e => e.click()));
 await run('settings expanders', () => {});
 await page.evaluate(() => window.__lnt.wm.getState().wins.forEach(w => window.__lnt.wm.getState().close(w.id)));

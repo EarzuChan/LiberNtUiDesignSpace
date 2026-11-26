@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { APPS, DOCK_PINNED, type AppId } from '@/lib/apps';
 import { useSys } from '@/lib/system';
-import { useWm } from '@/lib/wm';
-import { Glass, openMenu, openMenuAt, type MenuItem } from '@/ui';
+import { touchesTaskbar, useWm } from '@/lib/wm';
+import { Glass, openMenu, openMenuAt, ProgressiveBlur, type MenuItem } from '@/ui';
 import { Logo } from '@/ui/Logo';
 import {
   Battery820Regular, Bluetooth16Regular, CloudSync16Regular, ShieldCheckmark16Regular, BatterySaver20Regular, ChevronUp16Regular, Dismiss16Regular, Search24Regular, Speaker020Regular, Speaker120Regular, Speaker220Regular,
@@ -11,13 +11,13 @@ import {
 import { fmtDate, fmtDateLong, fmtTime, useNow } from './hooks';
 import { DockPeek, useDockPeek, type PeekApi } from './DockPeek';
 
-function DockApp({ app, peek }: { app: AppId; peek: PeekApi }) {
+function DockApp({ app, peek, suppressActive }: { app: AppId; peek: PeekApi; suppressActive?: boolean }) {
   const def = APPS[app];
   const wins = useWm(s => s.wins);
   const focused = useWm(s => s.focused);
   const mine = wins.filter(w => w.app === app && !w.closing);
   const running = mine.length > 0;
-  const active = mine.some(w => w.id === focused && !w.minimized);
+  const active = !suppressActive && mine.some(w => w.id === focused && !w.minimized);
   const [hop, setHop] = useState(false);
   const was = useRef(running);
   useEffect(() => {
@@ -78,27 +78,29 @@ export function Taskbar() {
   const { peek, api } = useDockPeek();
 
   const running = [...new Set(wins.filter(w => !w.closing).map(w => w.app))].filter(a => !DOCK_PINNED.includes(a));
-  const solid = wins.some(w => w.snap === 'max' && !w.minimized && !w.closing);
+  const solid = touchesTaskbar(wins);
+  const startActive = flyout === 'start';
+  const squareMode = style === 'classic' || shape === 'rounded';
   const SpeakerIcon = muted || volume === 0 ? SpeakerMute20Regular : volume < 34 ? Speaker020Regular : volume < 67 ? Speaker120Regular : Speaker220Regular;
 
   return (
     <>
     <div className="taskbar" data-solid={solid} data-align={align} data-shape={shape} data-style={style}>
+      <ProgressiveBlur side="bottom" size={148} strength={48} tint="var(--wp-scrim)" className="taskbar-scrim" />
       <Glass thickness="regular" edge={false} className="taskbar-plate" />
       <Glass thickness="regular" className="dock" noise>
-        <button type="button" className="dock-btn" data-flyout-trigger data-open={flyout === 'start'} data-tip="开始" onClick={() => toggle('start')}>
+        <button type="button" className="dock-btn dock-start" data-flyout-trigger data-open={flyout === 'start'} data-running={startActive && squareMode ? true : undefined} data-active={startActive && squareMode ? true : undefined} data-tip="开始" onClick={() => toggle('start')}>
           <Logo size={30} />
         </button>
         <button type="button" className="dock-btn dock-search" data-flyout-trigger data-tip="搜索" onClick={() => { useSys.getState().setFlyout('start'); setTimeout(() => document.querySelector<HTMLInputElement>('.start-search input')?.focus(), 60); }}>
           <Search24Regular />
         </button>
-        {style === 'dock' && <span className="dock-gap" />}
-        {DOCK_PINNED.map(a => <DockApp key={a} app={a} peek={api} />)}
+        {DOCK_PINNED.map(a => <DockApp key={a} app={a} peek={api} suppressActive={startActive} />)}
         {running.length > 0 && <span className="dock-sep" />}
-        {running.map(a => <DockApp key={a} app={a} peek={api} />)}
+        {running.map(a => <DockApp key={a} app={a} peek={api} suppressActive={startActive} />)}
       </Glass>
 
-      <Glass thickness="regular" className="tray" noise>
+      <div className="tray" data-theme={style === 'dock' && !solid ? 'dark' : undefined}>
         <button
           type="button"
           className="tray-btn"
@@ -107,7 +109,7 @@ export function Taskbar() {
           onClick={e => openMenuAt(e.currentTarget, [
             { header: "后台运行" },
             { label: "Liber Buds Pro", icon: <Bluetooth16Regular />, hint: "82%" },
-            { label: "安全中心", icon: <ShieldCheckmark16Regular />, hint: "无需操作", onClick: () => useWm.getState().launch("settings", { page: "privacy" }) },
+            { label: "安全中心", icon: <ShieldCheckmark16Regular />, hint: "无需操作", onClick: () => useWm.getState().launch("settings", { page: "privacy", sub: ["security"] }) },
             { label: "云同步", icon: <CloudSync16Regular />, hint: "已是最新" },
           ], { placement: "above" })}
         >
@@ -131,8 +133,8 @@ export function Taskbar() {
           <span>{fmtTime(now)}</span>
           <span>{fmtDate(now)}</span>
         </button>
-        <button type="button" className="tray-peek" data-tip="显示桌面" aria-label="显示桌面" onClick={() => useWm.getState().showDesktop()} />
-      </Glass>
+      </div>
+      <button type="button" className="taskbar-peek" data-tip="显示桌面" aria-label="显示桌面" onClick={() => useWm.getState().showDesktop()} />
     </div>
     <DockPeek peek={peek} api={api} />
     </>

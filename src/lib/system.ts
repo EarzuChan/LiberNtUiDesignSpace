@@ -124,8 +124,15 @@ export function activeAccent(s: SysState = useSys.getState()): AccentColor {
   return findAccent(s.accent);
 }
 
-/** 任务栏占位高度：悬浮 Dock 含上下留白为 76，经典任务栏为 48 */
-export const taskbarHeight = (s: SysState = useSys.getState()) => (s.taskbarStyle === 'classic' ? 48 : 76);
+let solidBar = false;
+/** 任务栏占位高度：经典任务栏为 48；悬浮 Dock 含上下留白为 76，有窗口碰到任务栏时主岛消融、上下留白收掉，与 Dock 同高 60 */
+export const taskbarHeight = (s: SysState = useSys.getState(), solid = solidBar) => (s.taskbarStyle === 'classic' ? 48 : solid ? 60 : 76);
+/** 由窗口管理器在「是否有可见窗口碰到任务栏」变化时调用 */
+export function setTaskbarSolid(v: boolean) {
+  if (v === solidBar) return;
+  solidBar = v;
+  document.documentElement.style.setProperty('--taskbar-h', `${taskbarHeight()}px`);
+}
 
 /** 把主题、强调色、着色强度等写到 <html>，CSS token 由此派生 */
 export function applySystemToDocument(s: SysState = useSys.getState()) {

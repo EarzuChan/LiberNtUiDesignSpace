@@ -6,7 +6,7 @@ import { cmpText, matchText } from '@/i18n';
 import { useSession } from '@/lib/session';
 import { useSys } from '@/lib/system';
 import { useWm } from '@/lib/wm';
-import { Avatar, Button, Glass, TextField, openMenuAt } from '@/ui';
+import { Avatar, Button, Glass, TextField, openMenuAt, useScrollEdge } from '@/ui';
 import { ArrowClockwise16Regular, ArrowExit16Regular, ArrowSync16Regular, ChevronLeft16Regular, ChevronRight16Regular, LockClosed16Regular, Power20Regular, Search20Regular, WeatherMoon16Regular } from '@/ui/icons';
 import { SETTINGS_PAGES } from '@/apps/settings/pages';
 import { useFlyout } from './hooks';
@@ -38,6 +38,7 @@ export function StartMenu() {
     };
   }, [q, nodes]);
 
+  const [listRef, listEdge] = useScrollEdge({ full: true });
   if (!show) return null;
   const allApps = Object.values(APPS).sort((a, b) => cmpText(a.category, b.category) || cmpText(a.name, b.name));
 
@@ -50,7 +51,7 @@ export function StartMenu() {
       {results ? (
         <div className="start-body" key="results">
           {results.apps.length + results.pages.length + results.files.length === 0 && <div className="start-empty">没有找到与“{query}”相关的结果</div>}
-          <div className="start-list scroll">
+          <div className="start-list scroll" ref={listRef}>
             {results.apps.length > 0 && <div className="start-letter">应用</div>}
             {results.apps.map(a => (
               <button key={a.id} type="button" className="start-row" onClick={() => launch(a)}>
@@ -71,6 +72,7 @@ export function StartMenu() {
               </button>
             ))}
           </div>
+          {listEdge}
         </div>
       ) : view === 'home' ? (
         <div className="start-body" key="home" style={{ ['--from' as string]: '-16px' }}>
@@ -102,7 +104,7 @@ export function StartMenu() {
             <span className="t-body-strong">所有应用</span>
             <Button size="sm" pill onClick={() => setView('home')}><ChevronLeft16Regular />返回</Button>
           </div>
-          <div className="start-list scroll">
+          <div className="start-list scroll" ref={listRef}>
             {allApps.map((a, i) => (
               <div key={a.id}>
                 {(i === 0 || allApps[i - 1].category !== a.category) && <div className="start-letter">{a.category}</div>}
@@ -110,6 +112,7 @@ export function StartMenu() {
               </div>
             ))}
           </div>
+          {listEdge}
         </div>
       )}
 

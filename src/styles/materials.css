@@ -4,6 +4,7 @@
    .mat-*          厚度：ultrathin / thin / regular / thick / mica
    .mat-edge       玻璃边缘：内沿高光（不做折射）
    .pblur          渐进式模糊
+   .scroll-edge    滚动上缘（切线 + 阴影）
    ========================================================================== */
 .mat {
   --mat-k: 1;
@@ -51,3 +52,7 @@
 /* 渐进式模糊：多层 backdrop-filter，每层用渐变蒙版限定作用带，模糊半径逐层倍增 */
 .pblur { position: absolute; pointer-events: none; overflow: hidden; }
 .pblur > i { position: absolute; inset: 0; }
+
+/* 滚动上缘（useScrollEdge）：与列表同层的顶部控件之下，内容滚过后在裁切处出现 1px 切线与向下的浅阴影 */
+.scroll-edge { position: absolute; z-index: 2; height: 10px; pointer-events: none; opacity: 0; border-top: 1px solid var(--stroke-divider); background: linear-gradient(var(--scroll-edge-shadow), transparent); transition: opacity var(--dur-fast) linear; }
+.scroll-edge[data-on='true'] { opacity: 1; }

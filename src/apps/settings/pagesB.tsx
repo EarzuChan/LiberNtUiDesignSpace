@@ -8,6 +8,7 @@ import {
   GlobeClock20Regular, History20Regular, Keyboard20Regular, LocalLanguage20Regular, Location20Regular, Mic20Regular, Open16Regular, Options20Regular,
   ShieldCheckmark20Regular, Sparkle20Regular, TextFont20Regular, Alert20Regular, Info20Regular, ArrowSync20Regular,
 } from '@/ui/icons';
+import type { PageProps } from './Settings';
 import { Group, Select } from './parts';
 
 export function TimePage() {
@@ -65,7 +66,7 @@ export function AccessibilityPage() {
   );
 }
 
-export function PrivacyPage() {
+export function PrivacyPage({ open }: PageProps) {
   const s = useSys();
   const [perm, setPerm] = useState({ camera: true, mic: true, notify: true, diag: false });
   const row = (k: keyof typeof perm, icon: React.ReactNode, title: string, desc: string) => (
@@ -75,7 +76,7 @@ export function PrivacyPage() {
     <>
       <InfoBar severity="success" title="设备受到保护">安全中心运行正常，上次扫描：今天 09:30，未发现威胁。</InfoBar>
       <Group title="安全">
-        <SettingRow icon={<ShieldCheckmark20Regular />} title="安全中心" desc="病毒防护、防火墙和设备安全" chevron onClick={() => {}} />
+        <SettingRow icon={<ShieldCheckmark20Regular />} title="安全中心" desc="病毒防护、防火墙和设备安全" chevron onClick={() => open('security')} />
         <SettingRow icon={<Desktop20Regular />} title="查找我的设备" desc="设备丢失时进行定位、锁定或抹除"><Switch checked /></SettingRow>
       </Group>
       <Group title="应用权限">
@@ -91,7 +92,7 @@ export function PrivacyPage() {
   );
 }
 
-export function UpdatePage() {
+export function UpdatePage({ open }: PageProps) {
   const [state, setState] = useState<'idle' | 'checking' | 'done'>('idle');
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -115,8 +116,8 @@ export function UpdatePage() {
         <Button variant="accent" size="lg" pill disabled={state === 'checking'} icon={<ArrowSync20Regular />} onClick={() => setState('checking')}>检查更新</Button>
       </div>
       <Group title="更多选项">
-        <SettingRow icon={<History20Regular />} title="更新历史记录" desc="LiberNT 26.11（内部版本 26200.1742）于 11 月 12 日安装" chevron onClick={() => {}} />
-        <SettingRow icon={<Options20Regular />} title="高级选项" desc="传递优化、可选更新、使用时段" chevron onClick={() => {}} />
+        <SettingRow icon={<History20Regular />} title="更新历史记录" desc="LiberNT 26.11（内部版本 26200.1742）于 11 月 12 日安装" chevron onClick={() => open('history')} />
+        <SettingRow icon={<Options20Regular />} title="高级选项" desc="传递优化、可选更新、使用时段" chevron onClick={() => open('advanced')} />
         <SettingRow icon={<Sparkle20Regular />} title="预览体验计划" desc="抢先体验新功能并提供反馈"><Switch checked={false} /></SettingRow>
       </Group>
     </>

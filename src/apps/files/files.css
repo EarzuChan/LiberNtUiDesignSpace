@@ -4,7 +4,6 @@
 .files-nav .item { min-height: 34px; gap: 10px; flex: none; }
 .files-nav .item img { width: 20px; height: 20px; flex: none; }
 .files-nav-title { font: var(--type-caption); color: var(--text-3); padding: 14px 10px 4px; flex: none; }
-.files-storage { margin: 0 8px 8px; padding: 12px; border-radius: var(--radius-card); background: var(--fill-control-alt); box-shadow: inset 0 0 0 1px var(--stroke-control); flex: none; }
 
 .files-pane { --head-h: 96px; --cols: minmax(180px, 1fr) 160px 150px 96px; }
 .files-pane[data-view='list'] { --head-h: 128px; }

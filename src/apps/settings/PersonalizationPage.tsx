@@ -140,7 +140,7 @@ export function PersonalizationPage() {
       </Group>
 
       <Group title="任务栏与桌面">
-        <SettingRow icon={<Dock20Regular />} title="任务栏样式" desc={s.taskbarStyle === 'dock' ? '悬浮 Dock：Dock 与托盘悬浮在桌面上，窗口最大化时收拢为通栏' : '经典任务栏：贴底通栏，开始按钮、应用图标与托盘同在一条栏上'}>
+        <SettingRow icon={<Dock20Regular />} title="任务栏样式" desc={s.taskbarStyle === 'dock' ? '悬浮 Dock：Dock 与托盘悬浮在桌面上，有窗口碰到任务栏时收拢为通栏' : '经典任务栏：贴底通栏，开始按钮、应用图标与托盘同在一条栏上'}>
           <Segmented value={s.taskbarStyle} onChange={v => s.set({ taskbarStyle: v })} options={[{ value: 'dock', label: '悬浮 Dock' }, { value: 'classic', label: '经典任务栏' }]} />
         </SettingRow>
         {s.taskbarStyle === 'dock' && (

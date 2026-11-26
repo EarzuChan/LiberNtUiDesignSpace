@@ -76,8 +76,9 @@ export function Slider({ value, onChange, min = 0, max = 100, fat, icon, classNa
   const [dragging, setDragging] = useState(false);
   const pn = (value - min) / (max - min);
   const update = (clientX: number) => {
-    const r = ref.current!.getBoundingClientRect();
-    const pad = fat ? 16 : 0;
+    const el = ref.current!, r = el.getBoundingClientRect();
+    // 粗滑块：图标格的一半；普通滑块：轨道两头各内缩半个手柄宽
+    const pad = fat ? 16 : parseFloat(getComputedStyle(el).getPropertyValue('--thumb-w')) / 2 || 0;
     const t = Math.min(1, Math.max(0, (clientX - r.left - pad) / (r.width - pad * 2)));
     onChange?.(Math.round(min + t * (max - min)));
   };
@@ -140,8 +141,17 @@ export function Segmented<T extends string>({ value, onChange, options }: { valu
   const ref = useRef<HTMLDivElement>(null);
   const [thumb, setThumb] = useState<{ left: number; width: number } | null>(null);
   useLayoutEffect(() => {
-    const el = ref.current?.querySelector<HTMLElement>('[aria-selected="true"]');
-    if (el) setThumb({ left: el.offsetLeft, width: el.offsetWidth });
+    const root = ref.current;
+    if (!root) return;
+    const measure = () => {
+      const el = root.querySelector<HTMLElement>('[aria-selected="true"]');
+      if (el) setThumb(t => (t && t.left === el.offsetLeft && t.width === el.offsetWidth ? t : { left: el.offsetLeft, width: el.offsetWidth }));
+    };
+    measure();
+    // 给定宽度时各项随容器伸缩，容器尺寸变化后也要重新测量
+    const ro = new ResizeObserver(measure);
+    ro.observe(root);
+    return () => ro.disconnect();
     // 语言切换后选项宽度会变，需要重新测量
   }, [value, options.length, getLang()]);
   return (

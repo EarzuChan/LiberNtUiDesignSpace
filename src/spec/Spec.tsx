@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ACCENTS } from '@/lib/accents';
 import { useSys } from '@/lib/system';
-import { Button, MenuHost, NavItem, Segmented, TooltipHost } from '@/ui';
+import { Button, MenuHost, NavItem, Segmented, TooltipHost, useScrollEdge } from '@/ui';
 import { Logo } from '@/ui/Logo';
 import { Desktop16Regular, WeatherMoon16Regular, WeatherSunny16Regular } from '@/ui/icons';
 import { ColorSection, OverviewSection } from './sections/Foundations';
@@ -22,6 +22,7 @@ export function Spec() {
   const s = useSys();
   const main = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState('overview');
+  const [navRef, navEdge] = useScrollEdge();
 
   useEffect(() => {
     const el = main.current!;
@@ -38,7 +39,7 @@ export function Spec() {
     <div className="spec">
       <aside className="spec-side">
         <div className="spec-brand"><Logo size={36} /><div><b>LiberNT 设计规范</b><span>26.11 · 草案</span></div></div>
-        <nav className="spec-nav scroll">
+        <nav className="spec-nav scroll" ref={navRef}>
           {NAV.map(([group, items]) => (
             <div key={group} className="col" style={{ gap: 2 }}>
               <div className="spec-nav-title">{group}</div>
@@ -48,6 +49,7 @@ export function Spec() {
             </div>
           ))}
         </nav>
+        {navEdge}
         <div className="spec-side-foot">
           <Segmented value={s.lang} onChange={s.setLanguage} options={[{ value: 'en', label: 'English' }, { value: 'zh', label: '中文' }]} />
           <Segmented value={s.theme} onChange={v => s.set({ theme: v })} options={[{ value: 'light', label: '亮色', icon: <WeatherSunny16Regular /> }, { value: 'dark', label: '暗色', icon: <WeatherMoon16Regular /> }]} />

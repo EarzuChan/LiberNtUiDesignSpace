@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type PointerEvent as RPointerEvent, type ReactNode } from 'react';
-import { useWm, winRect, workArea, type Rect, type SnapZone, type Win } from '@/lib/wm';
+import { touchesTaskbar, useWm, winRect, workArea, type Rect, type SnapZone, type Win } from '@/lib/wm';
 import { useSys } from '@/lib/system';
 import { luma } from '@/lib/luma';
 import { APPS } from '@/lib/apps';
@@ -38,7 +38,8 @@ export function WindowView({ win, children }: { win: Win; children: ReactNode })
   const wm = useWm.getState;
   const active = useWm(s => s.focused === win.id);
   useViewport();
-  useSys(s => s.taskbarStyle); // 任务栏样式改变时工作区高度变化，贴靠/最大化的窗口需要重排
+  useSys(s => s.taskbarStyle); // 任务栏样式或收拢状态改变时工作区高度变化，贴靠/最大化的窗口需要重排
+  useWm(s => touchesTaskbar(s.wins));
   const rect = winRect(win);
   const root = useRef<HTMLDivElement>(null);
   const frame = useRef<HTMLDivElement>(null);

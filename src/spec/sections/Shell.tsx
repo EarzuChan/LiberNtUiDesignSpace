@@ -10,16 +10,17 @@ const SIDE: [string, string][] = [['home', '主页'], ['desktop', '桌面'], ['f
 const DOCK: [AppId, boolean, boolean][] = [['files', true, true], ['edge', true, false], ['photos', false, false], ['notepad', false, false], ['settings', true, false]];
 const BEHAVIOR = [
   ['拖拽', '按住标题区任意空白处拖动；窗口至少保留 80px 在屏幕内，标题栏不会越过工作区顶部。'],
-  ['贴靠', '拖到左/右边缘贴靠半屏，靠近上下四分之一处贴靠四分之一屏，拖到顶边最大化。松手前显示玻璃预览。从贴靠状态拖出时恢复原尺寸。'],
-  ['最大化', '双击标题区或点击最大化按钮。窗口圆角归零，悬浮的 Dock 与托盘收拢为通栏底板。'],
+  ['贴靠', '拖到左/右边缘贴靠半屏，靠近上下四分之一处贴靠四分之一屏，拖到顶边最大化。松手前显示玻璃预览。贴靠后圆角归零、去掉投影，只留 1px 内沿描边作为相邻窗口的接缝。从贴靠状态拖出时恢复原尺寸。'],
+  ['最大化', '双击标题区或点击最大化按钮。窗口圆角归零，边缘高光与投影淡出，控制按钮的命中区延伸到屏幕顶边与右边；底部遮罩换成通栏底板，Dock 主岛的底色、模糊与边缘随之消融。'],
   ['最小化', '窗口缩入 Dock 上对应的图标；再次点击图标还原。点击已聚焦应用的图标则最小化。'],
   ['悬停与选中', '圆角矩形 Dock 与经典任务栏不绘制图标外框；悬停改为一团微弱的圆形光，前台状态只由底部宽舌片表达。胶囊 Dock 仍使用提亮底板。'],
   ['运行指示', '胶囊 Dock 中为 5px 圆点；圆角矩形 Dock 与经典任务栏中为高 3px 的上圆角舌片。运行中宽 8px；前台使用强调色，宽度与图标相同（圆角矩形 Dock 36px，经典任务栏 26px）；舌片底边与容器底边齐平，在圆角矩形 Dock 中压住下沿高光。'],
+  ['开始菜单激活', '开始菜单打开期间接管任务栏激活态，原前台应用退回运行中，关闭后自动还原；方形模式中开始按钮显示前台舌片，胶囊 Dock 中沿用打开底板。'],
   ['任务栏预览', '悬停在运行中的应用上片刻，图标上方浮出一块单层面板，各窗口的标题与缩略图（悬停那一刻的静态快照，最小化的窗口也有）直接并排其上。缩略图之间的间隙是共用的：悬停哪个窗口，哪一列就整列提亮并占满间隙。点击切到该窗口，右上角可直接关闭；预览打开后在图标间移动即时切换。'],
   ['多窗口', '应用有两个及以上窗口时，胶囊 Dock 中它在前台或被悬停时底板后面再垫一张（悬停时淡一些），不论窗口多少只叠两层，月牙露在圆外；圆角矩形 Dock 与经典任务栏不使用层叠底板。'],
   ['调整大小', '八个方向的隐形手柄，向外溢出 5px。每个应用声明最小尺寸。'],
   ['失焦', '阴影由 64 降为较浅的一级，标题与控制按钮降为三级文字色；材质保持不变。'],
-  ['窗口边缘', '整圈内沿高光属于窗口外壳而不是材质，绘制在内容层之上；最大化时随窗口圆角一起归零。'],
+  ['窗口边缘', '窗口外沿是一圈画在窗口之外的 1px 描边，不压内容；顶边一道倒角高光留在内侧，绘制在内容层之上。贴靠时改为 1px 内沿描边作接缝，最大化时全部淡出。'],
 ];
 
 export function ShellSection() {
@@ -65,7 +66,6 @@ export function ShellSection() {
           <Glass thickness="regular" fixedLuma={bl} className="anatomy-dock" noise>
             <span className="dock-btn" data-open><Logo size={30} /></span>
             <span className="dock-btn dock-search"><Search24Regular /></span>
-            <span className="dock-gap" />
             {DOCK.map(([id, running, active]) => <span key={id} className="dock-btn" data-running={running} data-active={active} data-multi={active}><img src={APPS[id].icon} alt="" /></span>)}
           </Glass>
           <span className="callout" style={{ left: -96, top: 44 }}>高 60 · 胶囊</span>

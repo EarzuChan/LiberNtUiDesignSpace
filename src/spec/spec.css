@@ -119,7 +119,7 @@ body { overflow: hidden; }
 .static-tip { position: relative !important; animation: none !important; display: inline-block; }
 .anatomy { position: relative; border-radius: var(--radius-20); overflow: hidden; padding: 56px 40px 64px; display: grid; place-items: center; }
 .anatomy > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.anatomy-win { position: relative; z-index: 0; width: 640px; height: 360px; border-radius: var(--radius-window); overflow: hidden; display: flex; box-shadow: var(--shadow-64); }
+.anatomy-win { position: relative; z-index: 0; width: 640px; height: 360px; border-radius: var(--radius-window); overflow: hidden; display: flex; box-shadow: 0 0 0 1px var(--stroke-window), var(--shadow-64); }
 .anatomy-dock { position: relative; margin-top: 28px; height: var(--dock-h); padding: 6px 8px; border-radius: var(--radius-pill); --dock-btn-r: 50%; display: flex; align-items: center; gap: 2px; --mat-shadow: var(--shadow-16); }
 .callout { position: absolute; z-index: 3; font: 11px/14px var(--font-mono); color: #fff; background: oklch(0.45 0.2 var(--accent-h)); padding: 3px 7px; border-radius: 5px; white-space: nowrap; box-shadow: var(--shadow-8); }
 

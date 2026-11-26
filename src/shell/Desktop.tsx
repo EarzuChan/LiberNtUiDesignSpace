@@ -4,7 +4,7 @@ import { resolveWallpaper } from '@/lib/wallpapers';
 import { luma } from '@/lib/luma';
 import { WallpaperLayer } from '@/ui/WallpaperLayer';
 import { useWm, zoneRect } from '@/lib/wm';
-import { Glass, MenuHost, ProgressiveBlur, TooltipHost } from '@/ui';
+import { Glass, MenuHost, TooltipHost } from '@/ui';
 import { AppView } from '@/apps';
 import { WindowView, useViewport } from './Window';
 import { Taskbar } from './Taskbar';
@@ -69,7 +69,6 @@ export function Desktop() {
   return (
     <div className="desktop" onContextMenu={e => e.preventDefault()}>
       <Wallpaper />
-      <ProgressiveBlur side="bottom" size={132} strength={14} tint="rgb(0 0 0 / 0.14)" className="desktop-foot" />
       {showIcons && <DesktopIcons />}
       {showWidgets && <Widgets />}
       <div className="win-layer">

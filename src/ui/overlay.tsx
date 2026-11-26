@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 're
 import { createPortal } from 'react-dom';
 import { Glass } from './Glass';
 import { Button, cx } from './controls';
-import { CheckmarkCircle20Filled, ChevronDown16Regular, ChevronRight16Regular, ErrorCircle20Filled, Info20Filled, Warning20Filled } from './icons';
+import { CheckmarkCircle20Filled, ChevronDown16Regular, ChevronRight16Regular, ChevronRight20Regular, ErrorCircle20Filled, Info20Filled, Warning20Filled } from './icons';
 
 /** 全局提示宿主：任何带 data-tip 的元素悬停后显示提示；data-tip-side 可取 top/bottom。元素位于 data-overlay-theme 区域内时提示使用该主题 */
 export function TooltipHost() {
@@ -123,15 +123,20 @@ export function Expander({ icon, title, desc, trailing, children, defaultOpen }:
   );
 }
 
-export function Breadcrumb({ items, onNavigate }: { items: string[]; onNavigate?: (index: number) => void }) {
+/** 面包屑：最后一级为当前位置（aria-current，不可点）。size="title" 用作页面标题（设置的次级页） */
+export function Breadcrumb({ items, onNavigate, size }: { items: string[]; onNavigate?: (index: number) => void; size?: 'title' }) {
+  const Sep = size === 'title' ? ChevronRight20Regular : ChevronRight16Regular;
   return (
-    <div className="crumbs">
-      {items.map((it, i) => (
-        <span key={i} style={{ display: 'contents' }}>
-          {i > 0 && <ChevronRight16Regular />}
-          <button type="button" className="crumb" onClick={() => onNavigate?.(i)}>{it}</button>
-        </span>
-      ))}
+    <div className={cx('crumbs', size === 'title' && 'crumbs-title')}>
+      {items.map((it, i) => {
+        const last = i === items.length - 1;
+        return (
+          <span key={i} style={{ display: 'contents' }}>
+            {i > 0 && <Sep />}
+            <button type="button" className="crumb" aria-current={last ? 'page' : undefined} onClick={() => !last && onNavigate?.(i)}>{it}</button>
+          </span>
+        );
+      })}
     </div>
   );
 }

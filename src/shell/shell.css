@@ -17,8 +17,6 @@
 /* 同一张动态壁纸的昼/夜切换：画面内容相同，只做淡化，不缩放 */
 .wp-layer.wp-fade { animation-name: wallpaper-fade; }
 @keyframes wallpaper-fade { from { opacity: 0; } }
-/* 屏幕底部的渐进式模糊，让悬浮任务栏「落」在壁纸上 */
-.desktop-foot { z-index: 0; }
 
 /* ---------- 桌面图标 ---------- */
 .dicons { position: absolute; inset: 0 0 var(--taskbar-h) 0; z-index: var(--z-desktop); }
@@ -26,17 +24,16 @@
   position: absolute;
   width: 88px;
   height: 104px;
-  padding: 8px 4px 4px;
-  border-radius: var(--radius-item);
+  padding: 4px 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
   color: #fff;
-  transition: background var(--dur-instant) linear;
 }
+/* 图标与名称同在一块里，宽高由两者撑出；悬停和选中的底都画在这块上，而不是整个格子 */
+.dicon-body { position: relative; max-width: 100%; padding: 4px; border-radius: var(--radius-8); display: flex; flex-direction: column; align-items: center; gap: 5px; transition: background var(--dur-instant) linear; }
 .dicon img { width: 52px; height: 52px; filter: drop-shadow(0 2px 5px rgb(0 0 0 / 0.28)); pointer-events: none; }
-.dicon span {
+.dicon-name {
   font: var(--type-caption);
   text-align: center;
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.7), 0 0 8px rgb(0 0 0 / 0.4);
@@ -45,12 +42,14 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   overflow-wrap: anywhere; /* 西文按单词换行，放不下时才断词；中文照常逐字换行 */
-  padding: 0 2px;
 }
 /* 快捷方式角标 */
-.dicon-link { position: absolute; left: 20px; top: 44px; width: 16px; height: 16px; border-radius: var(--radius-4); display: grid; place-items: center; background: #fff; color: #1a6fd6; box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); pointer-events: none; }
-.dicon:hover { background: rgb(255 255 255 / 0.12); }
-.dicon[aria-selected='true'] { background: rgb(255 255 255 / 0.2); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.28); backdrop-filter: blur(8px); }
+.dicon-link { position: absolute; left: calc(50% - 24px); top: 40px; width: 16px; height: 16px; border-radius: var(--radius-4); display: grid; place-items: center; background: #fff; color: #1a6fd6; box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); pointer-events: none; }
+.dicon:hover .dicon-body { background: rgb(255 255 255 / 0.12); }
+/* 选中：图标与名称这一块整块铺实色强调色（宽高由两者撑出，不是整个格子），名称完整显示，可盖过下方的格子 */
+.dicon[aria-selected='true'] { z-index: 1; }
+.dicon[aria-selected='true'] .dicon-body { background: var(--accent); color: var(--on-accent); }
+.dicon[aria-selected='true'] .dicon-name { -webkit-line-clamp: unset; text-shadow: none; }
 .dicon[data-dragging='true'] { opacity: 0.75; z-index: 2; transition: none; }
 .marquee { position: absolute; border-radius: var(--radius-4); background: oklch(0.7 var(--accent-c) var(--accent-h) / 0.22); box-shadow: inset 0 0 0 1px oklch(0.8 var(--accent-c) var(--accent-h) / 0.7); pointer-events: none; z-index: 3; }
 
@@ -72,7 +71,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-window-inactive);
+  box-shadow: 0 0 0 1px var(--stroke-window), var(--shadow-window-inactive);
   animation: win-in 280ms var(--ease-out);
   transition: --bl 420ms linear, border-radius var(--dur-normal) var(--ease-out), box-shadow var(--dur-normal) linear;
 }
@@ -82,10 +81,19 @@
   z-index: 20;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px var(--glass-edge), inset 0 1px 0 0 var(--glass-edge-top);
+  box-shadow: inset 0 1px 0 0 var(--glass-edge-top);
+  transition: opacity var(--dur-normal) linear, box-shadow var(--dur-normal) linear;
 }
-.win[data-active='true'] .win-frame { box-shadow: var(--shadow-64); }
-.win[data-snap='max'] .win-frame { border-radius: 0; }
+/* 窗口外沿是一圈画在窗口之外的 1px 描边（.win-frame 的外投影），不压内容；只有顶边那道倒角高光留在内侧（.win-edge） */
+.win[data-active='true'] .win-frame { box-shadow: 0 0 0 1px var(--stroke-window), var(--shadow-64); }
+/* 贴靠与最大化的窗口不再是浮在桌面上的物件：圆角归零、去掉外沿与投影。贴靠的窗口彼此无间隙，外沿会压到邻居，所以改为 1px 内沿描边作接缝；最大化时高光整圈淡出 */
+.win[data-snap] .win-frame { border-radius: 0; box-shadow: none; }
+.win[data-snap] .win-edge { box-shadow: inset 0 0 0 1px var(--glass-edge); }
+.win[data-snap='max'] .win-edge { opacity: 0; }
+/* 最大化时控制按钮的命中区延伸到屏幕顶边，「关闭」再延伸到右边：甩到右上角即可关闭。外观不变 */
+.win[data-snap='max'] .caption-btn { position: relative; }
+.win[data-snap='max'] .caption-btn::before { content: ''; position: absolute; inset: -16px -1px 0; }
+.win[data-snap='max'] .caption-close::before { right: -16px; }
 .win[data-closing] .win-frame { animation: win-out 160ms var(--ease-in) forwards; }
 @keyframes win-in { from { opacity: 0; transform: scale(0.94); } }
 @keyframes win-out { to { opacity: 0; transform: scale(0.95); } }
@@ -126,17 +134,25 @@
 @keyframes snap-in { from { opacity: 0; transform: scale(0.92); } }
 
 /* ---------- 任务栏 ---------- */
-.taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: var(--taskbar-h); z-index: var(--z-taskbar); pointer-events: none;
-  /* 外形：胶囊（默认）——Dock 与托盘为全圆，图标悬停底为圆形 */
-  --dock-r: var(--radius-pill); --dock-btn-r: 50%; --tray-r: var(--radius-pill); --tray-btn-r: var(--radius-pill); }
-.taskbar[data-shape='rounded'] { --dock-r: var(--radius-16); --dock-btn-r: var(--radius-10); --tray-r: 14px; --tray-btn-r: var(--radius-8); }
+.taskbar { position: absolute; left: 0; right: 0; bottom: 0; height: var(--taskbar-h); z-index: var(--z-taskbar); pointer-events: none; transition: height var(--dur-gentle) var(--ease-out);
+  /* 外形：胶囊（默认）——Dock 为全圆，图标悬停底为圆形 */
+  --dock-r: var(--radius-pill); --dock-btn-r: 50%; --tray-btn-r: var(--radius-pill); }
+.taskbar[data-shape='rounded'] { --dock-r: var(--radius-16); --dock-btn-r: var(--radius-10); --tray-btn-r: var(--radius-8); }
 .taskbar[data-shape='pill'] .dock { padding: 6px 8px; }
-.taskbar[data-shape='pill'] .tray { padding: 6px 8px; }
 .taskbar > * { pointer-events: auto; }
-/* 有窗口最大化时，悬浮胶囊收拢为通栏底板 */
+/* 悬浮 Dock 只有主岛是岛；托盘不设底板，直接落在屏幕底部的遮罩上：自底边向上由黑到透明、由很模糊到清晰。
+   遮罩的淡入淡出加在各个模糊层自身上，不加在容器上，否则容器会成为 backdrop root */
+.taskbar-scrim { pointer-events: none !important; }
+.taskbar-scrim > i { transition: opacity var(--dur-gentle) linear; }
+/* 有窗口碰到任务栏时（最大化、贴靠到底边、伸进任务栏区域），遮罩换成通栏底板，主岛的底色、模糊、高光边与投影一并消融，图标直接落在底板上 */
 .taskbar-plate { position: absolute; inset: 0; opacity: 0; pointer-events: none !important; transition: opacity var(--dur-gentle) linear, --bl 420ms linear; box-shadow: inset 0 1px 0 var(--glass-edge); }
 .taskbar[data-solid='true'] .taskbar-plate { opacity: 1; }
-.taskbar[data-solid='true'] .dock, .taskbar[data-solid='true'] .tray { background-color: transparent; backdrop-filter: none; box-shadow: none; }
+.taskbar[data-solid='true'] .taskbar-scrim > i { opacity: 0; }
+.taskbar[data-solid='true'] .dock { background-color: transparent; backdrop-filter: none; box-shadow: none; }
+/* 岛消融后上下留白一并收掉：通栏与 Dock 同高（--taskbar-h 由 76 变为 60），Dock 贴底，托盘保持与 Dock 中线对齐 */
+.taskbar[data-style='dock'][data-solid='true'] .dock { bottom: 0; }
+.taskbar[data-style='dock'][data-solid='true'] .tray { bottom: 6px; }
+.taskbar[data-solid='true'] .dock::after { opacity: 0; }
 
 .dock {
   position: absolute;
@@ -150,9 +166,13 @@
   align-items: center;
   gap: 2px;
   --mat-shadow: var(--shadow-16);
-  transition: --bl 420ms linear, background-color var(--dur-gentle) linear, box-shadow var(--dur-gentle) linear;
+  transition: --bl 420ms linear, background-color var(--dur-gentle) linear, box-shadow var(--dur-gentle) linear, backdrop-filter var(--dur-gentle) linear, bottom var(--dur-gentle) var(--ease-out);
 }
-.taskbar[data-align='left'] .dock { left: 12px; translate: none; }
+.dock::after { transition: opacity var(--dur-gentle) linear; }
+/* 靠左时 Dock 左缘随内边距退让，图标起点固定在 18px，切换外形时图标不位移（居中时两侧对称伸缩，本来就不动）。
+   translate 不能是 none：Dock 消融时没有变换会让同层底板的 backdrop-filter 在 Chromium 里失效 */
+.taskbar[data-align='left'] .dock { left: 12px; translate: 0 0; }
+.taskbar[data-align='left'][data-shape='pill'] .dock { left: 10px; }
 .dock-btn { position: relative; --cell: 48px; --stack: 4px; width: var(--cell); height: var(--cell); border-radius: var(--dock-btn-r); display: grid; place-items: center; flex: none; transition: background var(--dur-instant) linear, box-shadow var(--dur-fast) linear, width var(--dur-fast) var(--ease-out), margin var(--dur-fast) var(--ease-out), padding var(--dur-fast) var(--ease-out); }
 .dock-btn:hover { background: var(--fill-plate-hover); }
 /* 前台/已展开：一块有厚度的底板（--plate-bevel） */
@@ -168,6 +188,8 @@
 :is(.taskbar[data-shape='rounded'], .taskbar[data-style='classic']) .dock-btn::after { bottom: -6px; width: 8px; height: 3px; margin-left: -4px; border-radius: 2px 2px 0 0; transform-origin: 50% 100%; }
 .taskbar[data-shape='rounded'] .dock-btn[data-active='true']::after { width: 36px; margin-left: -18px; background: var(--accent); }
 .taskbar[data-style='classic'] .dock-btn[data-active='true']::after { width: 26px; margin-left: -13px; background: var(--accent); }
+.taskbar[data-shape='rounded'] .dock-start[data-active='true']::after { width: 30px; margin-left: -15px; }
+.taskbar[data-style='classic'] .dock-start[data-active='true']::after { width: 24px; margin-left: -12px; }
 .taskbar[data-style='classic'] .dock-btn::after { bottom: -4px; }
 /* 多窗口：胶囊 Dock 中当前项或悬停项后面再垫一张圆形底板（悬停时淡一些），不论窗口多少只叠两层。背板用蒙版挖掉被前板盖住的部分，前板的亮度因此不变 */
 .dock-btn::before { content: ''; position: absolute; top: 0; bottom: 0; left: var(--stack); width: 100%; border-radius: inherit; pointer-events: none; opacity: 0; background: var(--fill-plate-hover); box-shadow: var(--plate-edge); transition: opacity var(--dur-fast) linear;
@@ -178,16 +200,23 @@
 .dock-btn[data-new='true'] > img { animation: dock-hop 520ms var(--ease-out); }
 @keyframes dock-hop { 30% { transform: translateY(-12px); } 60% { transform: translateY(0); } 78% { transform: translateY(-4px); } }
 .dock-sep { width: 1px; height: 28px; margin: 0 6px; background: var(--stroke-divider); flex: none; }
-.dock-gap { width: 1px; margin: 0 6px; flex: none; }
 .dock-search { color: var(--text-1); }
 
-.tray { position: absolute; right: 12px; bottom: 14px; height: 48px; padding: 6px; border-radius: var(--tray-r); display: flex; align-items: center; gap: 2px; --mat-shadow: var(--shadow-16); transition: --bl 420ms linear, background-color var(--dur-gentle) linear, box-shadow var(--dur-gentle) linear; }
-.tray-btn { height: 36px; min-width: 32px; padding: 0 10px; border-radius: var(--tray-btn-r); display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-1); transition: background var(--dur-instant) linear, box-shadow var(--dur-fast) linear; }
+/* 托盘没有底板；悬浮在遮罩上时按暗色处理（data-theme），收进底板后跟随页面主题，文字颜色随之过渡 */
+.tray { position: absolute; right: 12px; bottom: 14px; height: 48px; padding: 6px 8px; display: flex; align-items: center; gap: 2px; transition: bottom var(--dur-gentle) var(--ease-out); }
+.tray[data-theme='dark'] { text-shadow: var(--wp-text-shadow); }
+.tray[data-theme='dark'] svg { filter: var(--wp-icon-shadow); }
+.tray-btn { height: 36px; min-width: 32px; padding: 0 10px; border-radius: var(--tray-btn-r); display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-1); transition: background var(--dur-instant) linear, box-shadow var(--dur-fast) linear, color var(--dur-gentle) linear; }
 .tray-btn:hover { background: var(--fill-plate-hover); }
 .tray-clock { flex-direction: column; align-items: flex-end; gap: 0; font: var(--type-caption); line-height: 15px; padding: 0 10px; }
 .tray-ime { font: 600 13px/1 var(--font-ui); width: 32px; padding: 0; }
 .tray-ime[data-lang='en'] { width: 40px; font-size: 12px; letter-spacing: 0.02em; }
-.tray-peek { display: none; }
+/* 屏幕最右下角的「显示桌面」细条：平时不可见，悬停才露出。悬浮 Dock 里是叠在遮罩上的一道细亮线；通栏（经典任务栏或收拢后的底板）里是一根分隔线 */
+.taskbar-peek { position: absolute; right: 0; bottom: 0; width: 12px; height: 100%; }
+.taskbar-peek::before { content: ''; position: absolute; left: 50%; top: 50%; width: 2px; height: 24px; translate: -50% -50%; border-radius: var(--radius-pill); background: rgb(255 255 255 / 0.9); filter: var(--wp-icon-shadow); opacity: 0; transition: opacity var(--dur-fast) linear, height var(--dur-fast) var(--ease-out); }
+.taskbar-peek:hover::before { opacity: 1; }
+.taskbar-peek:active::before { height: 18px; }
+:is(.taskbar[data-style='classic'], .taskbar[data-solid='true']) .taskbar-peek::before { width: 1px; height: 28px; border-radius: 0; background: var(--text-3); filter: none; }
 
 /* ---------- 任务栏窗口预览：单层面板，各窗口的标题与缩略图直接并排其上。
    每个窗口占一整列（上下左右各带一份内边距），相邻两列重叠一份内边距，所以缩略图之间的间隙是共用的；
@@ -210,11 +239,12 @@
 .peek-thumb { position: relative; overflow: hidden; border-radius: var(--radius-4); background: var(--surface-base); box-shadow: 0 0 0 1px var(--stroke-control), var(--shadow-4); pointer-events: none; }
 
 /* ---------- 经典任务栏：贴底通栏，Win11 式 ---------- */
-[data-taskbar='classic'] .desktop-foot { display: none; }
 .taskbar[data-style='classic'] { --dock-btn-r: var(--radius-4); --tray-btn-r: var(--radius-4); }
 .taskbar[data-style='classic'] .taskbar-plate { opacity: 1; }
-.taskbar[data-style='classic'] .dock, .taskbar[data-style='classic'] .tray { bottom: 0; height: var(--taskbar-h); border-radius: 0; background-color: transparent; backdrop-filter: none; box-shadow: none; }
-.taskbar[data-style='classic'] .dock::after, .taskbar[data-style='classic'] .tray::after { display: none; }
+.taskbar[data-style='classic'] .taskbar-scrim { display: none; }
+.taskbar[data-style='classic'] .dock, .taskbar[data-style='classic'] .tray { bottom: 0; height: var(--taskbar-h); }
+.taskbar[data-style='classic'] .dock { border-radius: 0; background-color: transparent; backdrop-filter: none; box-shadow: none; }
+.taskbar[data-style='classic'] .dock::after { display: none; }
 .taskbar[data-style='classic'] .dock { padding: 0 6px; gap: 4px; }
 .taskbar[data-style='classic'][data-align='left'] .dock { left: 0; }
 .taskbar[data-style='classic'] .dock-btn { --cell: 40px; }
@@ -222,12 +252,8 @@
 .taskbar[data-style='classic'] .dock-btn > svg { width: 24px; height: 24px; }
 .taskbar[data-style='classic'] .dock-btn:active > img, .taskbar[data-style='classic'] .dock-btn:active > svg { transform: scale(0.84); }
 .taskbar[data-style='classic'] .dock-sep { display: none; }
-.taskbar[data-style='classic'] .tray { right: 0; padding: 0 0 0 6px; gap: 2px; }
+.taskbar[data-style='classic'] .tray { right: 18px; padding: 0 0 0 6px; gap: 2px; }
 .taskbar[data-style='classic'] .tray-btn { height: 40px; }
-/* 最右侧的「显示桌面」细条 */
-.taskbar[data-style='classic'] .tray-peek { display: block; align-self: stretch; width: 12px; margin-left: 6px; position: relative; }
-.taskbar[data-style='classic'] .tray-peek::before { content: ''; position: absolute; left: 5px; top: 10px; bottom: 10px; width: 1px; background: var(--stroke-divider); opacity: 0; transition: opacity var(--dur-fast) linear; }
-.taskbar[data-style='classic'] .tray-peek:hover::before { opacity: 1; background: var(--text-3); }
 
 /* ---------- 浮层基类 ---------- */
 .flyout { position: absolute; z-index: var(--z-flyout); bottom: calc(var(--taskbar-h) + var(--flyout-gap, 4px)); border-radius: var(--radius-flyout); --mat-shadow: var(--shadow-32); animation: flyout-in 300ms var(--ease-out); transition: --bl 420ms linear; }

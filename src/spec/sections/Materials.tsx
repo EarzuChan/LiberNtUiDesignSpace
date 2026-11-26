@@ -8,7 +8,7 @@ import { Kv, Section } from '../parts';
 const THICKNESS: [GlassThickness, string, string, string][] = [
   ['ultrathin', '极薄', 'blur 14 · k 0.55', '贴靠预览、图片上的悬浮按钮'],
   ['thin', '薄', 'blur 24 · k 0.78', '桌面小组件'],
-  ['regular', '常规', 'blur 40 · k 1.00', 'Dock、托盘、任务栏底板'],
+  ['regular', '常规', 'blur 40 · k 1.00', 'Dock、任务栏底板'],
   ['thick', '厚', 'blur 60 · k 1.14', '开始菜单、控制中心、菜单、提示'],
   ['mica', '云母', 'blur 90 · 独立不透明度', '窗口底板（侧栏、标题栏透出）'],
 ];
