@@ -42,7 +42,7 @@ export function ShellSection() {
               </div>
             </aside>
             <section className="app-pane">
-              <div className="row chrome-bar" style={{ height: 52, paddingLeft: 16 }}>
+              <div className="row chrome-bar" style={{ paddingLeft: 16 }}>
                 <span className="t-body-strong">文档</span>
                 <div className="caption">
                   <span className="caption-btn"><Subtract16Regular /></span><span className="caption-btn"><Square16Regular /></span><span className="caption-btn"><Dismiss16Regular /></span>
@@ -57,7 +57,7 @@ export function ShellSection() {
           </Glass>
           <span className="callout" style={{ left: -34, top: -12 }}>圆角 12</span>
           <span className="callout" style={{ left: -70, top: 262 }}>侧栏 · 云母玻璃 · 宽 248</span>
-          <span className="callout" style={{ left: 250, top: -12 }}>标题区 52 · 可拖拽</span>
+          <span className="callout" style={{ left: 250, top: -12 }}>标题区 48 · 可拖拽</span>
           <span className="callout" style={{ right: -58, top: 40 }}>控制按钮 40×32 · 沿中线对齐</span>
           <span className="callout" style={{ right: -40, top: 240 }}>内容面板 · --surface-pane</span>
           <span className="callout" style={{ left: 220, bottom: -12 }}>阴影 64 · 窗口边缘高光</span>

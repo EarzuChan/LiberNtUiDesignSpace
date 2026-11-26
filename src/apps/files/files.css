@@ -1,16 +1,16 @@
 /* 文件管理器 */
-.files-side-head { height: 52px; flex: none; display: flex; align-items: center; gap: 10px; padding: 0 18px; font: var(--type-body-strong); }
+.files-side-head { height: 48px; flex: none; display: flex; align-items: center; gap: 10px; padding: 0 18px; font: var(--type-body-strong); }
 .files-nav { flex: 1; min-height: 0; padding: 0 8px 8px; display: flex; flex-direction: column; gap: 2px; }
 .files-nav .item { min-height: 34px; gap: 10px; flex: none; }
 .files-nav .item img { width: 20px; height: 20px; flex: none; }
 .files-nav-title { font: var(--type-caption); color: var(--text-3); padding: 14px 10px 4px; flex: none; }
 
-.files-pane { --head-h: 96px; --cols: minmax(180px, 1fr) 160px 150px 96px; }
-.files-pane[data-view='list'] { --head-h: 128px; }
+.files-pane { --head-h: 92px; --cols: minmax(180px, 1fr) 160px 150px 96px; }
+.files-pane[data-view='list'] { --head-h: 124px; }
 .files-head { position: absolute; top: 0; left: 0; right: 0; z-index: 3; height: var(--head-h); }
 /* 标题区：内容从下方滑入时渐进模糊 + 渐隐到面板底色 */
 .files-head-bg { position: absolute; inset: 0 0 -20px 0; pointer-events: none; background: linear-gradient(to bottom, color-mix(in oklch, var(--surface-pane) 86%, transparent) 62%, transparent); }
-.files-toolbar { position: relative; height: 52px; display: flex; align-items: center; gap: 2px; padding-left: 12px; }
+.files-toolbar { position: relative; display: flex; align-items: center; gap: 2px; padding-left: 12px; }
 .files-addr { flex: 1; min-width: 0; height: 32px; display: flex; align-items: center; gap: 6px; padding: 0 6px 0 12px; margin: 0 8px; border-radius: var(--radius-pill); background: var(--fill-input); box-shadow: inset 0 0 0 1px var(--stroke-control); overflow: hidden; }
 .files-addr > img { width: 18px; height: 18px; flex: none; }
 .files-addr .crumb { height: 24px; }

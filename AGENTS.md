@@ -30,7 +30,7 @@
 
 - 组件只引用语义 token，不直接写色值；主题通过任意节点上的 `data-theme="light|dark"` 切换。
 - 圆角按角色分两极：结构性表面（卡片、列表行、表单控件）4–8，窗口与对话框 12；悬浮表面 16–28（浮层 `--radius-flyout` 28、小组件 20）；可拨弄的小物件（搜索框、开关、分段、圆形按钮、Dock）全圆。不要用 10–14 的中间档，除非是同心推导的结果。
-- 嵌套圆角保持同心（内 = 外 − 间距）。浮层内的磁贴用 `--radius-tile`（= 浮层圆角 − `--flyout-pad`），磁贴内的可点击行用 `--radius-tile-item`（= 磁贴圆角 − `--tile-pad`）；不要给它们写死数值，要调就调 `--radius-flyout`。胶囊按钮（`<Button pill>`）只用于独立主操作、媒体控制和筛选，表单与对话框按钮保持小圆角。
+- 嵌套圆角保持同心（内 = 外 − 间距）。浮层内的磁贴用 `--radius-tile`（= 浮层圆角 − `--flyout-pad`），磁贴内的可点击行用 `--radius-tile-item`（= 磁贴圆角 − `--tile-pad`）；不要给它们写死数值，要调就调 `--radius-flyout`。窗口三键同理：每种标题区声明 `--bar-h`（标准 40、与工具栏合并的 `.chrome-bar` 48），三键垂直居中，右距等于上距（`--caption-inset`），关闭键外角 = `--radius-window` − 内距；不要给三键写死边距。胶囊按钮（`<Button pill>`）只用于独立主操作、媒体控制和筛选，表单与对话框按钮保持小圆角。
 - 任务栏有两种样式（`sys.taskbarStyle`：`dock` 悬浮 / `classic` 贴底通栏）。工作区高度用 `workArea()` / `taskbarHeight()` 或 CSS 的 `--taskbar-h`，不要写死 76。悬浮 Dock 只有主岛是玻璃岛，托盘没有底板，靠任务栏里的底部遮罩（`.taskbar-scrim`，由黑到透明、由很模糊到清晰）保证可读，悬浮时按暗色处理；有窗口碰到任务栏（最大化、贴靠到底边、伸进任务栏区域，同 KDE 的取消悬浮；`data-solid`）时遮罩换成通栏底板，主岛的底色、模糊与边缘过渡消融，上下留白收掉，任务栏从 76 降到与 Dock 同高的 60（`touchesTaskbar()` 驱动 `setTaskbarSolid()`，`workArea()` 与 `--taskbar-h` 随之更新）。
 - 玻璃上的可选中项（任务栏图标、托盘按钮、窗口预览里的各列）用提亮表达层级：悬停 `--fill-plate-hover`，选中 `--fill-plate` + `--plate-bevel`。`--fill-subtle-*` 是压暗，只用在实色表面上。
 - 任务栏窗口预览在 `src/shell/DockPeek.tsx`：缩略图是打开预览那一刻对窗口 DOM 的克隆（静态快照），不要为它再渲染一份应用。

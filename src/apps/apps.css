@@ -24,8 +24,8 @@
 .photos { flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; background: var(--photos-bg); }
 [data-theme='light'] .photos { --photos-bg: oklch(0.955 0.004 260); }
 [data-theme='dark'] .photos { --photos-bg: oklch(0.15 0.005 260); }
-.photos-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 2; height: 52px; display: flex; align-items: center; gap: 4px; padding-left: 16px; }
-.photos-stage { flex: 1; min-height: 0; display: grid; place-items: center; overflow: hidden; padding: 60px 24px 12px; }
+.photos-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 2; display: flex; align-items: center; gap: 4px; padding-left: 16px; }
+.photos-stage { flex: 1; min-height: 0; display: grid; place-items: center; overflow: hidden; padding: 56px 24px 12px; }
 .photos-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: var(--radius-4); box-shadow: var(--shadow-32); transition: transform var(--dur-gentle) var(--ease-out); animation: photo-in var(--dur-gentle) var(--ease-out); min-height: 0; }
 @keyframes photo-in { from { opacity: 0; transform: scale(0.97); } }
 .photos-strip { flex: none; display: flex; gap: 6px; padding: 8px 16px 14px; overflow-x: auto; justify-content: safe center; }
@@ -41,7 +41,7 @@
 .term-session { flex: 1; min-height: 0; display: flex; flex-direction: column; background: var(--term-bg); }
 .term-session[hidden] { display: none; }
 /* 标题栏里的标签页：选中的标签与下方内容同底色，底部两侧用反向圆角与内容区相接 */
-.term-bar { height: 40px; flex: none; display: flex; }
+.term-bar { height: var(--bar-h); flex: none; display: flex; }
 .term-tabs { flex: 1 1 auto; min-width: 0; display: flex; align-items: flex-end; padding-left: 8px; }
 .term-tab { position: relative; flex: 0 1 190px; min-width: 44px; height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 6px 0 10px; border-radius: 8px 8px 0 0; font: var(--type-caption); color: rgb(255 255 255 / 0.64); transition: background var(--dur-instant) linear, color var(--dur-instant) linear; }
 .term-tab > img { flex: none; opacity: 0.7; }

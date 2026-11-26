@@ -1,5 +1,5 @@
 /* 设置 */
-.set-side-head { height: 52px; flex: none; display: flex; align-items: center; gap: 10px; padding: 0 18px; font: var(--type-body-strong); }
+.set-side-head { height: 48px; flex: none; display: flex; align-items: center; gap: 10px; padding: 0 18px; font: var(--type-body-strong); }
 .set-user { display: flex; align-items: center; gap: 12px; margin: 0 8px 10px; padding: 8px 10px; border-radius: var(--radius-card); text-align: left; flex: none; }
 .set-user:hover { background: var(--fill-subtle-hover); }
 .set-search { margin: 0 8px 10px; flex: none; }
@@ -9,7 +9,7 @@
 .set-head { position: absolute; top: 0; left: 0; right: 0; height: 96px; z-index: 3; }
 .set-head-bg { position: absolute; inset: 0 0 -20px 0; pointer-events: none; background: linear-gradient(to bottom, color-mix(in oklch, var(--surface-pane) 86%, transparent) 60%, transparent); }
 .set-head-row { position: relative; height: 100%; display: flex; }
-.set-head-bar { height: 52px; margin-left: auto; display: flex; }
+.set-head-bar { margin-left: auto; display: flex; }
 .set-title { position: absolute; left: 0; right: 0; bottom: 10px; padding: 0 44px; pointer-events: none; }
 .set-title .crumbs { pointer-events: auto; }
 .set-title > div { max-width: 800px; margin: 0 auto; display: flex; align-items: baseline; gap: 8px; }

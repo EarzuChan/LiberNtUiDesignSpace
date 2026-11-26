@@ -199,6 +199,7 @@
   --stroke-divider: rgb(0 0 0 / 0.08);
   --stroke-card: rgb(0 0 0 / 0.065);
   --stroke-window: rgb(0 0 0 / 0.12); /* 窗口外沿：画在窗口之外，不占内容像素 */
+  --stroke-window-top: rgb(255 255 255 / 0.08); /* 叠在外沿顶边上，使顶边稍亮（受光面） */
   --scroll-edge-shadow: rgb(0 0 0 / 0.06); /* 滚动上缘切线下的阴影起点 */
   --stroke-on-accent: rgb(255 255 255 / 0.1);
   --stroke-on-accent-edge: rgb(0 0 0 / 0.3);
@@ -299,6 +300,7 @@
   --stroke-divider: rgb(255 255 255 / 0.085);
   --stroke-card: rgb(255 255 255 / 0.065);
   --stroke-window: rgb(255 255 255 / 0.12);
+  --stroke-window-top: rgb(255 255 255 / 0.2);
   --scroll-edge-shadow: rgb(0 0 0 / 0.28);
   --stroke-on-accent: rgb(255 255 255 / 0.1);
   --stroke-on-accent-edge: rgb(0 0 0 / 0.16);
@@ -309,7 +311,7 @@
   --surface-card: oklch(0.86 calc(0.01 + 0.07 * var(--tint)) var(--tint-h) / 0.065);
   --surface-card-solid: oklch(0.26 calc(0.006 + 0.02 * var(--tint)) var(--tint-h));
   --surface-raised: oklch(0.99 0 0);
-  --surface-thumb: oklch(0.25 calc(0.004 + 0.008 * var(--tint)) var(--tint-h));
+  --surface-thumb: oklch(0.97 calc(0.003 * var(--tint)) var(--tint-h)); /* 两种主题下都是浅色 */
   --surface-smoke: rgb(0 0 0 / 0.45);
 
   --success: oklch(0.8 0.15 150);

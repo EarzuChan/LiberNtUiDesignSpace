@@ -71,7 +71,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 0 1px var(--stroke-window), var(--shadow-window-inactive);
+  box-shadow: 0 -1px 0 0 var(--stroke-window-top), 0 0 0 1px var(--stroke-window), var(--shadow-window-inactive);
   animation: win-in 280ms var(--ease-out);
   transition: --bl 420ms linear, border-radius var(--dur-normal) var(--ease-out), box-shadow var(--dur-normal) linear;
 }
@@ -81,11 +81,10 @@
   z-index: 20;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: inset 0 1px 0 0 var(--glass-edge-top);
   transition: opacity var(--dur-normal) linear, box-shadow var(--dur-normal) linear;
 }
-/* 窗口外沿是一圈画在窗口之外的 1px 描边（.win-frame 的外投影），不压内容；只有顶边那道倒角高光留在内侧（.win-edge） */
-.win[data-active='true'] .win-frame { box-shadow: 0 0 0 1px var(--stroke-window), var(--shadow-64); }
+/* 窗口外沿是一圈画在窗口之外的 1px 描边（.win-frame 的外投影），不压内容。顶边的受光高光叠在同一行像素上（上移 1px 的投影，在圆角处自然收细），整圈始终只有一条线；不要再在窗内另画一道，否则顶边会变成 2px */
+.win[data-active='true'] .win-frame { box-shadow: 0 -1px 0 0 var(--stroke-window-top), 0 0 0 1px var(--stroke-window), var(--shadow-64); }
 /* 贴靠与最大化的窗口不再是浮在桌面上的物件：圆角归零、去掉外沿与投影。贴靠的窗口彼此无间隙，外沿会压到邻居，所以改为 1px 内沿描边作接缝；最大化时高光整圈淡出 */
 .win[data-snap] .win-frame { border-radius: 0; box-shadow: none; }
 .win[data-snap] .win-edge { box-shadow: inset 0 0 0 1px var(--glass-edge); }
@@ -106,19 +105,22 @@
 .win-rs-ne { top: -5px; right: -5px; cursor: nesw-resize; } .win-rs-sw { bottom: -5px; left: -5px; cursor: nesw-resize; }
 .win-rs-nw { top: -5px; left: -5px; cursor: nwse-resize; } .win-rs-se { bottom: -5px; right: -5px; cursor: nwse-resize; }
 
-.caption { display: flex; gap: 2px; margin-left: auto; flex: none; align-self: flex-start; padding: 6px 6px 0 8px; }
+.caption { --caption-inset: calc((var(--bar-h, 40px) - var(--caption-h, 28px)) / 2); display: flex; gap: 2px; margin-left: auto; flex: none; align-self: flex-start; padding: var(--caption-inset) var(--caption-inset) 0 8px; }
 .caption-btn { width: 40px; height: var(--caption-h, 28px); border-radius: var(--radius-4); display: grid; place-items: center; color: var(--text-1); transition: background var(--dur-instant) linear; }
 .win[data-active='false'] .caption-btn { color: var(--text-3); }
 .caption-btn:hover { background: var(--fill-subtle-hover); color: var(--text-1); }
 .caption-btn:active { background: var(--fill-subtle-pressed); }
+/* 关闭键的外角与窗框同心：上距 = 右距 = 内距，外角 = 窗口圆角 − 内距（标准标题栏 6，合并工具栏 4）。贴靠与最大化时窗框没有圆角，退回 4 */
+.caption-close { border-top-right-radius: calc(var(--radius-window) - var(--caption-inset)); transition: background var(--dur-instant) linear, border-radius var(--dur-normal) var(--ease-out); }
+.win[data-snap] .caption-close { border-top-right-radius: var(--radius-4); }
 .caption-close:hover { background: oklch(0.6 0.22 25); color: #fff !important; }
 .caption-close:active { background: oklch(0.54 0.2 25); }
-/* 三键沿标题区的垂直中线对齐；与工具栏合并的 52px 标题区里，三键与 32px 控件同高 */
+/* 三键沿标题区的垂直中线对齐，右距与上距相等；与工具栏合并的 48px 标题区里，三键与 32px 控件同高 */
 .titlebar > .caption, .chrome-bar > .caption, .term-bar > .caption { align-self: center; padding-top: 0; }
-.chrome-bar { --caption-h: var(--control-md); }
-.chrome-bar > .caption { padding-right: 10px; }
+.titlebar, .term-bar { --bar-h: 40px; }
+.chrome-bar { --bar-h: 48px; --caption-h: var(--control-md); height: var(--bar-h); }
 
-.titlebar { height: 40px; flex: none; display: flex; align-items: center; gap: 10px; padding-left: 14px; }
+.titlebar { height: var(--bar-h); flex: none; display: flex; align-items: center; gap: 10px; padding-left: 14px; }
 .titlebar-title { flex: 1; font: var(--type-caption); color: var(--text-1); }
 .win[data-active='false'] .titlebar-title { color: var(--text-3); }
 

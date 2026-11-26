@@ -117,7 +117,7 @@
 .check[aria-checked='true']:active .radio-dot::after { transform: scale(0.8); }
 
 /* ---------- Slider ---------- */
-/* 胶囊手柄始终可见：静止时不透明（亮色近白、暗色近黑），拖动时变为透出轨道的玻璃。
+/* 胶囊手柄始终可见：静止时为不透明的浅色（两种主题相同），拖动时变为透出轨道的玻璃。
    手柄中线对齐填充的末端；轨道两头各内缩半个手柄宽，手柄因此始终落在控件宽度之内 */
 .slider { position: relative; height: var(--control-md); flex: 1 1 auto; min-width: 80px; touch-action: none; user-select: none; --pn: 0.5; --thumb-w: 24px; --thumb-a-drag: 32%; }
 [data-theme='dark'] .slider { --thumb-a-drag: 40%; }
